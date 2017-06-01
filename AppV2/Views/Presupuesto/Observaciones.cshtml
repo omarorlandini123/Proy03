@@ -1,0 +1,94 @@
+﻿@using Entidades;
+@model DetalleVersion
+@if (Session["usuario"] != null)
+{
+    <div class="row">
+        @if (Model != null)
+        {
+            if (Model.observaciones != null)
+            {
+                if (Model.observaciones.Count > 0)
+                {
+                    <div class="col-sm-12">
+                        <table class="table table-hover">
+                            <tr>
+                                <td><b>Usuario</b></td>
+                                <td><b>Observación</b></td>
+                                <td></td>
+                            </tr>
+                            @foreach (var obs in Model.observaciones)
+                            {
+                                <tr>
+                                    <td>@obs.usuarioReg.usuario</td>
+                                    <td>@obs.observacion</td>
+                                    <td>
+                                        @if (obs.isResuelta)
+                                        {
+                                            if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.MostrarResolucionObs))
+                                            {
+                                                <button type="button" onclick="MostrarResolucionObs(@obs.idObservacion)" class="btn btn-info btn-xs">
+                                                    Observación Resuelta
+                                                </button>
+                                            }
+                                        }
+                                        else
+
+
+                                        {
+                                            if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.ResolverObservacion))
+                                            {
+                                                <button type="button" onclick="MostrarResolverObservacion(@obs.idObservacion);" class="btn btn-success btn-xs">
+                                                    Resolver
+                                                </button>
+                                            }
+                                        }
+                                    </td>
+                                </tr>
+                            }
+
+                        </table>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-sm-12">
+                    <center><h5>No hay Observaciones</h5></center>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-sm-12">
+                <center><h5>No hay Observaciones</h5></center>
+            </div>
+        }
+
+    </div>
+
+    <div class="col-sm-12" style="text-align: right;">
+        <button type="button" class="btn btn-info btn-xs" onclick="MostrarObservarDetalle(@Model.idDetalle)">Observar</button>
+        <button type="button" value="Cancelar" onclick="OcultarDetalle('@Model.idDetalle')" class="btn btn-danger btn-xs">Cancelar</button>
+    </div>
+
+
+}
+else
+{
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class="form-group">
+                <center>
+                    <h3>Su sesión ha expirado, ingrese nuevamente.</h3>
+                </center>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="col-sm-6 contenido-derecha">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+
+        </div>
+    </div>
+
+}
