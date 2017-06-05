@@ -55,6 +55,7 @@ namespace Entidades
         public List<PresupuestoArea> presupuestosArea { get; set; }
 
         public Sede sede { get; set; }
+        public Area area { get; set; }
     }
 
     public class PresupuestoArea:Presupuesto

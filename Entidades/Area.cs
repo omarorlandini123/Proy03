@@ -16,6 +16,7 @@ namespace Entidades
         public List<Version> versiones { get; set; } // Los presupuestos (versiones) que tiene el área
         public List<Presupuesto> presupuestos { get; set; }
         public string centrocosto { get; set; }
+        public double cantidadProductos { get; set; }
 
         public Area() {
             usuariosArea = new List<Usuario>();

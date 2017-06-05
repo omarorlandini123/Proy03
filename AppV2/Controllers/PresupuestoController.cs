@@ -152,6 +152,36 @@ namespace AppV2.Controllers
 
         }
 
+        public ActionResult getDetalleGeneralGastoCapitalPreview(int id) {
+            Usuario user = (Usuario)Session["usuario"];
+            if (user == null)
+            {
+                Session.Clear();
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                LogicPresupuesto logic = new LogicPresupuesto();
+                Presupuesto presup = logic.getPresupuestoReporteGeneral(id);
+                return PartialView(presup);
+            }
+        }
+
+        public ActionResult getCentrosCosto(string codProducto,int idPresupTipo) {
+            Usuario user = (Usuario)Session["usuario"];
+            if (user == null)
+            {
+                Session.Clear();
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                LogicPresupuesto logic = new LogicPresupuesto();
+                List<Area> areas = logic.getCentrosCosto(codProducto, idPresupTipo);
+                return PartialView(areas);
+            }
+        }
+
         public ActionResult getDetalleGeneralGastoCapital(int id)
 
         {
@@ -187,6 +217,22 @@ namespace AppV2.Controllers
                 rp.CreateReport();
 
                 return File(hacia, "application/force-download", nombreDescarga);
+            }
+        }
+
+        public ActionResult getDetalleGeneralGastoFuncionamientoPreview(int id)
+        {
+            Usuario user = (Usuario)Session["usuario"];
+            if (user == null)
+            {
+                Session.Clear();
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                LogicPresupuesto logic = new LogicPresupuesto();
+                Presupuesto presup = logic.getPresupuestoReporteGeneral(id);
+                return PartialView(presup);
             }
         }
         public ActionResult getDetalleGeneralGastoFuncionamiento(int id)
@@ -225,6 +271,24 @@ namespace AppV2.Controllers
                 return File(hacia, "application/force-download", nombreDescarga);
             }
         }
+
+        public ActionResult getDetalleGeneralGastoCapitalPorAreaPreview(int id, int idArea)
+        {
+            Usuario user = (Usuario)Session["usuario"];
+            if (user == null)
+            {
+                Session.Clear();
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                LogicPresupuesto logic = new LogicPresupuesto();
+                Presupuesto presup = logic.getPresupuestoReporteGeneralPorArea(id, idArea);
+                ViewBag.idArea = idArea;
+                return PartialView(presup);
+            }
+        }
+
         public ActionResult getDetalleGeneralGastoCapitalPorArea(int id,int idArea)
         {
             Usuario user = (Usuario)Session["usuario"];
@@ -259,6 +323,23 @@ namespace AppV2.Controllers
                 rp.CreateReport();
 
                 return File(hacia, "application/force-download", nombreDescarga);
+            }
+        }
+
+        public ActionResult getDetalleGeneralGastoFuncionamientoPorAreaPreview(int id, int idArea)
+        {
+            Usuario user = (Usuario)Session["usuario"];
+            if (user == null)
+            {
+                Session.Clear();
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                LogicPresupuesto logic = new LogicPresupuesto();
+                Presupuesto presup = logic.getPresupuestoReporteGeneralPorArea(id, idArea);
+                ViewBag.idArea = idArea;
+                return PartialView(presup);
             }
         }
 

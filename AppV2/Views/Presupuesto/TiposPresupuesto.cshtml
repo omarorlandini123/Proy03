@@ -38,11 +38,11 @@
                             {
                                 if (preArea.tipoPresupuesto.idTipoPresupuesto == 1) //gasto capital
                                 {
-                                    <a href="/Presupuesto/getDetalleGeneralGastoCapitalPorArea?id=@Model.idPresupuesto&idArea=@ViewBag.idArea"><h5 class="list-group-item-heading">Ver Reporte</h5></a>
+                                    <a href="javascript:getDetalleGeneralGastoCapitalPorAreaPreview(@Model.idPresupuesto,@ViewBag.idArea)"><h5 class="list-group-item-heading">Ver Reporte</h5></a>
                                 }
                                 if (preArea.tipoPresupuesto.idTipoPresupuesto == 2) //gasto funcionamiento
                                 {
-                                    <a href="/Presupuesto/getDetalleGeneralGastoFuncionamientoPorArea?id=@Model.idPresupuesto&idArea=@ViewBag.idArea"><h5 class="list-group-item-heading">Ver Reporte</h5></a>
+                                    <a href="javascript:getDetalleGeneralGastoFuncionamientoPorAreaPreview(@Model.idPresupuesto,@ViewBag.idArea)"><h5 class="list-group-item-heading">Ver Reporte</h5></a>
                                 }
 
                             }

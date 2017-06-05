@@ -52,7 +52,8 @@ namespace Entidades
         MostrarTodasSedes,
         MostrarPorSede,
         MostrarVersionDetalla,
-        MostrarPresupuestosPorArea
-        
+        MostrarPresupuestosPorArea,
+        DescargarReporte
+
     }
 }

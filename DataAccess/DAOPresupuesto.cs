@@ -148,6 +148,44 @@ namespace DataAccess
             throw new NotImplementedException();
         }
 
+        public List<Area> getCentrosCosto(string codProducto, int idPresupTipo)
+        {
+            Conexion con = new Conexion();
+            Procedimiento proc = new Procedimiento() { nombre = "GET_CENTROS_COSTO" };
+            proc.parametros.Add(new Parametro("VAR_COD_PRODUCTO", codProducto, OracleDbType.Varchar2, Parametro.tipoIN));
+            proc.parametros.Add(new Parametro("VAR_ID_DET_PRESUP", idPresupTipo, OracleDbType.Int32, Parametro.tipoIN));
+            DataTable dt = con.EjecutarProcedimiento(proc);
+
+            List<Area> listaRpta = null;
+
+            if (dt != null)
+            {
+                if (dt.Rows.Count > 0)
+                {
+                    listaRpta = new List<Area>();
+
+                    foreach (DataRow fila in dt.Rows)
+                    {
+                        try
+                        {
+                            Area AR = new Area();
+                            AR.codArea = fila["idArea"].ToString();
+                            AR.desArea = fila["NombreArea"].ToString();
+                            AR.centrocosto = fila["centrocosto"].ToString();
+                            AR.cantidadProductos = double.Parse(fila["cantidad"].ToString());
+                            listaRpta.Add(AR);
+                        }
+                        catch (Exception s)
+                        {
+                            Console.WriteLine("Error En DetallesDeVersion ==> " + s.Message);
+                        }
+                    }
+                }
+            }
+
+            return listaRpta;
+        }
+
         public Archivo getPresupCapital(int codSede)
         {
             throw new NotImplementedException();
@@ -211,6 +249,7 @@ namespace DataAccess
                             det.UsuarioUltModif = daoUsuario.getUsuario(fila["DET_V_ULT_USR"].ToString());
                             det.mesesEnt = getMesesEnt_Sal(det.idDetalle, MesEntSoli.Tipos.Entrega);
                             det.mesesSoli = getMesesEnt_Sal(det.idDetalle, MesEntSoli.Tipos.Solicitud);
+                            det.area = new Area() { codArea = fila["ID_AREA"].ToString(), desArea = fila["NOMB_AREA"].ToString() };
                             listaRpta.Add(det);
                         }
                         catch (Exception s)

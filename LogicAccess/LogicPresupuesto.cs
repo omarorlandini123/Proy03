@@ -109,14 +109,15 @@ namespace LogicAccess
         public Presupuesto getPresupuestoReporteGeneralPorArea(int codPresupuesto, int idArea)
         {
             Presupuesto presup = getPresupuesto(codPresupuesto);
-
+            LogicArea area = new LogicArea();
+            presup.area = area.getArea(idArea);
             presup.TiposPresupuestos = getPresupuestosTipos(presup.idPresupuesto);
             if (presup.TiposPresupuestos != null)
             {
                 foreach (DetallePresupuesto detPresup in presup.TiposPresupuestos)
                 {
                     detPresup.detalleDeVersiones = getDetallesDeUltimaVersionPorArea(detPresup.idPresupuestoTipo,idArea);
-
+                    
                 }
             }
 
@@ -166,6 +167,11 @@ namespace LogicAccess
             return dao.agregarDetalleVersion(detVersion);
         }
 
+        public List<Area> getCentrosCosto(string codProducto, int idPresupTipo)
+        {
+            DAOPresupuesto dao = new DAOPresupuesto();
+            return dao.getCentrosCosto(codProducto, idPresupTipo);
+        }
 
         public int actualizarDetalleVersion(DetalleVersion detVersion)
         {

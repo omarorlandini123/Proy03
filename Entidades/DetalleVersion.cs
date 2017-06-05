@@ -41,6 +41,7 @@ namespace Entidades
         public string mesent { get; set; }
         public Aprobacion.estados estado { get; set; }
         public string codCentroCosto { get; set; }
+        public Area area { get; set; }
 
         public bool contieneMesEnt(int Mes)
         {

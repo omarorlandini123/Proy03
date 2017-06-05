@@ -27,11 +27,11 @@
                                 {
                                     if (preArea.tipoPresupuesto.idTipoPresupuesto == 1) //gasto capital
                                     {
-                                        <a href="/Presupuesto/getDetalleGeneralGastoCapital/@Model.idPresupuesto"><h5 class="list-group-item-heading">Ver Reporte</h5></a>
+                                        <a href="javascript:getDetalleGeneralGastoCapitalPreview(@Model.idPresupuesto)"><h5 class="list-group-item-heading">Ver Reporte</h5></a>
                                     }
                                     if (preArea.tipoPresupuesto.idTipoPresupuesto == 2) //gasto funcionamiento
                                     {
-                                        <a href="/Presupuesto/getDetalleGeneralGastoFuncionamiento/@Model.idPresupuesto"><h5 class="list-group-item-heading">Ver Reporte</h5></a>
+                                        <a href="javascript:getDetalleGeneralGastoFuncionamientoPreview(@Model.idPresupuesto)"><h5 class="list-group-item-heading">Ver Reporte</h5></a>
                                     }
 
                                 }
@@ -59,8 +59,8 @@
                             <div class="col-sm-3">@preArea.fechaValIni.ToShortDateString()</div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-3">Verificado por:</div>
-                            <div class="col-sm-3"><a href="#">Ver</a></div>
+                            <div class="col-sm-3"></div>
+                            <div class="col-sm-3"></div>
                             <div class="col-sm-3">Hasta:</div>
                             <div class="col-sm-3">@preArea.fechaValFin.ToShortDateString()</div>
                         </div>

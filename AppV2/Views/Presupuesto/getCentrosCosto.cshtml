@@ -1,0 +1,39 @@
+﻿
+@using Entidades;
+@model IEnumerable<Area>
+
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <td>
+                        Nombre Area
+                    </td>
+                    <td>
+                        Centro Costro
+                    </td>
+                    <td>
+                        Cantidad
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Area ar in Model)
+                {
+                <tr>
+                    <td>
+                        @ar.desArea
+                    </td>
+                    <td>
+                        @ar.centrocosto
+                    </td>
+                    <td>
+                        @ar.cantidadProductos
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

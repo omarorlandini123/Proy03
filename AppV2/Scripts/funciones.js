@@ -195,6 +195,29 @@ function NuevaVersion(idPresupTipo) {
 
 }
 
+function getCentrosCosto(codProducto, idPresupTipo) {
+    $(TRSELECT).hide();
+    $(DIVSEl).html('');
+
+    $('#DETALLEDIV_' + codProducto + '_' + idPresupTipo).html(getImgEspera());
+    $('#DETALLE_' + codProducto + '_' + idPresupTipo).fadeIn(1000, function () {
+        $.get("/Presupuesto/getCentrosCosto", { codProducto: codProducto, idPresupTipo: idPresupTipo })
+              .done(function (data) {
+                  $('#DETALLEDIV_' + codProducto + '_' + idPresupTipo).hide();
+                  $('#DETALLEDIV_' + codProducto + '_' + idPresupTipo).html(data);
+                  $('#DETALLE_' + codProducto + '_' + idPresupTipo).show();
+                  $('#DETALLEDIV_' + codProducto + '_' + idPresupTipo).fadeOut(500, function () {
+                      $('#DETALLEDIV_' + codProducto + '_' + idPresupTipo).html(data).fadeIn(500);
+                                            
+                  });                
+              });
+    });
+
+
+    TRSELECT = '#DETALLE_' + codProducto + '_' + idPresupTipo;
+    DIVSEl = '#DETALLEDIV_' + codProducto + '_' + idPresupTipo;
+
+}
 
 
 function ExpandirDetalle(codDetalle) {
@@ -1136,6 +1159,70 @@ function ExpandirObservaciones(codDetalle){
         });
     }
 
+    function getDetalleGeneralGastoCapitalPreview(idPresup) {
+        $('#idContenidoModal').html(EsperaModal());
+        $('#ModalGeneral').modal('show');
+        $.get("/Presupuesto/getDetalleGeneralGastoCapitalPreview", { id: idPresup })
+          .done(function (data) {
+              $('#idContenidoModal').fadeOut(500, function () {
+                  $('#idContenidoModal').html(data).fadeIn(500);
+              });
+          })
+        .fail(function (data) {
+            $('#idContenidoModal').fadeOut(500, function () {
+                $('#idContenidoModal').html(EsperaModalFAIL()).fadeIn(500);
+            });
+        });
+    }
+
+    function getDetalleGeneralGastoFuncionamientoPreview(idPresup) {
+        $('#idContenidoModal').html(EsperaModal());
+        $('#ModalGeneral').modal('show');
+        $.get("/Presupuesto/getDetalleGeneralGastoFuncionamientoPreview", { id: idPresup })
+          .done(function (data) {
+              $('#idContenidoModal').fadeOut(500, function () {
+                  $('#idContenidoModal').html(data).fadeIn(500);
+              });
+          })
+        .fail(function (data) {
+            $('#idContenidoModal').fadeOut(500, function () {
+                $('#idContenidoModal').html(EsperaModalFAIL()).fadeIn(500);
+            });
+        });
+    }
+
+    function getDetalleGeneralGastoCapitalPorAreaPreview(idPresup,idArea) {
+        $('#idContenidoModal').html(EsperaModal());
+        $('#ModalGeneral').modal('show');
+        $.get("/Presupuesto/getDetalleGeneralGastoCapitalPorAreaPreview", { id: idPresup, idArea: idArea })
+          .done(function (data) {
+              $('#idContenidoModal').fadeOut(500, function () {
+                  $('#idContenidoModal').html(data).fadeIn(500);
+              });
+          })
+        .fail(function (data) {
+            $('#idContenidoModal').fadeOut(500, function () {
+                $('#idContenidoModal').html(EsperaModalFAIL()).fadeIn(500);
+            });
+        });
+    }
+
+    function getDetalleGeneralGastoFuncionamientoPorAreaPreview(idPresup,idArea) {
+        $('#idContenidoModal').html(EsperaModal());
+        $('#ModalGeneral').modal('show');
+        $.get("/Presupuesto/getDetalleGeneralGastoFuncionamientoPorAreaPreview", { id: idPresup, idArea: idArea })
+          .done(function (data) {
+              $('#idContenidoModal').fadeOut(500, function () {
+                  $('#idContenidoModal').html(data).fadeIn(500);
+              });
+          })
+        .fail(function (data) {
+            $('#idContenidoModal').fadeOut(500, function () {
+                $('#idContenidoModal').html(EsperaModalFAIL()).fadeIn(500);
+            });
+        });
+    }
+
 
     function EliminarArchivo(idArchivo,idDetalle) {
 
@@ -1324,6 +1411,10 @@ function ExpandirObservaciones(codDetalle){
              var selectBox = document.getElementById("comboSede");
              var selectedValue = selectBox.options[selectBox.selectedIndex].value;
              window.location = "/Presupuesto/PorSede/" + selectedValue;
+         }
+         
+         function abriVentana(var_url) {
+             window.open(var_url, "_blank");
          }
 
          function NumCheck(e, field) {
