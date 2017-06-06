@@ -178,6 +178,8 @@ namespace AppV2.Controllers
             {
                 LogicPresupuesto logic = new LogicPresupuesto();
                 List<Area> areas = logic.getCentrosCosto(codProducto, idPresupTipo);
+                ViewBag.codProducto = codProducto;
+                ViewBag.idPresupTipo = idPresupTipo;
                 return PartialView(areas);
             }
         }

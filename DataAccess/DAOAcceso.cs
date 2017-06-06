@@ -75,6 +75,102 @@ namespace DataAccess
             return userRpta;
         }
 
+        public List<Usuario> getUsuariosSistema(int idSede)
+        {
+            Conexion con = new Conexion();
+            Procedimiento proc = new Procedimiento() { nombre = "GET_USUARIOS_SIST" };
+            proc.parametros.Add(new Parametro("VAR_ID_SEDE", idSede, OracleDbType.Int32, Parametro.tipoIN));
+
+            DataTable dt = con.EjecutarProcedimiento(proc);
+            List<Usuario> rpta=null;
+
+            if (dt != null)
+            {
+                if (dt.Rows.Count > 0)
+                {
+                    rpta = new List<Usuario>();
+                    foreach (DataRow fila in dt.Rows)
+                    {
+
+                        Usuario user = new Usuario();
+                        user.usuario = fila["USUARIO"].ToString();
+                        rpta.Add(user);
+                    }
+                }
+            }
+            
+
+            return rpta;
+        }
+
+        public List<Area> getAreasUsuariosSistema(int idSede, string codusuario)
+        {
+            Conexion con = new Conexion();
+            Procedimiento proc = new Procedimiento() { nombre = "GET_USUARIOS_SIST_AREAS" };
+            proc.parametros.Add(new Parametro("VAR_USER", codusuario, OracleDbType.Varchar2, Parametro.tipoIN));
+            proc.parametros.Add(new Parametro("VAR_ID_SEDE", idSede, OracleDbType.Int32, Parametro.tipoIN));
+
+            DataTable dt = con.EjecutarProcedimiento(proc);
+            List<Area> rpta = null;
+
+            if (dt != null)
+            {
+                if (dt.Rows.Count > 0)
+                {
+                    rpta = new List<Area>();
+                    foreach (DataRow fila in dt.Rows)
+                    {
+
+                        Area area = new Area();
+                        area.codArea = fila["ID_AREA"].ToString();
+                        area.desArea = fila["NOMB_AREA"].ToString();
+                        rpta.Add(area);
+                    }
+                }
+            }
+
+
+            return rpta;
+        }
+
+        public int insAreasUsuario(int idSede,string areas,string usuario)
+        {
+            Conexion con = new Conexion();
+            Procedimiento proc = new Procedimiento() { nombre = "INS_USUARIOS_SIST_AREAS" };
+            proc.parametros.Add(new Parametro("VAR_USER", usuario, OracleDbType.Varchar2, Parametro.tipoIN));
+            proc.parametros.Add(new Parametro("VAR_AREAS", areas, OracleDbType.Varchar2, Parametro.tipoIN));
+            proc.parametros.Add(new Parametro("VAR_ID_SEDE", idSede, OracleDbType.Int32, Parametro.tipoIN));
+            DataTable dt = con.EjecutarProcedimiento(proc);
+
+            if (dt != null)
+            {
+                if (dt.Rows.Count > 0)
+                {
+
+                    foreach (DataRow fila in dt.Rows)
+                    {
+
+                        if (int.Parse(fila["RPTA"].ToString()) > 0)
+                        {
+
+                            return 1;
+                        }
+                        else
+                        {
+
+                            return 2;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                return 3;
+            }
+
+            return 4;
+        }
+
         public int GuardarAccesos(string codPerfil, string accesos)
         {
             try

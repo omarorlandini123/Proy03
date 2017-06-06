@@ -348,6 +348,29 @@ function ExpandirObservaciones(codDetalle){
         $('#DETALLE_' + codDetalle).hide();
     }
 
+    function OcultarDetalleCentro(codProducto, idPresuptipo) {
+        $('#DETALLE_' + codProducto + '_' + idPresuptipo).hide();
+    }
+
+    function MostrarCrearNuevoUsuario() {
+        $('#listaAreas').fadeOut(500, function () {
+            $('#listaAreas').html(EsperaDiv()).fadeIn(500);
+        });
+       
+        $.get("/Login/MostrarCrearNuevoUsuario", {  })
+          .done(function (data) {
+              $('#listaAreas').fadeOut(500, function () {
+                  $('#listaAreas').html(data).fadeIn(500);
+              });
+          })
+        .fail(function (data) {
+            $('#listaAreas').fadeOut(500, function () {
+                $('#listaAreas').html(EsperaModalFAIL()).fadeIn(500);
+            });
+        });
+
+    }
+
 
 
     var idObservacionSel = 0;

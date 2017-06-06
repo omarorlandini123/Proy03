@@ -1,0 +1,23 @@
+﻿@using Entidades;
+<div class="row">
+    <div class="col-sm-12">
+        <label for="nombrePresupuesto" class="control-label col-sm-5">Nombre usuario</label>
+        <div class="form-group col-sm-7">
+            <input class="form-control" type="text" name="" value="" id="nombreusuario" />
+        </div>
+        <label for="idSede" class="control-label col-sm-5">Sede</label>
+        <div class="form-group col-sm-7">
+            <select class="form-control" id="idSede" onchange="cambioSedeCrear()">
+                @foreach (Sede prio in ViewBag.sedes)
+                {
+                    <option value="@prio.codSede">@prio.desSede</option>
+                }
+            </select>
+        </div>
+        <div class="col-sm-12" id="areasSede">
+
+        </div>
+
+
+    </div>
+</div>

@@ -48,5 +48,21 @@ namespace LogicAccess
             DAOAcceso dao = new DAOAcceso();
             return dao.GuardarAccesos(codPerfil, accesos);
         }
+
+        public List<Usuario> getUsuariosSistema(int idSede)
+        {
+            DAOAcceso dao = new DAOAcceso();
+            return dao.getUsuariosSistema(idSede);
+        }
+        public List<Area> getAreasUsuariosSistema(int idSede , string codusuario)
+        {
+            DAOAcceso dao = new DAOAcceso();
+            return dao.getAreasUsuariosSistema(idSede,codusuario);
+        }
+        public int insAreasUsuario(int idSede,string areas, string usuario)
+        {
+            DAOAcceso dao = new DAOAcceso();
+            return dao.insAreasUsuario(idSede,areas, usuario);
+        }
     }
 }

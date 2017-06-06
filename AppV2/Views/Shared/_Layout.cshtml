@@ -81,15 +81,18 @@
                                 </li>
                             }
                         </ul>
+                        <ul class="nav navbar-nav">                           
+                                <li class="">@Html.ActionLink("Areas de Usuario", "Areas", "Login",new { idSede= int.Parse(Session["idSede"].ToString()) },null)</li>                              
+                        </ul>
 
 
 
                         <ul class="nav navbar-nav navbar-right">
 
-                            <li class="hidden-xs hidden-sm" style="width: 130px;margin: -20px;">
+                            @*<li class="hidden-xs hidden-sm" style="width: 130px;margin: -20px;">
                                 <span class="glyphicon glyphicon-user" aria-hidden="true" style="font-size: 90px;color:#c7c7c7;"></span>
 
-                            </li>
+                            </li>*@
                             <li class="hidden-xs" style="">
                                 <a href="#" style="">@(((Usuario)Session["usuario"]).Nombres)</a>
 

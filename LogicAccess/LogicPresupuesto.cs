@@ -101,6 +101,7 @@ namespace LogicAccess
                 {
                     detPresup.detalleDeVersiones = getDetallesDeUltimaVersion(detPresup.idPresupuestoTipo);
 
+
                 }
             }
 

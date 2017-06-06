@@ -85,12 +85,20 @@
                                                                     <center> @detVer.cantidadSoli</center>
                                                                 </td>
                                                                 <td>
-                                                                    <center> @detVer.codCentroCosto</center>
+                                                                    <center><a href="javascript:getCentrosCosto('@(detVer.mat.codProducto)','@(detPresup.idPresupuestoTipo)')">@detVer.codCentroCosto</a></center>
                                                                 </td>
                                                                 <td>
                                                                     <center> @detVer.totalSoli</center>
                                                                 </td>
                                                             </tr>
+                                                                <tr style="display:none;" id="DETALLE_@(detVer.mat.codProducto)_@(detPresup.idPresupuestoTipo)">
+                                                                    <td colspan="4">
+                                                                        <div class="col-sm-12" id="DETALLEDIV_@(detVer.mat.codProducto)_@(detPresup.idPresupuestoTipo)">
+
+                                                                        </div>
+
+                                                                    </td>
+                                                                </tr>
                                                         }
                                                     }
                                                 }
@@ -123,12 +131,20 @@
                                                                     <center> @detVer.cantidadSoli</center>
                                                                 </td>
                                                                 <td>
-                                                                    <center> @detVer.codCentroCosto</center>
+                                                                    <center><a href="javascript:getCentrosCosto('@(detVer.mat.codProducto)','@(detPresup.idPresupuestoTipo)')">@detVer.codCentroCosto</a></center>
                                                                 </td>
                                                                 <td>
                                                                     <center> @detVer.totalSoli</center>
                                                                 </td>
                                                             </tr>
+                                                                <tr style="display:none;" id="DETALLE_@(detVer.mat.codProducto)_@(detPresup.idPresupuestoTipo)">
+                                                                    <td colspan="4">
+                                                                        <div class="col-sm-12" id="DETALLEDIV_@(detVer.mat.codProducto)_@(detPresup.idPresupuestoTipo)">
+
+                                                                        </div>
+
+                                                                    </td>
+                                                                </tr>
                                                         }
                                                     }
                                                 }

@@ -250,6 +250,8 @@
     <Content Include="Views\Presupuesto\getDetalleGeneralGastoCapitalPorAreaPreview.cshtml" />
     <Content Include="Views\Presupuesto\getDetalleGeneralGastoFuncionamientoPorAreaPreview.cshtml" />
     <Content Include="Views\Presupuesto\getCentrosCosto.cshtml" />
+    <Content Include="Views\Login\Areas.cshtml" />
+    <Content Include="Views\Login\MostrarCrearNuevoUsuario.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

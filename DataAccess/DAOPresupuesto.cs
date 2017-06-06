@@ -319,6 +319,33 @@ namespace DataAccess
                             det.UsuarioUltModif = daoUsuario.getUsuario(fila["DET_V_ULT_USR"].ToString());
                             det.mesesEnt = getMesesEnt_Sal(det.idDetalle, MesEntSoli.Tipos.Entrega);
                             det.mesesSoli = getMesesEnt_Sal(det.idDetalle, MesEntSoli.Tipos.Solicitud);
+                            List<Area> centros= getCentrosCosto(fila["COD_MATERIAL"].ToString(), idPresupuestoTipo);
+                            string centroC = "";
+                            if (centros != null & centros.Count > 0)
+                            {
+                                centroC = centros[0].centrocosto;
+                                bool varios = false;
+                                foreach (var item in centros)
+                                {
+                                    if (item.centrocosto != centroC)
+                                    {
+                                        varios = true;
+                                    }
+                                    centroC = item.centrocosto;
+                                }
+                                if (varios)
+                                {
+                                    det.codCentroCosto = "Varios";
+                                }
+                                else
+                                {
+                                    det.codCentroCosto = centroC;
+                                }
+                            }
+                            else {
+                                det.codCentroCosto = "No hay CC";
+                            }
+                           
                             listaRpta.Add(det);
                         }
                         catch (Exception s)
