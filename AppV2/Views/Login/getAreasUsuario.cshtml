@@ -1,0 +1,42 @@
+﻿
+@using Entidades;
+@model IEnumerable<Area>
+
+
+<div class="panel panel-success">
+    <div class="panel-heading">
+        <center>Lista de Áreas Registradas</center>
+    </div>
+    <div class="panel-body">
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                bool check = false;
+                if (ViewBag.rptaAreasUsuario != null)
+                {
+                    foreach (var acc in ((List<Area>
+                        )ViewBag.AccesosPerfil))
+                    {
+                        if (item.codArea == acc.codArea)
+                        {
+                            check = true;
+                        }
+
+                    }
+                }
+                <div class="col-sm-2">
+                    <input type="checkbox" name="accArea" id="cbox@(item.codArea)" @(check ? "checked=\"checked\"" : "") value="@(item.codArea)">
+                </div>
+                <div class="col-sm-2">
+                    @item.desArea
+                </div>
+
+            }
+        }
+
+</div>
+    <div class="panel-footer">
+        <button type="button" style="float:left;" class="btn btn-success btn-sm" onclick="GuardarAreasUsuario('@(((Usuario)Session["usuario"]).usuario)')"> Guardar </button>
+    </div>
+</div>

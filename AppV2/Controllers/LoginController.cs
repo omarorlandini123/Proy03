@@ -85,22 +85,6 @@ namespace AppV2.Controllers
 
         }
 
-        public ActionResult MostrarCrearNuevoUsuario() {
-            if (Session["usuario"] != null)
-            {
-                LogicPresupuesto logicPresup = new LogicPresupuesto();
-
-                ViewBag.sedes = logicPresup.getSedes();
-                return PartialView();
-
-            }
-            else
-            {
-                return RedirectToAction("Index", "Login");
-            }
-
-        }
-
         public ActionResult Areas(int idSede)
         {
             if (Session["usuario"] != null)
@@ -120,6 +104,56 @@ namespace AppV2.Controllers
 
         }
 
+        public ActionResult MostrarCrearNuevoUsuario() {
+            if (Session["usuario"] != null)
+            {
+                LogicPresupuesto logicPresup = new LogicPresupuesto();
+
+                ViewBag.sedes = logicPresup.getSedes();
+                return PartialView();
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+        }
+
+        public ActionResult MostrarAreasSinSelec(int idSede)
+        {
+            if (Session["usuario"] != null)
+            {
+                LogicArea logArea = new LogicArea();
+                List<Area> rptaAreas = logArea.getAreas(idSede);
+                return PartialView(rptaAreas);
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+        }
+
+        public ActionResult insAreasUsuario(int idSede, string areas, string usuario)
+        {
+            if (Session["usuario"] != null)
+            {
+                LogicAcceso logic = new LogicAcceso();
+
+                int rpta = logic.insAreasUsuario(idSede, areas, usuario);
+
+                return PartialView(rpta);
+
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+        }
+
         public ActionResult getAreasUsuario(int idSede,string usuario)
         {
             if (Session["usuario"] != null)
@@ -128,17 +162,8 @@ namespace AppV2.Controllers
                 LogicArea logArea = new LogicArea();
                 List<Area> rptaAreas = logArea.getAreas(idSede);
                 List<Area> rptaAreasUsuario = logic.getAreasUsuariosSistema(idSede,usuario);
-
-                if (rptaAreasUsuario != null)
-                {
-                    ViewBag.rptaAreasUsuario = rptaAreasUsuario;
-                    return PartialView(rptaAreas);
-                }
-                else
-                {
-
-                    return RedirectToAction("Index", "Login");
-                }
+                ViewBag.rptaAreasUsuario = rptaAreasUsuario;
+                return PartialView(rptaAreas);               
 
             }
             else
@@ -147,23 +172,7 @@ namespace AppV2.Controllers
             }
         }
 
-        public ActionResult insAreasUsuario(int idSede,string areas, string usuario)
-        {
-            if (Session["usuario"] != null)
-            {
-                LogicAcceso logic = new LogicAcceso();
-              
-                int rpta = logic.insAreasUsuario(idSede,areas, usuario);
-
-                return PartialView(rpta);
-                
-
-            }
-            else
-            {
-                return RedirectToAction("Index", "Login");
-            }
-        }
+       
 
 
         public ActionResult getAccesosDePerfil(int idPerfil) {

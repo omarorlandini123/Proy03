@@ -252,6 +252,9 @@
     <Content Include="Views\Presupuesto\getCentrosCosto.cshtml" />
     <Content Include="Views\Login\Areas.cshtml" />
     <Content Include="Views\Login\MostrarCrearNuevoUsuario.cshtml" />
+    <Content Include="Views\Login\MostrarAreasSinSelec.cshtml" />
+    <Content Include="Views\Login\insAreasUsuario.cshtml" />
+    <Content Include="Views\Login\getAreasUsuario.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

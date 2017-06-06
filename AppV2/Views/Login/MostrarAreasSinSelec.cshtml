@@ -1,0 +1,31 @@
+﻿@using Entidades;
+@model IEnumerable<Area>
+
+
+<div class="panel panel-success">
+    <div class="panel-heading">    
+        <center>Lista de Áreas Registradas</center>
+    </div>
+    <div class="panel-body">
+        
+        @if (Model != null && Model.Count() > 0)
+        {
+            foreach (var item in Model)
+            {
+                <div class="col-sm-2">
+                    <input type="checkbox" name="accArea" id="cbox@(item.codArea)" value="@(item.codArea)">
+                </div>
+                <div class="col-sm-2">
+                    @item.desArea
+                </div>
+
+            }
+        }
+    </div>
+    <div class="panel-footer">
+        <button type="button" style="float:left;" class="btn btn-success btn-sm" onclick="GuardarAreasUsuario('@(((Usuario)Session["usuario"]).usuario)')"> Guardar </button>
+    </div>
+</div>
+
+
+

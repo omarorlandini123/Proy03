@@ -7,7 +7,7 @@
         </div>
         <label for="idSede" class="control-label col-sm-5">Sede</label>
         <div class="form-group col-sm-7">
-            <select class="form-control" id="idSede" onchange="cambioSedeCrear()">
+            <select class="form-control" id="comboidSede" onchange="cambioSedeCrear()">
                 @foreach (Sede prio in ViewBag.sedes)
                 {
                     <option value="@prio.codSede">@prio.desSede</option>

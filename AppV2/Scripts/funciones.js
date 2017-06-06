@@ -371,6 +371,25 @@ function ExpandirObservaciones(codDetalle){
 
     }
 
+    
+    function getAreasUsuario(var_idSede,var_usuario) {
+        $('#listaAreas').fadeOut(500, function () {
+            $('#listaAreas').html(EsperaDiv()).fadeIn(500);
+        });
+
+        $.get("/Login/getAreasUsuario", { idSede: var_idSede, usuario: var_usuario })
+          .done(function (data) {
+              $('#listaAreas').fadeOut(500, function () {
+                  $('#listaAreas').html(data).fadeIn(500);
+              });
+          })
+        .fail(function (data) {
+            $('#listaAreas').fadeOut(500, function () {
+                $('#listaAreas').html(EsperaModalFAIL()).fadeIn(500);
+            });
+        });
+
+    }
 
 
     var idObservacionSel = 0;
@@ -820,7 +839,40 @@ function ExpandirObservaciones(codDetalle){
         });
 
     }
+    function GuardarAreasUsuario(var_usuario) {
+        var data = new FormData();       
+        var areas = getChecksComoString('accArea');
 
+        var selectBox = document.getElementById("comboidSede");
+        var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+
+
+        data.append('idSede', selectedValue);
+        data.append('areas', areas);
+        data.append('usuario', var_usuario);
+
+        $('#idContenidoModal').html(EsperaModal());
+        $('#ModalGeneral').modal('show');
+        // Make Ajax request with the contentType = false, and procesDate = false 
+        var ajaxRequest = $.ajax({
+            type: 'POST',
+            url: "/Login/insAreasUsuario",
+            contentType: false,
+            processData: false,
+            data: data
+        });
+        ajaxRequest.done(function (xhr, textStatus) {
+            $('#ModalGeneral').modal('show');
+            $('#idContenidoModal').html(xhr).fadeIn(500);
+
+        });
+        ajaxRequest.fail(function (xhr, textStatus) {
+            $('#idContenidoModal').fadeOut(500, function () {
+                $('#idContenidoModal').html(EsperaModalFAIL()).fadeIn(500);
+            });
+        });
+
+    }
     function MostrarArchivos(varidDetalle)
     {        
         $('#idContenidoModal').html(EsperaModal());
@@ -1434,6 +1486,28 @@ function ExpandirObservaciones(codDetalle){
              var selectBox = document.getElementById("comboSede");
              var selectedValue = selectBox.options[selectBox.selectedIndex].value;
              window.location = "/Presupuesto/PorSede/" + selectedValue;
+         }
+
+         function cambioSedeCrear() {
+             var selectBox = document.getElementById("comboidSede");
+             var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+
+             $('#areasSede').html(EsperaDiv());
+             $('#areasSede').fadeIn(500, function () {
+
+                 $.get("/Login/MostrarAreasSinSelec", { idSede: selectedValue })
+                  .done(function (data) {
+                      $('#areasSede').fadeOut(500, function () {
+                          $('#areasSede').html(data).fadeIn(500);
+                      });
+                  })
+                .fail(function (data) {
+                    $('#areasSede').fadeOut(500, function () {
+                        $('#areasSede').html(EsperaModalFAIL()).fadeIn(500);
+                    });
+                });
+
+             });
          }
          
          function abriVentana(var_url) {
