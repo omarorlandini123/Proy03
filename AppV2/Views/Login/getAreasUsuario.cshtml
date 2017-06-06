@@ -25,11 +25,13 @@
 
                     }
                 }
-                <div class="col-sm-2">
-                    <input type="checkbox" name="accArea" id="cbox@(item.codArea)" @(check ? "checked=\"checked\"" : "") value="@(item.codArea)">
-                </div>
-                <div class="col-sm-2">
-                    @item.desArea
+                <div class="row">
+                    <div class="col-sm-2">
+                        <input type="checkbox" name="accArea" id="cbox@(item.codArea)" @(check ? "checked=\"checked\"" : "") value="@(item.codArea)">
+                    </div>
+                    <div class="col-sm-10">
+                        @item.desArea
+                    </div>
                 </div>
 
             }
@@ -37,6 +39,10 @@
 
 </div>
     <div class="panel-footer">
-        <button type="button" style="float:left;" class="btn btn-success btn-sm" onclick="GuardarAreasUsuario('@(((Usuario)Session["usuario"]).usuario)')"> Guardar </button>
+        <div class="row">
+            <div class="col-sm-12">
+                <button type="button" style="float:right;" class="btn btn-success btn-sm" onclick="GuardarAreasUsuario($('#nombreusuario').val())"> Guardar </button>
+            </div>
+        </div>
     </div>
 </div>
