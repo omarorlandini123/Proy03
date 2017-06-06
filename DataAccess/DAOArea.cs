@@ -91,7 +91,39 @@ namespace DataAccess
         }
 
         public List<Area> getAreas(int idSede) {
-            List<Area> listaRpta = new List<Area>();
+            List<Area> listaRpta = null;
+            Conexion con = new Conexion();
+            Procedimiento proc = new Procedimiento() { nombre = "GET_AREAS" };
+            proc.parametros.Add(new Parametro("VAR_ID_SEDE", idSede, OracleDbType.Int32, Parametro.tipoIN));
+
+            DataTable dt = con.EjecutarProcedimiento(proc);
+
+            
+
+            if (dt != null)
+            {
+                if (dt.Rows.Count > 0)
+                {
+                    listaRpta = new List<Area>();
+
+                    foreach (DataRow fila in dt.Rows)
+                    {
+                        try
+                        {
+                            Area area = new Area();
+                            area.codArea = fila["ID_AREA"].ToString();
+                            area.desArea = fila["NOMB_AREA"].ToString();
+                            area.centrocosto = fila["CC"].ToString();
+                            listaRpta.Add(area);
+                        }
+                        catch (Exception s)
+                        {
+                            Console.WriteLine("Error En getAccesos ==> " + s.Message);
+                        }
+                    }
+                }
+            }
+
             return listaRpta;
         }
 
