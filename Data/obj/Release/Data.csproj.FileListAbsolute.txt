@@ -1,0 +1,5 @@
+C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\Data\bin\Release\Data.dll
+C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\Data\bin\Release\Data.pdb
+C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\Data\bin\Release\Oracle.DataAccess.dll
+C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\Data\obj\Release\Data.dll
+C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\Data\obj\Release\Data.pdb

@@ -160,8 +160,13 @@ namespace AppV2.Controllers
             {
                 LogicAcceso logic = new LogicAcceso();
                 LogicArea logArea = new LogicArea();
-                List<Area> rptaAreas = logArea.getAreas(idSede);
-                List<Area> rptaAreasUsuario = logic.getAreasUsuariosSistema(idSede,usuario);
+                int idSedeUsuario = (int)logic.getSedeUsuario(usuario);
+                List<Area> rptaAreas = logArea.getAreas(idSedeUsuario);
+                List<Area> rptaAreasUsuario = logic.getAreasUsuariosSistema(idSedeUsuario, usuario);
+                LogicPresupuesto logicPresup = new LogicPresupuesto();
+                ViewBag.sedes = logicPresup.getSedes();
+                ViewBag.codusuario = usuario;
+                ViewBag.idSede = idSedeUsuario;
                 ViewBag.rptaAreasUsuario = rptaAreasUsuario;
                 return PartialView(rptaAreas);               
 

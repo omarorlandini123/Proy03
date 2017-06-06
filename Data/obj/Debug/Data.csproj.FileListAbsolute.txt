@@ -34,3 +34,9 @@ C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1
 C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2\Data\obj\Debug\Data.dll
 C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2\Data\obj\Debug\Data.pdb
 C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2\Data\obj\Debug\Data.csprojResolveAssemblyReference.cache
+C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\Data\bin\Debug\Data.dll
+C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\Data\bin\Debug\Data.pdb
+C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\Data\bin\Debug\Oracle.DataAccess.dll
+C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\Data\obj\Debug\Data.csprojResolveAssemblyReference.cache
+C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\Data\obj\Debug\Data.dll
+C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\Data\obj\Debug\Data.pdb

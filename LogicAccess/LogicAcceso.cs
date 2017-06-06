@@ -64,5 +64,11 @@ namespace LogicAccess
             DAOAcceso dao = new DAOAcceso();
             return dao.insAreasUsuario(idSede,areas, usuario);
         }
+
+        public int getSedeUsuario(string usuario)
+        {
+            DAOAcceso dao = new DAOAcceso();
+            return dao.getSedeUsuario(usuario);
+        }
     }
 }

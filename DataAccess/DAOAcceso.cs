@@ -75,6 +75,32 @@ namespace DataAccess
             return userRpta;
         }
 
+        public int getSedeUsuario(string usuario)
+        {
+            Conexion con = new Conexion();
+            Procedimiento proc = new Procedimiento() { nombre = "GET_USUARIO_SEDE" };
+            proc.parametros.Add(new Parametro("VAR_USUARIO", usuario, OracleDbType.Varchar2, Parametro.tipoIN));
+
+            DataTable dt = con.EjecutarProcedimiento(proc);
+            List<Usuario> rpta = null;
+
+            if (dt != null)
+            {
+                if (dt.Rows.Count > 0)
+                {
+                    rpta = new List<Usuario>();
+                    foreach (DataRow fila in dt.Rows)
+                    {
+
+                        return int.Parse(fila["ID_SEDE"].ToString());
+                    }
+                }
+            }
+
+
+            return 0;
+        }
+
         public List<Usuario> getUsuariosSistema(int idSede)
         {
             Conexion con = new Conexion();

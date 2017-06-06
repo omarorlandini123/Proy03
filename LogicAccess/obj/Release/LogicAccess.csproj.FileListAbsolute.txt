@@ -1,0 +1,13 @@
+C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\LogicAccess\bin\Release\LogicAccess.dll
+C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\LogicAccess\bin\Release\LogicAccess.pdb
+C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\LogicAccess\bin\Release\DataAccess.dll
+C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\LogicAccess\bin\Release\Entidades.dll
+C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\LogicAccess\bin\Release\Data.dll
+C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\LogicAccess\bin\Release\Oracle.DataAccess.dll
+C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\LogicAccess\bin\Release\DataAccess.pdb
+C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\LogicAccess\bin\Release\Entidades.pdb
+C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\LogicAccess\bin\Release\Data.pdb
+C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\LogicAccess\bin\Release\DataAccess.XmlSerializers.dll
+C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\LogicAccess\obj\Release\LogicAccess.csprojResolveAssemblyReference.cache
+C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\LogicAccess\obj\Release\LogicAccess.dll
+C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\LogicAccess\obj\Release\LogicAccess.pdb

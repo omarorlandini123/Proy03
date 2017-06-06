@@ -1,0 +1,46 @@
+﻿
+@using Entidades;
+@model IEnumerable<Area>
+
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <td>
+                       <center><strong>Nombre Area</strong></center> 
+                    </td>
+                    <td>
+                        <center><strong>Centro Costro</strong></center>  
+                    </td>
+                    <td>
+                        <center><strong>Cantidad</strong></center> 
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Area ar in Model)
+                {
+                <tr>
+                    <td>
+                        @ar.desArea
+                    </td>
+                    <td>
+                        @ar.centrocosto
+                    </td>
+                    <td>
+                        @ar.cantidadProductos
+                    </td>
+                </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3">
+                        <input style="float:right;" type="button" value="Cancelar" onclick="OcultarDetalleCentro('@ViewBag.codProducto','@ViewBag.idPresupTipo')" class="btn btn-danger" />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
