@@ -964,13 +964,14 @@ namespace DataAccess
             return 4;
         }
 
-        public Presupuesto getPresupuestosPorTipo(int idPresupuesto)
+        public Presupuesto getPresupuestosPorTipo(int idPresupuesto,string usuario)
         {
             Presupuesto presup = null;
             
             Conexion con = new Conexion();
             Procedimiento proc = new Procedimiento() { nombre = "GET_DETALLES_PRESUP_POR_TIPO" };
             proc.parametros.Add(new Parametro("VAR_ID_PRESUP", idPresupuesto, OracleDbType.Int32, Parametro.tipoIN));
+            proc.parametros.Add(new Parametro("VAR_USER", usuario, OracleDbType.Varchar2, Parametro.tipoIN));
             DataTable dt = con.EjecutarProcedimiento(proc);
 
             presup = getPresupuesto(idPresupuesto);
@@ -1349,13 +1350,7 @@ namespace DataAccess
                 rpta = getUltPresupuesto(codSede);
             }
             rpta.TiposPresupuestos = getPresupuestosTipos(rpta.idPresupuesto);
-            //if (rpta.TiposPresupuestos != null)
-            //{
-            //    foreach (DetallePresupuesto presup in rpta.TiposPresupuestos)
-            //    {
-            //        presup.versiones = getVersiones(presup.idPresupuestoTipo);
-            //    }
-            //}
+          
 
             rpta.presupuestosArea = getPresupuestosArea(rpta.idPresupuesto, usuario);
             return rpta;
@@ -1687,6 +1682,7 @@ namespace DataAccess
             Conexion con = new Conexion();
             Procedimiento proc = new Procedimiento() { nombre = "GET_PRESUPUESTO_AREAS" };
             proc.parametros.Add(new Parametro("VAR_ID_PRESUP", idPresupuesto, OracleDbType.Int32, Parametro.tipoIN));
+            proc.parametros.Add(new Parametro("VAR_USER", usuario, OracleDbType.Varchar2, Parametro.tipoIN));
             DataTable dt = con.EjecutarProcedimiento(proc);
 
             if (dt != null)
@@ -2267,7 +2263,7 @@ namespace DataAccess
         }
 
 
-        public Sede getPresupuestosPorSede(int idSede) {
+        public Sede getPresupuestosPorSede(int idSede,string codusuario) {
 
             Sede sede = null;
             sede = new Sede();
@@ -2276,6 +2272,7 @@ namespace DataAccess
             Conexion con = new Conexion();
             Procedimiento proc = new Procedimiento() { nombre = "GET_PRESUP_POR_SEDE" };
             proc.parametros.Add(new Parametro("VAR_ID_SEDE", idSede, OracleDbType.Int32, Parametro.tipoIN));
+            proc.parametros.Add(new Parametro("VAR_USER", codusuario, OracleDbType.Varchar2, Parametro.tipoIN));
             DataTable dt = con.EjecutarProcedimiento(proc);
             
             if (dt != null)

@@ -39,11 +39,11 @@ namespace AppV2.Controllers
                     if (user.tieneAccesoA(Accesos.MostrarTodasSedes))
                     {
 
-                        return View(logic.getPresupuestosPorSede(id));
+                        return View(logic.getPresupuestosPorSede(id, user.usuario));
                     }
                     else
                     {
-                        return View(logic.getPresupuestosPorSede(user.area.sede.codSede));
+                        return View(logic.getPresupuestosPorSede(user.area.sede.codSede, user.usuario));
                     }
                 }
                 return RedirectToAction("PresupArea", "Presupuesto", new { id = 0 });
@@ -621,7 +621,6 @@ namespace AppV2.Controllers
         public ActionResult CrearPresup(string nombre, int idSede, int mesDesde, int anioDesde, int mesHasta, int anioHasta)
         {
             LogicPresupuesto logicPresup = new LogicPresupuesto();
-
             return PartialView(logicPresup.CrearPresup(nombre, idSede, ((Usuario)Session["usuario"]).usuario, mesDesde, anioDesde, mesHasta, anioHasta));
         }
 
@@ -719,7 +718,8 @@ namespace AppV2.Controllers
         public ActionResult PorTipo(int idPresupuesto)
         {
             LogicPresupuesto logicPresup = new LogicPresupuesto();
-            Presupuesto det = logicPresup.getPresupuestosPorTipo(idPresupuesto);
+            Usuario user = (Usuario)Session["usuario"];
+            Presupuesto det = logicPresup.getPresupuestosPorTipo(idPresupuesto, user.usuario);
             return PartialView(det);
         }
 

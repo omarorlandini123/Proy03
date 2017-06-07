@@ -32,23 +32,40 @@ namespace AppV2.Controllers
             LogicAcceso logic = new LogicAcceso();
             Session.Timeout = 1440;
             Usuario user =logic.Login(cuenta.usuario, cuenta.password);
-            Session["usuario"] = user;
-            if (Session["usuario"] == null)
+            if (user != null)
             {
+                if (int.Parse(user.idUsuario) > 0)
+                {
+                    Session["usuario"] = user;
+                    if (Session["usuario"] == null)
+                    {
+                        Session["malInicio"] = true;
+                        return RedirectToAction("Index", "Login");
+                    }
+                    else
+                    {
+                        if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.MostrarSoloArea))
+                        {
+                            return RedirectToAction("PresupArea", "Presupuesto", new { id = 0 });
+                        }
+                        else
+                        {
+                            return RedirectToAction("PorSede", "Presupuesto", new { id = ((Usuario)Session["usuario"]).area.sede.codSede });
+                        }
+
+                    }
+                }
+                else
+                {
+
+                    Session["malInicio"] = true;
+                    return RedirectToAction("Index", "Login");
+                }
+            }
+            else {
                 Session["malInicio"] = true;
                 return RedirectToAction("Index", "Login");
             }
-            else {
-                if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.MostrarSoloArea))
-                {
-                    return RedirectToAction("PresupArea", "Presupuesto", new { id = 0 });
-                }
-                else {
-                    return RedirectToAction("PorSede", "Presupuesto", new { id = ((Usuario)Session["usuario"]).area.sede.codSede });
-                }
-                
-            }
-          
         }
 
         public ActionResult Logout()

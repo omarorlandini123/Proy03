@@ -51,6 +51,7 @@ namespace LogicAccess
         public Presupuesto getPresupuestosPorArea(int idPresupuesto,string usuario,int codSede)
         {
             DAOPresupuesto dao = new DAOPresupuesto();
+            
             Presupuesto pre=dao.getPresupuestosPorArea(idPresupuesto,usuario, codSede);          
            
             return pre;
@@ -74,11 +75,11 @@ namespace LogicAccess
             return dao.getArchivo(idArchivo);
         }
 
-        public Presupuesto getPresupuestosPorTipo(int idPresupuesto)
+        public Presupuesto getPresupuestosPorTipo(int idPresupuesto,string usuario)
         {
 
             DAOPresupuesto dao = new DAOPresupuesto();
-            Presupuesto pre = dao.getPresupuestosPorTipo(idPresupuesto);
+            Presupuesto pre = dao.getPresupuestosPorTipo(idPresupuesto,usuario);
             return pre;
         }
 
@@ -234,10 +235,10 @@ namespace LogicAccess
             return dao.ResolverObservacion(idObservacion, observacion, usuario);
         }
 
-        public Sede getPresupuestosPorSede(int idSede) {
+        public Sede getPresupuestosPorSede(int idSede,string codusuario) {
 
             DAOPresupuesto dao = new DAOPresupuesto();
-            return dao.getPresupuestosPorSede(idSede);
+            return dao.getPresupuestosPorSede(idSede, codusuario);
         }
 
         public List<DetalleVersion> getDetallesDeUltimaVersion(int DetallePresup) {

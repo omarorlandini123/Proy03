@@ -29,9 +29,9 @@ namespace DataAccess.ServicioMateriales {
     [System.Web.Services.WebServiceBindingAttribute(Name="MaterialPortBinding", Namespace="http://Material/")]
     public partial class Material : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
-        private System.Threading.SendOrPostCallback getServicioOperationCompleted;
-        
         private System.Threading.SendOrPostCallback getMaterialOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback getServicioOperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -72,42 +72,10 @@ namespace DataAccess.ServicioMateriales {
         }
         
         /// <remarks/>
-        public event getServicioCompletedEventHandler getServicioCompleted;
-        
-        /// <remarks/>
         public event getMaterialCompletedEventHandler getMaterialCompleted;
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="http://Material/", ResponseNamespace="http://Material/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        [return: System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public material[] getServicio([System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string cond, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string porCod) {
-            object[] results = this.Invoke("getServicio", new object[] {
-                        cond,
-                        porCod});
-            return ((material[])(results[0]));
-        }
-        
-        /// <remarks/>
-        public void getServicioAsync(string cond, string porCod) {
-            this.getServicioAsync(cond, porCod, null);
-        }
-        
-        /// <remarks/>
-        public void getServicioAsync(string cond, string porCod, object userState) {
-            if ((this.getServicioOperationCompleted == null)) {
-                this.getServicioOperationCompleted = new System.Threading.SendOrPostCallback(this.OngetServicioOperationCompleted);
-            }
-            this.InvokeAsync("getServicio", new object[] {
-                        cond,
-                        porCod}, this.getServicioOperationCompleted, userState);
-        }
-        
-        private void OngetServicioOperationCompleted(object arg) {
-            if ((this.getServicioCompleted != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.getServicioCompleted(this, new getServicioCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
+        public event getServicioCompletedEventHandler getServicioCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="http://Material/", ResponseNamespace="http://Material/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -138,6 +106,38 @@ namespace DataAccess.ServicioMateriales {
             if ((this.getMaterialCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.getMaterialCompleted(this, new getMaterialCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="http://Material/", ResponseNamespace="http://Material/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public material[] getServicio([System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string cond, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string porCod) {
+            object[] results = this.Invoke("getServicio", new object[] {
+                        cond,
+                        porCod});
+            return ((material[])(results[0]));
+        }
+        
+        /// <remarks/>
+        public void getServicioAsync(string cond, string porCod) {
+            this.getServicioAsync(cond, porCod, null);
+        }
+        
+        /// <remarks/>
+        public void getServicioAsync(string cond, string porCod, object userState) {
+            if ((this.getServicioOperationCompleted == null)) {
+                this.getServicioOperationCompleted = new System.Threading.SendOrPostCallback(this.OngetServicioOperationCompleted);
+            }
+            this.InvokeAsync("getServicio", new object[] {
+                        cond,
+                        porCod}, this.getServicioOperationCompleted, userState);
+        }
+        
+        private void OngetServicioOperationCompleted(object arg) {
+            if ((this.getServicioCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.getServicioCompleted(this, new getServicioCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -319,17 +319,17 @@ namespace DataAccess.ServicioMateriales {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1087.0")]
-    public delegate void getServicioCompletedEventHandler(object sender, getServicioCompletedEventArgs e);
+    public delegate void getMaterialCompletedEventHandler(object sender, getMaterialCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1087.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class getServicioCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class getMaterialCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal getServicioCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal getMaterialCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -345,17 +345,17 @@ namespace DataAccess.ServicioMateriales {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1087.0")]
-    public delegate void getMaterialCompletedEventHandler(object sender, getMaterialCompletedEventArgs e);
+    public delegate void getServicioCompletedEventHandler(object sender, getServicioCompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1087.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class getMaterialCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class getServicioCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal getMaterialCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal getServicioCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

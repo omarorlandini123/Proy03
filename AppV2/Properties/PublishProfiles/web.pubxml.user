@@ -16,16 +16,16 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>05/29/2017 14:25:46</publishTime>
     </File>
     <File Include="bin/AppV2.dll">
-      <publishTime>06/06/2017 17:50:21</publishTime>
+      <publishTime>06/07/2017 10:46:25</publishTime>
     </File>
     <File Include="bin/Data.dll">
       <publishTime>06/06/2017 16:01:37</publishTime>
     </File>
     <File Include="bin/DataAccess.dll">
-      <publishTime>06/06/2017 16:01:38</publishTime>
+      <publishTime>06/07/2017 10:46:19</publishTime>
     </File>
     <File Include="bin/DataAccess.XmlSerializers.dll">
-      <publishTime>06/06/2017 16:01:39</publishTime>
+      <publishTime>06/07/2017 10:46:21</publishTime>
     </File>
     <File Include="bin/DocumentFormat.OpenXml.dll">
       <publishTime>05/16/2017 14:31:48</publishTime>
@@ -52,7 +52,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>05/29/2017 14:25:46</publishTime>
     </File>
     <File Include="bin/LogicAccess.dll">
-      <publishTime>06/06/2017 16:01:39</publishTime>
+      <publishTime>06/07/2017 10:46:21</publishTime>
     </File>
     <File Include="bin/Microsoft.AI.Agent.Intercept.dll">
       <publishTime>05/29/2017 14:25:46</publishTime>
@@ -82,7 +82,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>05/29/2017 14:25:46</publishTime>
     </File>
     <File Include="bin/Oracle.DataAccess.dll">
-      <publishTime>09/26/2015 12:09:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="bin/Oracle.ManagedDataAccess.dll">
       <publishTime>09/26/2015 10:19:20</publishTime>
@@ -364,7 +364,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>06/05/2017 20:03:26</publishTime>
     </File>
     <File Include="Views/Presupuesto/MostrarEliminarDetalle.cshtml">
-      <publishTime>05/29/2017 23:04:00</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Views/Presupuesto/MostrarObservarDetalle.cshtml">
       <publishTime>05/29/2017 14:25:46</publishTime>

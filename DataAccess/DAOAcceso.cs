@@ -21,7 +21,7 @@ namespace DataAccess
             {
                 AutenticarService.Autenticar aut = new AutenticarService.Autenticar();
 
-                AutenticarService.RespuestaBE rpta = aut.LogOn(usuario, password, false);
+                AutenticarService.RespuestaBE rpta = aut.LogOn(usuario, password, true);
                 if (rpta.IdUsuario > 0)
                 {
                     DataTable st = aut.GetOptionsByProfile(1, rpta.IdUsuario);
@@ -39,7 +39,7 @@ namespace DataAccess
                     foreach (DataRow fila in rptaperfil.Rows)
                     {
                         userRpta.idUsuario = fila["IdUsuario"].ToString();
-                        userRpta.usuario = fila["Login"].ToString();
+                        userRpta.usuario = fila["Login"].ToString().ToLower();
                         userRpta.Nombres = fila["ApellidosyNombres"].ToString();
                         userRpta.numeroPersonal = fila["NroPersonal"].ToString();
                         userRpta.area = new Area();
