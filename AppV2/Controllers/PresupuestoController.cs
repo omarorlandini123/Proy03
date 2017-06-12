@@ -69,7 +69,7 @@ namespace AppV2.Controllers
                 if (user.tieneAccesoA(Accesos.MostrarVersionDetalla))
                 {
                     LogicPresupuesto logic = new LogicPresupuesto();
-                    Entidades.Version version = logic.getVersionDetallada(id, idTipo);
+                    Entidades.Version version = logic.getVersionDetallada(id, idTipo, Session["idSede"].ToString());
                     ViewBag.idTipo = idTipo;
                     switch (idTipo)
                     {
@@ -162,7 +162,7 @@ namespace AppV2.Controllers
             else
             {
                 LogicPresupuesto logic = new LogicPresupuesto();
-                Presupuesto presup = logic.getPresupuestoReporteGeneral(id);
+                Presupuesto presup = logic.getPresupuestoReporteGeneral(id, Session["idSede"].ToString());
                 return PartialView(presup);
             }
         }
@@ -208,7 +208,7 @@ namespace AppV2.Controllers
                 }
 
                 LogicPresupuesto logic = new LogicPresupuesto();
-                Presupuesto presup = logic.getPresupuestoReporteGeneral(id);
+                Presupuesto presup = logic.getPresupuestoReporteGeneral(id, Session["idSede"].ToString());
 
                 string nombreArchivo = "ReporteGeneralGastoCapital.xlsx";
                 string nombreDescarga = "Reporte de Gastos de Capital General.xlsx";
@@ -233,7 +233,7 @@ namespace AppV2.Controllers
             else
             {
                 LogicPresupuesto logic = new LogicPresupuesto();
-                Presupuesto presup = logic.getPresupuestoReporteGeneral(id);
+                Presupuesto presup = logic.getPresupuestoReporteGeneral(id, Session["idSede"].ToString());
                 return PartialView(presup);
             }
         }
@@ -260,7 +260,7 @@ namespace AppV2.Controllers
                 }
 
                 LogicPresupuesto logic = new LogicPresupuesto();
-                Presupuesto presup = logic.getPresupuestoReporteGeneral(id);
+                Presupuesto presup = logic.getPresupuestoReporteGeneral(id, Session["idSede"].ToString());
 
                 string nombreArchivo = "ReporteGeneralGastoFuncionamiento.xlsx";
                 string nombreDescarga = "Reporte de Gastos de Funcionamiento General.xlsx";
@@ -285,7 +285,7 @@ namespace AppV2.Controllers
             else
             {
                 LogicPresupuesto logic = new LogicPresupuesto();
-                Presupuesto presup = logic.getPresupuestoReporteGeneralPorArea(id, idArea);
+                Presupuesto presup = logic.getPresupuestoReporteGeneralPorArea(id, idArea, Session["idSede"].ToString());
                 ViewBag.idArea = idArea;
                 return PartialView(presup);
             }
@@ -314,7 +314,7 @@ namespace AppV2.Controllers
                 }
 
                 LogicPresupuesto logic = new LogicPresupuesto();
-                Presupuesto presup = logic.getPresupuestoReporteGeneralPorArea(id, idArea);
+                Presupuesto presup = logic.getPresupuestoReporteGeneralPorArea(id, idArea, Session["idSede"].ToString());
 
                 string nombreArchivo = "ReporteGeneralGastoCapitalPorArea.xlsx";
                 string nombreDescarga = "Reporte de Gastos de Capital por Área.xlsx";
@@ -339,7 +339,7 @@ namespace AppV2.Controllers
             else
             {
                 LogicPresupuesto logic = new LogicPresupuesto();
-                Presupuesto presup = logic.getPresupuestoReporteGeneralPorArea(id, idArea);
+                Presupuesto presup = logic.getPresupuestoReporteGeneralPorArea(id, idArea, Session["idSede"].ToString());
                 ViewBag.idArea = idArea;
                 return PartialView(presup);
             }
@@ -368,7 +368,7 @@ namespace AppV2.Controllers
                 }
 
                 LogicPresupuesto logic = new LogicPresupuesto();
-                Presupuesto presup = logic.getPresupuestoReporteGeneralPorArea(id, idArea);
+                Presupuesto presup = logic.getPresupuestoReporteGeneralPorArea(id, idArea, Session["idSede"].ToString());
 
                 string nombreArchivo = "ReporteGeneralGastoFuncionamientoPorArea.xlsx";
                 string nombreDescarga = "Reporte de Gastos de Funcionamiento por Área.xlsx";
@@ -605,7 +605,7 @@ namespace AppV2.Controllers
         {
             LogicPresupuesto logicPresup = new LogicPresupuesto();
 
-            return PartialView(logicPresup.DetalleDeVersion(idDetalle, idTipo));
+            return PartialView(logicPresup.DetalleDeVersion(idDetalle, idTipo, Session["idSede"].ToString()));
 
         }
 
@@ -634,7 +634,7 @@ namespace AppV2.Controllers
         public ActionResult MostrarEliminarDetalle(int idDetalle,int idTipo) {
 
             LogicPresupuesto logicPresup = new LogicPresupuesto();
-            return PartialView(logicPresup.DetalleDeVersion(idDetalle, idTipo));
+            return PartialView(logicPresup.DetalleDeVersion(idDetalle, idTipo, Session["idSede"].ToString()));
         }
 
         public ActionResult EliminarDetalle(int idDetalle) {
@@ -655,7 +655,7 @@ namespace AppV2.Controllers
         public ActionResult DetallesVersion(string cond, int idVersion, int idTipo)
         {
             LogicPresupuesto logicPresup = new LogicPresupuesto();
-            return PartialView(logicPresup.DetallesDeVersion(cond, idVersion, idTipo));
+            return PartialView(logicPresup.DetallesDeVersion(cond, idVersion, idTipo, Session["idSede"].ToString()));
         }
 
 
@@ -663,7 +663,7 @@ namespace AppV2.Controllers
         {
             LogicPresupuesto logic = new LogicPresupuesto();
             ViewBag.prioridades = (List<Prioridad>)logic.getPrioridades();
-            return PartialView(logic.DetalleDeVersion(id, idTipo));
+            return PartialView(logic.DetalleDeVersion(id, idTipo, Session["idSede"].ToString()));
         }
 
 
@@ -726,7 +726,7 @@ namespace AppV2.Controllers
         public ActionResult getMateriales(string cond)
         {
             LogicMaterial logicMaterial = new LogicMaterial();
-            return PartialView(logicMaterial.getMateriales(cond));
+            return PartialView(logicMaterial.getMateriales(cond,Session["idSede"].ToString()));
 
         }
 
@@ -776,7 +776,7 @@ namespace AppV2.Controllers
         public JsonResult getMaterial(string cond)
         {
             LogicMaterial logicMaterial = new LogicMaterial();
-            return Json(logicMaterial.getMaterial(cond), JsonRequestBehavior.DenyGet);
+            return Json(logicMaterial.getMaterial(cond, Session["idSede"].ToString()), JsonRequestBehavior.DenyGet);
 
         }
         [HttpPost]

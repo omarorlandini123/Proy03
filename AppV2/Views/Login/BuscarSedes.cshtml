@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Entidades.Sede>
+@if (Session["usuario"] != null)
+{
+
+        <div class="modal-content">
+            <div class="modal-body">
+                <h3>Sedes</h3>
+                <div class="row">
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    
+                                    <td>                                        
+                                        Nombre de la Sede
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                
+                                {
+
+                                    <tr>
+                                        <td>                                          
+                                            <a href="javascript:SeleccionarSede(@item.codSede,'@Html.Encode(item.desSede)')">   @item.desSede</a>
+                                        </td>
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <div class="col-sm-6 contenido-derecha">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+   
+}
+else
+{
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class="form-group">
+                <center>
+                    <h3>Su sesión ha expirado, ingrese nuevamente.</h3>
+                </center>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="col-sm-6 contenido-derecha">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+}
+
+

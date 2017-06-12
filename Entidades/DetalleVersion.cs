@@ -37,6 +37,8 @@ namespace Entidades
         public List<MesEntSoli> mesesEnt { get; set;}
         public List<Aprobacion> aprobaciones { get; set; }
 
+        public Clasificacion clasificacion { get; set; }
+
         public string messoli { get; set; }
         public string mesent { get; set; }
         public Aprobacion.estados estado { get; set; }

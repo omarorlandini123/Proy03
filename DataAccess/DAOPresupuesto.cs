@@ -90,6 +90,85 @@ namespace DataAccess
             return presup;
         }
 
+        public List<Clasificacion> getEsquemaGastoCapital(int idSede, int idPresupuesto)
+        {
+          
+            Conexion con = new Conexion();
+            Procedimiento proc = new Procedimiento() { nombre = "GET_LISTA_REPORTE" };
+            proc.parametros.Add(new Parametro("VAR_ID_SEDE", idSede, OracleDbType.Int32, Parametro.tipoIN));
+            proc.parametros.Add(new Parametro("VAR_ID_PRESUP", idPresupuesto, OracleDbType.Int32, Parametro.tipoIN));
+            List<Clasificacion> listarpta = null;
+            DataTable dt = con.EjecutarProcedimiento(proc);
+
+            if (dt != null)
+            {
+                if (dt.Rows.Count > 0)
+                {
+
+                    listarpta = new List<Clasificacion>();
+                    foreach (DataRow fila in dt.Rows)
+                    {
+                        try
+                        {
+                            Clasificacion clas = new Clasificacion();
+                            clas.idLista = int.Parse((fila["ID_LISTA"].ToString()));
+                            clas.desLista = fila["DES_LISTA"].ToString();
+                            clas.hijos = getEsquemaGastoCapitalHijos(clas);
+                            clas.sede = new Sede() { codSede = int.Parse(fila["ID_SEDE"].ToString()) };
+                            clas.presupuesto = new Presupuesto() { idPresupuesto = int.Parse(fila["ID_PRESUP"].ToString()) };
+                            listarpta.Add(clas);
+                        }
+                        catch (Exception s)
+                        {
+                            Console.WriteLine("Error En getAprobacionesVersion ==> " + s.Message);
+                        }
+                    }
+
+                }
+            }
+            return listarpta;
+        }
+
+        public List<Clasificacion> getEsquemaGastoCapitalHijos(Clasificacion clasifi)
+        {
+
+            Conexion con = new Conexion();
+            Procedimiento proc = new Procedimiento() { nombre = "GET_LISTA_HIJOS" };
+            proc.parametros.Add(new Parametro("VAR_ID_LISTA", clasifi.idLista, OracleDbType.Int32, Parametro.tipoIN));
+            List<Clasificacion> listarpta = null;
+            DataTable dt = con.EjecutarProcedimiento(proc);
+
+            if (dt != null)
+            {
+                if (dt.Rows.Count > 0)
+                {
+
+                    listarpta = new List<Clasificacion>();
+                    foreach (DataRow fila in dt.Rows)
+                    {
+                        try
+                        {
+                            Clasificacion clas = new Clasificacion();
+                            clas.idLista = int.Parse((fila["ID_LISTA"].ToString()));
+                            clas.desLista = fila["DES_LISTA"].ToString();
+                            clas.hijos = getEsquemaGastoCapitalHijos(clas);
+                            clas.sede = new Sede() { codSede = int.Parse(fila["ID_SEDE"].ToString()) };
+                            clas.presupuesto = new Presupuesto() { idPresupuesto = int.Parse(fila["ID_PRESUP"].ToString()) };
+                            clas.padre = clasifi;
+                            listarpta.Add(clas);
+                            
+                        }
+                        catch (Exception s)
+                        {
+                            Console.WriteLine("Error En getAprobacionesVersion ==> " + s.Message);
+                        }
+                    }
+
+                }
+            }
+            return listarpta;
+        }
+
         public Entidades.Version getAprobacionesVersion(int idVersion)
         {
             Entidades.Version presup = null;
@@ -192,7 +271,7 @@ namespace DataAccess
         }
 
 
-        public List<DetalleVersion> getDetallesDeUltimaVersionPorArea(int idPresupuestoTipo,int idArea)
+        public List<DetalleVersion> getDetallesDeUltimaVersionPorArea(int idPresupuestoTipo,int idArea,string idSede)
         {
             Conexion con = new Conexion();
             Procedimiento proc = new Procedimiento() { nombre = "GET_DETALLE_VERSION_TIPO_AREA" };
@@ -222,7 +301,7 @@ namespace DataAccess
                             det.tipo = int.Parse(fila["TIPO"].ToString());
                             if (det.tipo == 1)
                             {
-                                det.mat = daoMaterial.getMaterial(fila["COD_MATERIAL"].ToString());
+                                det.mat = daoMaterial.getMaterial(fila["COD_MATERIAL"].ToString(), idSede);
                             }
                             if (det.tipo == 2)
                             {
@@ -263,7 +342,7 @@ namespace DataAccess
             return listaRpta;
         }
 
-        public List<DetalleVersion> getDetallesDeUltimaVersion(int idPresupuestoTipo)
+        public List<DetalleVersion> getDetallesDeUltimaVersion(int idPresupuestoTipo,string idSede)
         {
             Conexion con = new Conexion();
             Procedimiento proc = new Procedimiento() { nombre = "GET_DETALLE_VERSION_TIPO" };
@@ -293,7 +372,7 @@ namespace DataAccess
                             det.tipo = int.Parse(fila["TIPO"].ToString());
                             if (det.tipo == 1)
                             {
-                                det.mat = daoMaterial.getMaterial(fila["COD_MATERIAL"].ToString());
+                                det.mat = daoMaterial.getMaterial(fila["COD_MATERIAL"].ToString(), idSede);
                             }
                             if (det.tipo == 2)
                             {
@@ -1333,12 +1412,7 @@ namespace DataAccess
             return 4;
         }
 
-        public List<Presupuesto> getPresupuestosPorSede(Sede sede) {
-            List<Presupuesto> listaRpta = new List<Presupuesto>();
-
-            return listaRpta;
-        }
-
+      
         
 
         public Presupuesto getPresupuestosPorArea(int idPresupuesto, string usuario,int codSede) {
@@ -1450,7 +1524,7 @@ namespace DataAccess
 
             return ver;
         }
-        public Entidades.Version getVersionDetallada(int id,int idTipo)
+        public Entidades.Version getVersionDetallada(int id,int idTipo,string idSede)
         {
             Entidades.Version ver = null;
             Conexion con = new Conexion();
@@ -1480,7 +1554,7 @@ namespace DataAccess
                             ver.fechaValIni = (DateTime)fila["v_fecha_val_ini"];
                             ver.fechaValFin = (DateTime)fila["v_fecha_val_fin"];
                             ver.estadoActual = (Aprobacion.estados)int.Parse(fila["est_actual"].ToString());
-                            ver.detalles = DetallesDeVersion("",ver.idVersion, idTipo);
+                            ver.detalles = DetallesDeVersion("",ver.idVersion, idTipo,idSede);
 
                         }
                         catch (Exception s)
@@ -1494,7 +1568,7 @@ namespace DataAccess
             return ver;
         }
 
-        public DetalleVersion DetalleDeVersion(int idDetalleVersion,int idTipo)
+        public DetalleVersion DetalleDeVersion(int idDetalleVersion,int idTipo,string idSede)
         {
 
             Conexion con = new Conexion();
@@ -1524,7 +1598,7 @@ namespace DataAccess
                             det.idDetalle = int.Parse(fila["ID_DETALLE"].ToString());
                             if (idTipo == 1)
                             {
-                                det.mat = daoMaterial.getMaterial(fila["COD_MATERIAL"].ToString());
+                                det.mat = daoMaterial.getMaterial(fila["COD_MATERIAL"].ToString(), idSede);
                             }
                             if (idTipo == 2)
                             {
@@ -1604,7 +1678,7 @@ namespace DataAccess
             return RPTA;
         }
 
-        public List<DetalleVersion> DetallesDeVersion(string cond , int idVersion,int idTipo) {
+        public List<DetalleVersion> DetallesDeVersion(string cond , int idVersion,int idTipo,string idSede) {
 
             Conexion con = new Conexion();
             Procedimiento proc = new Procedimiento() { nombre = "GET_DETALLES_VERSION" };
@@ -1635,7 +1709,7 @@ namespace DataAccess
                             det.idDetalle = int.Parse(fila["ID_DETALLE"].ToString());
                             if (idTipo == 1)
                             {
-                                det.mat = daoMaterial.getMaterial(fila["COD_MATERIAL"].ToString());
+                                det.mat = daoMaterial.getMaterial(fila["COD_MATERIAL"].ToString(), idSede);
                             }
                             if (idTipo == 2)
                             {

@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Entidades.Clasificacion>
+
+<div class="col-sm-12">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            Árbol de gasto de Capital
+        </div>
+        <div class="panel-body">
+
+            <div class="row">
+                <div class="col-sm-10 col-sm-offset-1">
+                    <div class="row">
+                        @foreach (var item in Model)
+                        {
+                            @Html.Raw(item.getStringHTML(1));
+                        }
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12" style="text-align:right;">
+                            <button type="button" class="btn btn-default" onclick="AgregarItemEsqueleto()">Agregar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

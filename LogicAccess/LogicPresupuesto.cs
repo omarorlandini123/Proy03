@@ -10,21 +10,12 @@ namespace LogicAccess
 {
     public class LogicPresupuesto
     {
-        /// <summary>
-        /// Lista los presupuestos generales de cada sede
-        /// </summary>
-        /// <param name="sede">La sede de la cual se quiere obtener el presupuesto (Solo es necesario el código de Sede)</param>
-        /// <returns></returns>
-        public List<Presupuesto> getPresupuestosPorSede(Sede sede)
-        {
-            DAOPresupuesto dao = new DAOPresupuesto();
-            return  dao.getPresupuestosPorSede(sede);
-        }
+       
 
-        public Entidades.Version getVersionDetallada(int id,int idTipo)
+        public Entidades.Version getVersionDetallada(int id,int idTipo,string idSede)
         {
             DAOPresupuesto dao = new DAOPresupuesto();
-            return dao.getVersionDetallada(id,idTipo);
+            return dao.getVersionDetallada(id,idTipo,idSede);
         }
 
         public DetalleVersion getArchivosDetalle(int idDetalle) {
@@ -32,14 +23,14 @@ namespace LogicAccess
             return dao.getArchivosDetalle(idDetalle);
         }
 
-        public DetalleVersion DetalleDeVersion(int idDetalleVersion, int idTipo) {
+        public DetalleVersion DetalleDeVersion(int idDetalleVersion, int idTipo,string idSede) {
             DAOPresupuesto dao = new DAOPresupuesto();
-            return dao.DetalleDeVersion(idDetalleVersion, idTipo);
+            return dao.DetalleDeVersion(idDetalleVersion, idTipo,idSede);
         }
 
-        public List<DetalleVersion> DetallesDeVersion(string cond,int idVersion, int idTipo) {
+        public List<DetalleVersion> DetallesDeVersion(string cond,int idVersion, int idTipo,string idSede) {
             DAOPresupuesto dao = new DAOPresupuesto();
-            return dao.DetallesDeVersion(cond,idVersion, idTipo);
+            return dao.DetallesDeVersion(cond,idVersion, idTipo,idSede);
         }
 
         /// <summary>
@@ -91,7 +82,7 @@ namespace LogicAccess
             return dao.AprobarPresupuesto(id,observacion,estado,user);
         }
 
-        public Presupuesto getPresupuestoReporteGeneral(int codPresupuesto)
+        public Presupuesto getPresupuestoReporteGeneral(int codPresupuesto,string idSede)
         {
             Presupuesto presup = getPresupuesto(codPresupuesto);
 
@@ -100,7 +91,7 @@ namespace LogicAccess
             {
                 foreach (DetallePresupuesto detPresup in presup.TiposPresupuestos)
                 {
-                    detPresup.detalleDeVersiones = getDetallesDeUltimaVersion(detPresup.idPresupuestoTipo);
+                    detPresup.detalleDeVersiones = getDetallesDeUltimaVersion(detPresup.idPresupuestoTipo,idSede);
 
 
                 }
@@ -108,7 +99,14 @@ namespace LogicAccess
 
             return presup;
         }
-        public Presupuesto getPresupuestoReporteGeneralPorArea(int codPresupuesto, int idArea)
+
+        public List<Clasificacion> getEsquemaGastoCapital(int idSede, int idPresupuesto)
+        {
+            DAOPresupuesto daopresup = new DAOPresupuesto();
+            return daopresup.getEsquemaGastoCapital(idSede, idPresupuesto);
+        }
+
+        public Presupuesto getPresupuestoReporteGeneralPorArea(int codPresupuesto, int idArea,string idSede)
         {
             Presupuesto presup = getPresupuesto(codPresupuesto);
             LogicArea area = new LogicArea();
@@ -118,7 +116,7 @@ namespace LogicAccess
             {
                 foreach (DetallePresupuesto detPresup in presup.TiposPresupuestos)
                 {
-                    detPresup.detalleDeVersiones = getDetallesDeUltimaVersionPorArea(detPresup.idPresupuestoTipo,idArea);
+                    detPresup.detalleDeVersiones = getDetallesDeUltimaVersionPorArea(detPresup.idPresupuestoTipo,idArea,idSede);
                     
                 }
             }
@@ -241,15 +239,15 @@ namespace LogicAccess
             return dao.getPresupuestosPorSede(idSede, codusuario);
         }
 
-        public List<DetalleVersion> getDetallesDeUltimaVersion(int DetallePresup) {
+        public List<DetalleVersion> getDetallesDeUltimaVersion(int DetallePresup,string idSede) {
 
             DAOPresupuesto dao = new DAOPresupuesto();
-            return dao.getDetallesDeUltimaVersion(DetallePresup);
+            return dao.getDetallesDeUltimaVersion(DetallePresup,idSede);
         }
-        public List<DetalleVersion> getDetallesDeUltimaVersionPorArea(int DetallePresup, int idArea) {
+        public List<DetalleVersion> getDetallesDeUltimaVersionPorArea(int DetallePresup, int idArea,string idSede) {
 
             DAOPresupuesto dao = new DAOPresupuesto();
-            return dao.getDetallesDeUltimaVersionPorArea(DetallePresup, idArea);
+            return dao.getDetallesDeUltimaVersionPorArea(DetallePresup, idArea,idSede);
         }
         public List<DetallePresupuesto> getPresupuestosTipos(int idPresupuesto)
         {

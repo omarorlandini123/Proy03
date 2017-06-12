@@ -31,7 +31,7 @@ namespace AppV2.Controllers
         {
             LogicAcceso logic = new LogicAcceso();
             Session.Timeout = 1440;
-            Usuario user =logic.Login(cuenta.usuario, cuenta.password);
+            Usuario user = logic.Login(cuenta.usuario, cuenta.password);
             if (user != null)
             {
                 if (int.Parse(user.idUsuario) > 0)
@@ -66,6 +66,32 @@ namespace AppV2.Controllers
                 Session["malInicio"] = true;
                 return RedirectToAction("Index", "Login");
             }
+        }
+        
+        
+        public ActionResult EsquemaReporte() {
+            return View();
+        }
+
+        public ActionResult BuscarSedes() {
+            LogicPresupuesto logic = new LogicPresupuesto();
+            List<Sede> sedes = logic.getSedes();
+            return PartialView(sedes);
+        }
+
+
+        public ActionResult BuscarPresupuestos(int idSede) {
+            LogicPresupuesto logic = new LogicPresupuesto();
+            Usuario user = ((Usuario)Session["usuario"]);
+            Sede sede= logic.getPresupuestosPorSede(idSede,user.usuario);
+            return PartialView(sede);
+
+        }
+
+        public ActionResult BuscarEsquema(int idSede, int idPresupuesto) {
+            LogicPresupuesto logic = new LogicPresupuesto();
+           List<Clasificacion> rpta = logic.getEsquemaGastoCapital(idSede, idPresupuesto);
+            return PartialView(rpta);
         }
 
         public ActionResult Logout()

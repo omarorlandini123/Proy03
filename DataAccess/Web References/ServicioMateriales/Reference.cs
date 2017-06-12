@@ -80,26 +80,28 @@ namespace DataAccess.ServicioMateriales {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="http://Material/", ResponseNamespace="http://Material/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public material[] getMaterial([System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string cond, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string porCod) {
+        public material[] getMaterial([System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string cond, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string porCod, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string idSede) {
             object[] results = this.Invoke("getMaterial", new object[] {
                         cond,
-                        porCod});
+                        porCod,
+                        idSede});
             return ((material[])(results[0]));
         }
         
         /// <remarks/>
-        public void getMaterialAsync(string cond, string porCod) {
-            this.getMaterialAsync(cond, porCod, null);
+        public void getMaterialAsync(string cond, string porCod, string idSede) {
+            this.getMaterialAsync(cond, porCod, idSede, null);
         }
         
         /// <remarks/>
-        public void getMaterialAsync(string cond, string porCod, object userState) {
+        public void getMaterialAsync(string cond, string porCod, string idSede, object userState) {
             if ((this.getMaterialOperationCompleted == null)) {
                 this.getMaterialOperationCompleted = new System.Threading.SendOrPostCallback(this.OngetMaterialOperationCompleted);
             }
             this.InvokeAsync("getMaterial", new object[] {
                         cond,
-                        porCod}, this.getMaterialOperationCompleted, userState);
+                        porCod,
+                        idSede}, this.getMaterialOperationCompleted, userState);
         }
         
         private void OngetMaterialOperationCompleted(object arg) {

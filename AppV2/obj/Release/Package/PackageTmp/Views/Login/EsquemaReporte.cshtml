@@ -1,0 +1,99 @@
+﻿@using Entidades;
+@model IEnumerable<Sede>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Aplica a:
+            </div>
+            <div class="panel-body" >
+                <div class="row">
+                    <label class="col-sm-2" for="" style="text-align:right;">Sede </label>
+                    <input type="hidden" id="idSede" value="0"/>
+                    <div class="col-sm-6">
+                        <input class="form-control " id="desSede" value="" type="text" name="desSede" disabled="disabled" placeholder="Buscar Sede">
+                    </div>
+                    <button type="button" class="col-sm-1 col-sm-offset-1 btn btn-default " onclick="BuscarSedes()">Buscar</button>
+                </div>
+                <br />
+                <div class="row">
+                    <label class="col-sm-2" for="" style="text-align:right;">Area </label>
+                    <input type="hidden" id="idArea" value="0" />
+                    <div class="col-sm-6">
+                        <input class="form-control " id="desArea" value="" type="text" name="desArea" disabled="disabled" placeholder="Buscar Área">
+                    </div>
+                    <button type="button" class="col-sm-1 col-sm-offset-1 btn btn-default " onclick="BuscarAreas()">Buscar</button>
+                </div>
+                <br />
+                <div class="row">
+                    <label class="col-sm-2" for="" style="text-align:right;">Presupuesto </label>
+                    <input type="hidden" id="idPresup" value="0" />
+                    <div class="col-sm-6">
+                        <input class="form-control " id="desPresup" value="" type="text" name="desPresup" disabled="disabled" placeholder="Buscar Presupuesto">
+                    </div>
+                    <button type="button" class="col-sm-1 col-sm-offset-1 btn btn-default " onclick="BuscarPresupuestos()">Buscar</button>
+                </div>
+            </div>
+            <div class="panel-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Árbol de gasto de Capital
+            </div>
+            <div class="panel-body" >
+                <div class="row" >
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>                                    
+                                    <td>                                         
+                                        <center> <strong>Descripcion de ítem</strong></center>
+                                    </td>
+                                    <td>
+                                        <center> <strong>Ítem Padre</strong></center>
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Programa de Inversiones
+                                    </td>
+                                    <td>
+                                        Principal                                  
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Programa de Inversiones
+                                    </td>
+                                    <td>
+                                        Principal
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="row" >
+                            <div class="col-sm-12"  style="text-align:right;">
+                                <button type="button" class=" btn btn-default " onclick="AgregarItemEsqueleto()">Agregar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+
+            </div>
+        </div>
+    </div>
+   
+  
+</div>
+

@@ -258,6 +258,11 @@
     <Content Include="Views\Login\MostrarAreasSinSelec.cshtml" />
     <Content Include="Views\Login\insAreasUsuario.cshtml" />
     <Content Include="Views\Login\getAreasUsuario.cshtml" />
+    <Content Include="Views\Login\EsquemaReporte.cshtml" />
+    <Content Include="Views\Login\BuscarSedes.cshtml" />
+    <Content Include="Views\Login\BuscarAreas.cshtml" />
+    <Content Include="Views\Login\BuscarPresupuestos.cshtml" />
+    <Content Include="Views\Login\BuscarEsquema.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -45,12 +45,12 @@ namespace DataAccess
             return materiales;
         }
 
-        public List<Material> getMateriales(string cond) {
+        public List<Material> getMateriales(string cond,string idSede) {
             List<Material> listaRpta = new List<Material>();
             try
             {
                 ServicioMateriales.Material cli = new ServicioMateriales.Material();
-                ServicioMateriales.material[] materiales = cli.getMaterial(cond, "0");
+                ServicioMateriales.material[] materiales = cli.getMaterial(cond, "0",idSede);
                 
                 foreach (ServicioMateriales.material mat in materiales)
                 {
@@ -76,12 +76,12 @@ namespace DataAccess
             return listaRpta;
         }
 
-        public Material getMaterial(string codMaterial)
+        public Material getMaterial(string codMaterial,string idSede)
         {
             try
             {
                 ServicioMateriales.Material cli = new ServicioMateriales.Material();
-                ServicioMateriales.material[] materiales = cli.getMaterial(codMaterial, "1");
+                ServicioMateriales.material[] materiales = cli.getMaterial(codMaterial, "1",idSede);
                 List<Material> listaRpta = new List<Material>();
                 foreach (ServicioMateriales.material mat in materiales)
                 {

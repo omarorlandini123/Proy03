@@ -892,6 +892,95 @@ function ExpandirObservaciones(codDetalle){
       
     }
 
+    function BuscarSedes() {
+        $('#idContenidoModal').html(EsperaModal());
+        $('#ModalGeneral').modal('show');
+        $.get("/Login/BuscarSedes", {  })
+          .done(function (data) {
+              $('#idContenidoModal').fadeOut(500, function () {
+                  $('#idContenidoModal').html(data).fadeIn(500);
+              });
+          })
+        .fail(function (data) {
+            $('#idContenidoModal').fadeOut(500, function () {
+                $('#idContenidoModal').html(EsperaModalFAIL()).fadeIn(500);
+            });
+        });
+    }
+
+    function SeleccionarSede(var_codsede,var_dessede) {
+        $('#idContenidoModal').fadeOut(500, function () {
+            $('#idContenidoModal').html(EsperaModal()).fadeIn(500, function () {
+                $('#idSede').val(var_codsede);
+                $('#desSede').val(var_dessede);
+                $('#idContenidoModal').fadeOut(500);
+                $('#ModalGeneral').modal('hide');
+            });
+        });
+
+    }
+
+    function SeleccionarPresup(var_codPresup,var_nomPresup) {
+        $('#idContenidoModal').fadeOut(500, function () {
+            $('#idContenidoModal').html(EsperaModal()).fadeIn(500, function () {
+                $('#idPresup').val(var_codPresup);
+                $('#desPresup').val(var_nomPresup);
+                $('#idContenidoModal').fadeOut(500);
+                $('#ModalGeneral').modal('hide');
+            });
+        });
+    }
+
+    function BuscarPresupuestos() {
+        if ($('#idSede').val() != 0) {
+            $('#idContenidoModal').html(EsperaModal());
+            $('#ModalGeneral').modal('show');
+            $.get("/Login/BuscarPresupuestos", { idSede: $('#idSede').val() })
+              .done(function (data) {
+                  $('#idContenidoModal').fadeOut(500, function () {
+                      $('#idContenidoModal').html(data).fadeIn(500);
+                  });
+              })
+            .fail(function (data) {
+                $('#idContenidoModal').fadeOut(500, function () {
+                    $('#idContenidoModal').html(EsperaModalFAIL()).fadeIn(500);
+                });
+            });
+        } else {
+            $('#idContenidoModal').html(EsperaModal());
+            $('#ModalGeneral').modal('show');
+            $('#idContenidoModal').fadeOut(500, function () {
+                $('#idContenidoModal').html(EsperaModalPERS('Debe seleccionar una sede')).fadeIn(500);
+            });
+
+        }
+    }
+
+    function BuscarEsquema() {
+        if ($('#idSede').val() != 0 && $('#idPresup').val()!=0) {
+            $('#arbolGasto').html(EsperaDiv());
+           
+            $.get("/Login/BuscarEsquema", { idSede: $('#idSede').val(), idPresupuesto: $('#idPresup').val() })
+              .done(function (data) {
+                  $('#arbolGasto').fadeOut(500, function () {
+                      $('#arbolGasto').html(data).fadeIn(500);
+                  });
+              })
+            .fail(function (data) {
+                $('#arbolGasto').fadeOut(500, function () {
+                    $('#arbolGasto').html(EsperaModalFAIL()).fadeIn(500);
+                });
+            });
+        } else {
+            $('#arbolGasto').html(EsperaModal());
+            
+            $('#arbolGasto').fadeOut(500, function () {
+                $('#arbolGasto').html(EsperaModalPERS('Debe seleccionar una sede y un presupuesto')).fadeIn(500);
+            });
+
+        }
+    }
+
     function MostrarAprobacionesVersion(varidVersion) {
         $('#idContenidoModal').html(EsperaModal());
         $('#ModalGeneral').modal('show');
