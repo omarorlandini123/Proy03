@@ -1,0 +1,173 @@
+﻿@using Entidades;
+@model IEnumerable<Aprobacion>
+
+@if (Session["usuario"] != null)
+{
+    if (Model != null)
+    {
+        <div class="modal-content">
+            <div class="panel-heading">
+                <button type="button" class="close" data-dismiss="modal" onclick="OcultarPanelAprobPresup()">&times;</button>
+                <center><h2>Aprobaciones de Área</h2></center>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    @if (ViewBag.tipos != null)
+                    {
+                        if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.VerTablaAprobacionesVesion))
+                        {
+
+                            foreach (TipoPresupuesto tip in ViewBag.tipos)
+                            {
+                                <h3>@tip.nombrePresupuesto</h3><br />
+
+                                <table class="table">
+                                    <tr>
+
+                                        <th>
+                                            Orden
+                                        </th>
+                                        <th>
+                                            Usuario encargado
+                                        </th>
+                                        <th>
+                                            Estado
+                                        </th>
+
+                                    </tr>
+
+                                    @foreach (var item in Model)
+                                {
+                                    if (item.tipoPresup.tipoPresupuesto.idTipoPresupuesto == tip.idTipoPresupuesto)
+                                    {
+
+
+                                            <tr>
+                                                <td>
+                                                    <input type="hidden" id="idAprobacion" value="@item.idAprobacion" />
+                                                    @item.orden
+                                                </td>
+                                                <td>
+                                                    @item.usuarioApro.usuario
+                                                </td>
+
+
+
+                                                @if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.VerDetalleAprobacion))
+                                                {
+                                                    <td>
+
+                                                        @if (item.detalles != null)
+                                                        {
+
+                                                            if (item.detalles.Count > 0)
+                                                            {
+                                                                <a href="javascript:VerDetalleAprobacion(@item.idAprobacion)">
+                                                                    <b> @item.estado.ToString()</b>
+                                                                </a>
+                                                            }
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <b>No verificado</b>
+
+                                                        }
+
+
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td>
+                                                        @if (item.detalles != null)
+                                                        {
+
+                                                            if (item.detalles.Count > 0)
+                                                            {
+
+                                                                <b> @item.estado.ToString()</b>
+                                                            }
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <b>No verificado</b>
+
+                                                        }
+
+                                                    </td>
+                                                }
+
+                                            </tr>
+                                        }
+                                    }
+
+                                </table>
+
+                            }
+
+
+                        }
+                    }
+                    else
+                    {
+                        <center>
+                            <h3>No hay Aprobadores registrados para esta área</h3>
+                        </center>
+
+                    }
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-sm-6 contenido-derecha">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Aceptar</button>
+
+                </div>
+
+            </div>
+        </div>
+    }
+    else
+    {
+
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="form-group">
+                    <center>
+                        <h3>No se han agregado responsables de aprobar este Presupuesto</h3>
+                    </center>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-sm-6 contenido-derecha">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Aceptar</button>
+
+                </div>
+
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class="form-group">
+                <center>
+                    <h3>Su sesión ha expirado, ingrese nuevamente.</h3>
+                </center>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="col-sm-6 contenido-derecha">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+
+        </div>
+    </div>
+
+}
+
+
+

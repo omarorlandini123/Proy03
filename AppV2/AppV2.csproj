@@ -263,6 +263,13 @@
     <Content Include="Views\Login\BuscarAreas.cshtml" />
     <Content Include="Views\Login\BuscarPresupuestos.cshtml" />
     <Content Include="Views\Login\BuscarEsquema.cshtml" />
+    <Content Include="Views\Login\EliminarLista.cshtml" />
+    <Content Include="Views\Login\AgregarLista.cshtml" />
+    <Content Include="Views\Login\AgregarItemListaHijo.cshtml" />
+    <Content Include="Views\Login\AgregarItemLista.cshtml" />
+    <Content Include="Views\Login\AgregarListaHijo.cshtml" />
+    <Content Include="Views\Login\BannerConfiguracion.cshtml" />
+    <Content Include="Views\Presupuesto\getAprobacionesAreas.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

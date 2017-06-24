@@ -16,14 +16,16 @@ namespace AppV2.Reportes
         WorkbookPart wbPart = null;
         SpreadsheetDocument document = null;
         Presupuesto presup = null;
+        List<Clasificacion> esquema = null;
 
-        public ReporteGeneralGastoCapitalPorArea(string fuente, string destino, Presupuesto presup)
+        public ReporteGeneralGastoCapitalPorArea(string fuente, string destino, Presupuesto presup, List<Clasificacion> esquema)
         {
             try
             {
                 CopyFile(fuente, destino);
                 document = SpreadsheetDocument.Open(destino, true);
                 wbPart = document.WorkbookPart;
+                this.esquema = esquema;
                 this.presup = presup;
             }
             catch (Exception s)
@@ -271,31 +273,8 @@ namespace AppV2.Reportes
                             {
                                 UpdateValue(wsName, "B" + fila, "Materiales y suministros", 0, true);
                                 fila = fila + 1;
-                                foreach (DetalleVersion detVer in detPresup.detalleDeVersiones)
-                                {
-                                    if (detVer.tipo == 1)
-                                    {
-
-                                        UpdateValue(wsName, "B" + fila, detVer.NombreMaterialSoli, 0, true);
-                                        UpdateValue(wsName, "C" + fila, detVer.cantidadSoli.ToString(), 0, false);
-                                        UpdateValue(wsName, "D" + fila, detVer.codCentroCosto, 0, true);
-                                        UpdateValue(wsName, "E" + fila, detVer.totalSoli.ToString(), 0, false);
-                                        UpdateValue(wsName, "F" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Enero) ? "X" : "", 0, true);
-                                        UpdateValue(wsName, "G" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Febrero) ? "X" : "", 0, true);
-                                        UpdateValue(wsName, "H" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Marzo) ? "X" : "", 0, true);
-                                        UpdateValue(wsName, "I" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Abril) ? "X" : "", 0, true);
-                                        UpdateValue(wsName, "J" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Mayo) ? "X" : "", 0, true);
-                                        UpdateValue(wsName, "K" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Junio) ? "X" : "", 0, true);
-                                        UpdateValue(wsName, "L" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Julio) ? "X" : "", 0, true);
-                                        UpdateValue(wsName, "M" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Agosto) ? "X" : "", 0, true);
-                                        UpdateValue(wsName, "N" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Setiembre) ? "X" : "", 0, true);
-                                        UpdateValue(wsName, "O" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Octubre) ? "X" : "", 0, true);
-                                        UpdateValue(wsName, "P" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Noviembre) ? "X" : "", 0, true);
-                                        UpdateValue(wsName, "Q" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Diciembre) ? "X" : "", 0, true);
-                                        UpdateValue(wsName, "R" + fila, detVer.sustento, 0, true);
-                                        fila = fila + 1;
-                                    }
-                                }
+                                fila=SetearDatos(wsName, fila, detPresup.detalleDeVersiones, esquema);
+                               
                             }
 
                             if (detPresup.detalleDeVersiones != null)
@@ -335,17 +314,44 @@ namespace AppV2.Reportes
 
 
             }
-
-
-
-
-
-            // Force re-calc when the workbook is opened
-            //this.RemoveCellValue("Portfolio Summary", "D17");
-            //this.RemoveCellValue("Portfolio Summary", "E17");
-
-            // All done! Close and save the document.
             document.Close();
+        }
+
+        private int SetearDatos(string wsName,int fila, List<DetalleVersion> detver,List<Clasificacion> lista) {
+            foreach (var item in lista)
+            {
+                UpdateValue(wsName, "B" + fila, item.desLista, 0, true);
+                fila = fila + 1;
+                if (item.hijos != null)
+                {
+                    fila=SetearDatos(wsName,fila,detver, item.hijos);
+                }
+                
+
+                foreach (var detVer in detver) {
+                    if (detVer.tipo == 1 && detVer.clasificacion.idLista==item.idLista) {
+                        UpdateValue(wsName, "B" + fila, detVer.NombreMaterialSoli, 0, true);
+                        UpdateValue(wsName, "C" + fila, detVer.cantidadSoli.ToString(), 0, false);
+                        UpdateValue(wsName, "D" + fila, detVer.codCentroCosto, 0, true);
+                        UpdateValue(wsName, "E" + fila, detVer.totalSoli.ToString(), 0, false);
+                        UpdateValue(wsName, "F" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Enero) ? "X" : "", 0, true);
+                        UpdateValue(wsName, "G" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Febrero) ? "X" : "", 0, true);
+                        UpdateValue(wsName, "H" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Marzo) ? "X" : "", 0, true);
+                        UpdateValue(wsName, "I" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Abril) ? "X" : "", 0, true);
+                        UpdateValue(wsName, "J" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Mayo) ? "X" : "", 0, true);
+                        UpdateValue(wsName, "K" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Junio) ? "X" : "", 0, true);
+                        UpdateValue(wsName, "L" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Julio) ? "X" : "", 0, true);
+                        UpdateValue(wsName, "M" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Agosto) ? "X" : "", 0, true);
+                        UpdateValue(wsName, "N" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Setiembre) ? "X" : "", 0, true);
+                        UpdateValue(wsName, "O" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Octubre) ? "X" : "", 0, true);
+                        UpdateValue(wsName, "P" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Noviembre) ? "X" : "", 0, true);
+                        UpdateValue(wsName, "Q" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Diciembre) ? "X" : "", 0, true);
+                        UpdateValue(wsName, "R" + fila, detVer.sustento, 0, true);
+                        fila = fila + 1;
+                    }
+                }
+            }
+            return fila;
         }
 
     }

@@ -23,7 +23,7 @@ namespace Entidades
         public Aprobacion.estados estadoActual { get; set; }
         public List<Aprobacion> aprobaciones { get; set; }
         public List<DetalleVersion> detalles { get; set; }
-
+        public List<EnvioVersion> envios { get; set; }
 
     }
 }

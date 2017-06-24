@@ -72,7 +72,7 @@ else
                 <div style="float: right;margin-right:5px;">
                     @if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.AgregarNuevoItem) && (Model.estadoActual == Aprobacion.estados.Edicion || Model.estadoActual == Aprobacion.estados.NoVerficiado || Model.estadoActual == Aprobacion.estados.Desaprobado))
                     {
-                        <button type="button" class="btn btn-warning btn-sm" onclick="MostrarPanelNuevo(@ViewBag.idTipo)"> Agregar Ítem </button>
+                        <button type="button" class="btn btn-warning btn-sm" onclick="MostrarPanelNuevo(@ViewBag.idTipo,@Model.idVersion,@Model.presupuestoTipo.tipoPresupuesto.idTipoPresupuesto)"> Agregar Ítem </button>
                     }
                 </div>
             </div>
@@ -151,7 +151,7 @@ else
                                         }
                                         @if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.ExpandirDetalle))
                                         {
-                                            <button type="button" class="btn btn-warning btn-xs" onclick="ExpandirDetalle('@item.idDetalle')">Editar</button>
+                                            <button type="button" class="btn btn-warning btn-xs" onclick="ExpandirDetalle('@item.idDetalle',@Model.presupuestoTipo.tipoPresupuesto.idTipoPresupuesto)">Editar</button>
                                         }
                                         @if (Model.estadoActual != Aprobacion.estados.Aprobado)
                                         {

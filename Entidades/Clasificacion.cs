@@ -15,9 +15,12 @@ namespace Entidades
         public List<Clasificacion> hijos { get; set; }
         public Sede sede { get; set; }
         public Presupuesto presupuesto { get; set; }
+        public int orden { get; set; }
+
         public String getStringHTML(int x)
         {
-            String rpta = "<div class=\"col-sm-10\" style=\"padding-left:"+30*x+"px;\">" + desLista +"</div><div class=\"col-sm-2\"> <a href=\"javascript:eliminarClas("+idLista+")\"> Eliminar </a></div>";
+            String rpta = "<div class=\"col-sm-10\" style=\"padding-left:" + 30 * x + "px;\"><strong>" + desLista + "</strong></div><div class=\"col-sm-2\"> ";
+            rpta+= "<a href=\"javascript:eliminarClas(" + idLista+ ")\"> Eliminar </a> / <a href=\"javascript:addSubItem(" + idLista + ")\"> SubItem </a></div>";
             if (hijos != null)
             {
                 if (hijos.Count > 0)

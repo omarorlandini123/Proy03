@@ -32,20 +32,21 @@
                     </button>
                     <div class="row hidden-xs" style="width: 370px;">
                         <div class="col-md-3 hidden-sm">
-                            <a href="/Presupuesto/PorSede" class="thumbnail" style="margin-top: 20px;background-color: rgba(255, 255, 255, 0);border: 1px solid rgba(221, 221, 221, 0);">
+                            @{
+                                var href = "";
+                                if (Session["usuario"] != null)
+                                {
+                                    href = "/Presupuesto/PorSede/" + Session["idSede"];
+
+                                }
+                            }
+                            <a href="@href" class="thumbnail" style="margin-top: 20px;background-color: rgba(255, 255, 255, 0);border: 1px solid rgba(221, 221, 221, 0);">
                                 <img alt="40%x50%" style="width: 100%;" src="~/Images/Sima_Escudo.png">
                             </a>
                         </div>
                         <div class="col-md-9 " style="margin-top: 20px;">
                             <div class="row">
-                                @{
-                                    var href = "";
-                                    if (Session["usuario"] != null)
-                                    {
-                                        href = "/Presupuesto/PorSede/"+Session["idSede"];
-
-                                    }
-                                }
+                               
                                 <a class="navbar-brand" style="font-size: 30px;" href="@href">
                                     SIMA<br>
                                     <span style="font-size: 20px;">Sistema de Presupuestos</span>
@@ -81,9 +82,7 @@
                                 </li>
                             }
                         </ul>
-                        <ul class="nav navbar-nav">                           
-                                <li class="">@Html.ActionLink("Areas de Usuario", "Areas", "Login",new { idSede= int.Parse(Session["idSede"].ToString()) },null)</li>                              
-                        </ul>
+                       
 
 
 

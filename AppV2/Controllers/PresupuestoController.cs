@@ -70,6 +70,7 @@ namespace AppV2.Controllers
                 {
                     LogicPresupuesto logic = new LogicPresupuesto();
                     Entidades.Version version = logic.getVersionDetallada(id, idTipo, Session["idSede"].ToString());
+                    Session["idTipoDetPresup"] = version.presupuestoTipo.tipoPresupuesto.idTipoPresupuesto;
                     ViewBag.idTipo = idTipo;
                     switch (idTipo)
                     {
@@ -121,7 +122,8 @@ namespace AppV2.Controllers
 
                     return View(area);
                 }
-                else {
+                else
+                {
                     return RedirectToAction("Index", "Login");
                 }
             }
@@ -163,11 +165,12 @@ namespace AppV2.Controllers
             {
                 LogicPresupuesto logic = new LogicPresupuesto();
                 Presupuesto presup = logic.getPresupuestoReporteGeneral(id, Session["idSede"].ToString());
+                ViewBag.clasificaciones = logic.getEsquemaGastoCapitalCompleto(id);
                 return PartialView(presup);
             }
         }
 
-        public ActionResult getCentrosCosto(string codProducto,int idPresupTipo) {
+        public ActionResult getCentrosCosto(string codProducto,int idPresupTipo, int idLista) {
             Usuario user = (Usuario)Session["usuario"];
             if (user == null)
             {
@@ -177,7 +180,7 @@ namespace AppV2.Controllers
             else
             {
                 LogicPresupuesto logic = new LogicPresupuesto();
-                List<Area> areas = logic.getCentrosCosto(codProducto, idPresupTipo);
+                List<Area> areas = logic.getCentrosCosto(codProducto, idPresupTipo,idLista);
                 ViewBag.codProducto = codProducto;
                 ViewBag.idPresupTipo = idPresupTipo;
                 return PartialView(areas);
@@ -215,7 +218,7 @@ namespace AppV2.Controllers
                 string desde = folder + nombreArchivo;
                 string hacia = folderdestino + nombreArchivo;
 
-                ReporteGeneralGastoCapital rp = new ReporteGeneralGastoCapital(desde, hacia, presup);
+                ReporteGeneralGastoCapital rp = new ReporteGeneralGastoCapital(desde, hacia, presup, logic.getEsquemaGastoCapital(int.Parse(Session["idSede"].ToString()), id));
                 rp.CreateReport();
 
                 return File(hacia, "application/force-download", nombreDescarga);
@@ -286,6 +289,7 @@ namespace AppV2.Controllers
             {
                 LogicPresupuesto logic = new LogicPresupuesto();
                 Presupuesto presup = logic.getPresupuestoReporteGeneralPorArea(id, idArea, Session["idSede"].ToString());
+                ViewBag.clasificaciones=logic.getEsquemaGastoCapitalCompleto(id);
                 ViewBag.idArea = idArea;
                 return PartialView(presup);
             }
@@ -321,7 +325,7 @@ namespace AppV2.Controllers
                 string desde = folder + nombreArchivo;
                 string hacia = folderdestino + nombreArchivo;
 
-                ReporteGeneralGastoCapitalPorArea rp = new ReporteGeneralGastoCapitalPorArea(desde, hacia, presup);
+                ReporteGeneralGastoCapitalPorArea rp = new ReporteGeneralGastoCapitalPorArea(desde, hacia, presup,logic.getEsquemaGastoCapital(int.Parse(Session["idSede"].ToString()),id));
                 rp.CreateReport();
 
                 return File(hacia, "application/force-download", nombreDescarga);
@@ -419,6 +423,12 @@ namespace AppV2.Controllers
             detVersion.cantidadSoli = double.Parse(Request.Form["cantidad"].ToString());
             detVersion.criticidad = int.Parse(Request.Form["criticidad"].ToString());
             detVersion.prioridad = new Prioridad() { idPrioridad = int.Parse(Request.Form["prioridad"].ToString()) };
+            try { 
+                detVersion.clasificacion = new Clasificacion() { idLista = int.Parse(Request.Form["clasificacion"].ToString()) };
+            }
+            catch(Exception s) {
+                detVersion.clasificacion = new Clasificacion() { idLista =0 };
+            }
             detVersion.largo = double.Parse(Request.Form["largo"].ToString());
             detVersion.ancho = double.Parse(Request.Form["ancho"].ToString());
             detVersion.alto = double.Parse(Request.Form["alto"].ToString());
@@ -468,6 +478,14 @@ namespace AppV2.Controllers
             detVersion.cantidadSoli = double.Parse(Request.Form["cantidad"].ToString());
             detVersion.criticidad = int.Parse(Request.Form["criticidad"].ToString());
             detVersion.prioridad = new Prioridad() { idPrioridad = int.Parse(Request.Form["prioridad"].ToString()) };
+            try
+            {
+                detVersion.clasificacion = new Clasificacion() { idLista = int.Parse(Request.Form["clasificacion"].ToString()) };
+            }
+            catch (Exception s)
+            {
+                detVersion.clasificacion = new Clasificacion() { idLista = 0 };
+            }
             detVersion.largo = double.Parse(Request.Form["largo"].ToString());
             detVersion.ancho = double.Parse(Request.Form["ancho"].ToString());
             detVersion.alto = double.Parse(Request.Form["alto"].ToString());
@@ -491,7 +509,7 @@ namespace AppV2.Controllers
         }
 
 
-        #endregion
+        #endregionC:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\AppV2\Controllers\PresupuestoController.cs
 
         #region "Vistas parciales"
         public ActionResult AprobacionesPresupuesto(int id)
@@ -659,21 +677,27 @@ namespace AppV2.Controllers
         }
 
 
-        public ActionResult Edit(int id,int idTipo)
+        public ActionResult Edit(int id,int idTipo,int idTipoDetPresup)
         {
             LogicPresupuesto logic = new LogicPresupuesto();
             ViewBag.prioridades = (List<Prioridad>)logic.getPrioridades();
+          
+            ViewBag.clasificaciones = logic.getEsquemaGastoCapital(id);
+            ViewBag.idTipoDetPresup = idTipoDetPresup;
+           
             return PartialView(logic.DetalleDeVersion(id, idTipo, Session["idSede"].ToString()));
         }
 
 
 
 
-        public ActionResult Nuevo(int idTipo)
+        public ActionResult Nuevo(int idTipo,int idVersion,int idTipoDetPresup)
         {
             LogicPresupuesto logic = new LogicPresupuesto();
             ViewBag.prioridades = (List<Prioridad>)logic.getPrioridades();
             ViewBag.idTipo = idTipo;
+            ViewBag.idTipoDetPresup = idTipoDetPresup;
+            ViewBag.clasificaciones = logic.getEsquemaGastoCapitalDeVersion(idVersion);
             return PartialView();
         }
 
@@ -713,7 +737,39 @@ namespace AppV2.Controllers
             return PartialView(rpta);
         }
 
+        public ActionResult getAprobacionesAreas(int idPresupuesto,int idarea) {
 
+            LogicPresupuesto logic = new LogicPresupuesto();
+            Usuario user = (Usuario)Session["usuario"];
+
+            List<Aprobacion> rpta = logic.getAprobacionesAreas(idPresupuesto,user.usuario,idarea);
+            List<TipoPresupuesto> tipos = null;
+            if (rpta != null && rpta.Count > 0) {
+                tipos = new List<TipoPresupuesto>();
+                foreach (Aprobacion aprob in rpta)
+                {
+                    if (tipos.Count == 0)
+                    {
+                        tipos.Add(aprob.tipoPresup.tipoPresupuesto);
+                    }
+                    else {
+                        var contiene = false;
+                        foreach (TipoPresupuesto tip in tipos) {
+                            if (tip.idTipoPresupuesto == aprob.tipoPresup.tipoPresupuesto.idTipoPresupuesto) {
+                                contiene = true;
+                            }
+                        }
+                        if (!contiene) {
+                            tipos.Add(aprob.tipoPresup.tipoPresupuesto);
+                        }
+                    }
+                }
+            }
+
+            ViewBag.tipos = tipos;        
+            return PartialView(rpta);
+
+        }
 
         public ActionResult PorTipo(int idPresupuesto)
         {

@@ -73,7 +73,81 @@
                                                             }
                                                         }
 
-                                                        foreach (DetalleVersion detVer in detPresup.detalleDeVersiones)
+                                                        if (ViewBag.clasificaciones != null)
+                                                        {
+
+                                                            foreach (Clasificacion item in ViewBag.clasificaciones)
+                                                            {
+                                                                var color = "";
+                                                                switch (item.orden)
+                                                                {
+                                                                    case 1:
+                                                                        color = "#6377d5";
+                                                                        break;
+                                                                    case 2:
+                                                                        color = "#63d5cb";
+                                                                        break;
+                                                                    case 3:
+                                                                        color = "#63d596";
+                                                                        break;
+                                                                    case 4:
+                                                                        color = "#99d563";
+                                                                        break;
+                                                                    case 5:
+                                                                        color = "#d5cc63";
+                                                                        break;
+                                                                    case 6:
+                                                                        color = "#b163d5";
+                                                                        break;
+                                                                    case 7:
+                                                                        color = "#d7e6ab";
+                                                                        break;
+
+                                                                }
+
+                                                                <tr style="background-color: @(color);">
+                                                                    <td colspan="17">
+                                                                        <strong> @item.desLista </strong>
+                                                                    </td>
+                                                                </tr>
+                                                                foreach (DetalleVersion detVer in detPresup.detalleDeVersiones)
+                                                                {
+
+                                                                    if (detVer.tipo == 1 && detVer.clasificacion.idLista == item.idLista)
+                                                                    {
+
+                                                                        <tr>
+                                                                            <td>
+                                                                                @detVer.NombreMaterialSoli
+                                                                            </td>
+                                                                            <td>
+                                                                                <center> @detVer.cantidadSoli</center>
+                                                                            </td>
+                                                                            <td>
+                                                                                <center><a href="javascript:getCentrosCosto('@(detVer.mat.codProducto)','@(detPresup.idPresupuestoTipo)','@item.idLista')">@detVer.codCentroCosto</a></center>
+                                                                            </td>
+                                                                            <td>
+                                                                                <center> @detVer.totalSoli</center>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr style="display:none;" id="DETALLE_@(detVer.mat.codProducto)_@(detPresup.idPresupuestoTipo)_@(item.idLista)">
+                                                                            <td colspan="4">
+                                                                                <div class="col-sm-12" id="DETALLEDIV_@(detVer.mat.codProducto)_@(detPresup.idPresupuestoTipo)_@(item.idLista)">
+
+                                                                                </div>
+
+                                                                            </td>
+                                                                        </tr>
+                                                                    }
+                                                                }
+
+
+
+                                                            }
+
+                                                        }
+
+                                                        @*foreach (DetalleVersion detVer in detPresup.detalleDeVersiones)
                                                         {
                                                             if (detVer.tipo == 1)
                                                             {
@@ -100,7 +174,7 @@
                                                                     </td>
                                                                 </tr>
                                                             }
-                                                        }
+                                                        }*@
                                                     }
                                                     @if (detPresup.detalleDeVersiones != null)
                                                     {

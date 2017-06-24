@@ -14,6 +14,8 @@ function msgLogOut() {
 
 }
 
+
+
 function msgAprobar(idPresupuesto) {
 
     $('#idContenidoModal').html(EsperaModal());
@@ -102,6 +104,22 @@ function MostrarCrearPresup(idSede)
         });
     });
 
+}
+
+function AprobacionesArea(var_presup, var_codArea) {
+    $('#idContenidoModal').html(EsperaModal());
+    $('#ModalGeneral').modal('show');
+    $.get("/Presupuesto/getAprobacionesAreas", { idPresupuesto: var_presup, idarea: var_codArea })
+      .done(function (data) {
+          $('#idContenidoModal').fadeOut(500, function () {
+              $('#idContenidoModal').html(data).fadeIn(500);
+          });
+      })
+    .fail(function (data) {
+        $('#idContenidoModal').fadeOut(500, function () {
+            $('#idContenidoModal').html(EsperaModalFAIL()).fadeIn(500);
+        });
+    });
 }
 function CrearPerfil() {
     var nombre = $('#nombrePresupuesto').val();
@@ -195,38 +213,38 @@ function NuevaVersion(idPresupTipo) {
 
 }
 
-function getCentrosCosto(codProducto, idPresupTipo) {
+function getCentrosCosto(codProducto, idPresupTipo, var_idLista) {
     $(TRSELECT).hide();
     $(DIVSEl).html('');
 
-    $('#DETALLEDIV_' + codProducto + '_' + idPresupTipo).html(getImgEspera());
-    $('#DETALLE_' + codProducto + '_' + idPresupTipo).fadeIn(1000, function () {
-        $.get("/Presupuesto/getCentrosCosto", { codProducto: codProducto, idPresupTipo: idPresupTipo })
+    $('#DETALLEDIV_' + codProducto + '_' + idPresupTipo + '_' + var_idLista).html(getImgEspera());
+    $('#DETALLE_' + codProducto + '_' + idPresupTipo + '_' + var_idLista).fadeIn(1000, function () {
+        $.get("/Presupuesto/getCentrosCosto", { codProducto: codProducto, idPresupTipo: idPresupTipo,idLista:var_idLista })
               .done(function (data) {
-                  $('#DETALLEDIV_' + codProducto + '_' + idPresupTipo).hide();
-                  $('#DETALLEDIV_' + codProducto + '_' + idPresupTipo).html(data);
-                  $('#DETALLE_' + codProducto + '_' + idPresupTipo).show();
-                  $('#DETALLEDIV_' + codProducto + '_' + idPresupTipo).fadeOut(500, function () {
-                      $('#DETALLEDIV_' + codProducto + '_' + idPresupTipo).html(data).fadeIn(500);
+                  $('#DETALLEDIV_' + codProducto + '_' + idPresupTipo + '_' + var_idLista).hide();
+                  $('#DETALLEDIV_' + codProducto + '_' + idPresupTipo + '_' + var_idLista).html(data);
+                  $('#DETALLE_' + codProducto + '_' + idPresupTipo + '_' + var_idLista).show();
+                  $('#DETALLEDIV_' + codProducto + '_' + idPresupTipo + '_' + var_idLista).fadeOut(500, function () {
+                      $('#DETALLEDIV_' + codProducto + '_' + idPresupTipo + '_' + var_idLista).html(data).fadeIn(500);
                                             
                   });                
               });
     });
 
 
-    TRSELECT = '#DETALLE_' + codProducto + '_' + idPresupTipo;
-    DIVSEl = '#DETALLEDIV_' + codProducto + '_' + idPresupTipo;
+    TRSELECT = '#DETALLE_' + codProducto + '_' + idPresupTipo + '_' + var_idLista;
+    DIVSEl = '#DETALLEDIV_' + codProducto + '_' + idPresupTipo + '_' + var_idLista;
 
 }
 
 
-function ExpandirDetalle(codDetalle) {
+function ExpandirDetalle(codDetalle,var_idTipoDetPresup) {
     $(TRSELECT).hide();
     $(DIVSEl).html('');
 
     $('#DETALLEDIV_' + codDetalle).html(getImgEspera());
     $('#DETALLE_' + codDetalle).fadeIn(1000, function () {
-        $.get("/Presupuesto/Edit", { id: codDetalle, idTipo: $('#idTipo').val() })
+        $.get("/Presupuesto/Edit", { id: codDetalle, idTipo: $('#idTipo').val(), idTipoDetPresup: var_idTipoDetPresup })
               .done(function (data) {
                   $('#DETALLEDIV_' + codDetalle).hide();
                   $('#DETALLEDIV_' + codDetalle).html(data);
@@ -485,10 +503,10 @@ function ExpandirObservaciones(codDetalle){
     }
   
 
-    function MostrarPanelNuevo(varidTipo) {
+    function MostrarPanelNuevo(varidTipo,varidVersion,var_idTipoDetPresup) {
         $('#DIV_NEW_ITEM').html(EsperaDiv());
         $('#DIV_NEW_ITEM').fadeIn(500);
-        $.post("/Presupuesto/Nuevo", { idTipo: varidTipo })
+        $.post("/Presupuesto/Nuevo", { idTipo: varidTipo, idVersion: varidVersion, idTipoDetPresup:var_idTipoDetPresup })
                   .done(function (data) {
                      
                           $('#DIV_NEW_ITEM').fadeOut(500, function() {
@@ -686,6 +704,7 @@ function ExpandirObservaciones(codDetalle){
             var desMaterial=$('#desMaterial').val();
             var cantidad = $('#cantidad').val();
             var prioridad = $('#prioridad').val();
+            var clasificacion = $('#idClasificacion').val();
             var desCriticidad = $('#desCriticidad').val();
             var largo = $('#largo').val();
             var ancho = $('#ancho').val();
@@ -708,6 +727,7 @@ function ExpandirObservaciones(codDetalle){
             data.append('cantidad', cantidad);
             data.append('criticidad', desCriticidad);
             data.append('prioridad', prioridad);
+            data.append('clasificacion',clasificacion);
             data.append('largo', largo);
             data.append('ancho', ancho);
             data.append('alto', alto);
@@ -759,6 +779,7 @@ function ExpandirObservaciones(codDetalle){
         var desMaterial = $('#desMaterial').val();
         var cantidad = $('#cantidad').val();
         var prioridad = $('#prioridad').val();
+        var clasificacion = $('#idClasificacion').val();
         var desCriticidad = $('#desCriticidad').val();
         var largo = $('#largo').val();
         var ancho = $('#ancho').val();
@@ -778,6 +799,7 @@ function ExpandirObservaciones(codDetalle){
         data.append('cantidad', cantidad);
         data.append('criticidad', desCriticidad);
         data.append('prioridad', prioridad);
+        data.append('clasificacion', clasificacion);
         data.append('largo', largo);
         data.append('ancho', ancho);
         data.append('alto', alto);
@@ -979,6 +1001,93 @@ function ExpandirObservaciones(codDetalle){
             });
 
         }
+    }
+
+    function eliminarClas(var_idLista) {
+        $('#idContenidoModal').html(EsperaModal());
+        $('#ModalGeneral').modal('show');
+        $.get("/Login/EliminarLista", { idLista: var_idLista })
+          .done(function (data) {
+              $('#idContenidoModal').fadeOut(500, function () {
+                  $('#idContenidoModal').html(data).fadeIn(500);
+              });
+          })
+        .fail(function (data) {
+            $('#idContenidoModal').fadeOut(500, function () {
+                $('#idContenidoModal').html(EsperaModalFAIL()).fadeIn(500);
+            });
+        });
+    }
+
+    function AgregarLista() {
+        $('#idContenidoModal').html(EsperaModal());
+        $('#ModalGeneral').modal('show');
+        $.get("/Login/AgregarLista", {  })
+          .done(function (data) {
+              $('#idContenidoModal').fadeOut(500, function () {
+                  $('#idContenidoModal').html(data).fadeIn(500);
+              });
+          })
+        .fail(function (data) {
+            $('#idContenidoModal').fadeOut(500, function () {
+                $('#idContenidoModal').html(EsperaModalFAIL()).fadeIn(500);
+            });
+        });
+    }
+
+    function addSubItem(var_idLista) {
+        $('#idContenidoModal').html(EsperaModal());
+        $('#ModalGeneral').modal('show');
+        $.get("/Login/AgregarListaHijo", { idLista: var_idLista })
+          .done(function (data) {
+              $('#idContenidoModal').fadeOut(500, function () {
+                  $('#idContenidoModal').html(data).fadeIn(500);
+              });
+          })
+        .fail(function (data) {
+            $('#idContenidoModal').fadeOut(500, function () {
+                $('#idContenidoModal').html(EsperaModalFAIL()).fadeIn(500);
+            });
+        });
+    }
+
+    function AgregarItemLista() {
+        var idSede = $('#idSede').val();
+        var idPresup = $('#idPresup').val();
+        var iteml = $('#itemLista').val();
+        $('#idContenidoModal').html(EsperaModal());
+        $('#ModalGeneral').modal('show');
+        $.get("/Login/AgregarItemLista", { idSede: idSede, idPresupuesto: idPresup, itemLista: iteml })
+          .done(function (data) {
+              $('#idContenidoModal').fadeOut(500, function () {
+                  $('#idContenidoModal').html(data).fadeIn(500);
+              });
+          })
+        .fail(function (data) {
+            $('#idContenidoModal').fadeOut(500, function () {
+                $('#idContenidoModal').html(EsperaModalFAIL()).fadeIn(500);
+            });
+        });
+    }
+
+    function AgregarItemListaHijo(var_idPadre) {
+        var idSede = $('#idSede').val();
+        var idPresup = $('#idPresup').val();
+        var iteml = $('#itemLista').val();
+
+        $('#idContenidoModal').html(EsperaModal());
+        $('#ModalGeneral').modal('show');
+        $.get("/Login/AgregarItemListaHijo", { idSede: idSede, idPresupuesto: idPresup, idPadre: var_idPadre, itemLista: iteml })
+          .done(function (data) {
+              $('#idContenidoModal').fadeOut(500, function () {
+                  $('#idContenidoModal').html(data).fadeIn(500);
+              });
+          })
+        .fail(function (data) {
+            $('#idContenidoModal').fadeOut(500, function () {
+                $('#idContenidoModal').html(EsperaModalFAIL()).fadeIn(500);
+            });
+        });
     }
 
     function MostrarAprobacionesVersion(varidVersion) {

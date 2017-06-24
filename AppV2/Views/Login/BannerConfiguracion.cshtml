@@ -1,0 +1,8 @@
+﻿<ul class="nav nav-tabs">
+    @{
+        int pagActive = int.Parse(Session["PestanaConfActiva"].ToString());
+    }
+    <li class="@(pagActive == 1 ? "active" : "")">@Html.ActionLink("Perfiles", "Configuracion", "Login")</li>
+    <li class="@(pagActive == 2 ? "active" : "")">@Html.ActionLink("Areas de Usuario", "Areas", "Login",new { idSede= int.Parse(Session["idSede"].ToString()) },null)</li>
+    <li class="@(pagActive == 3 ? "active" : "")">@Html.ActionLink("Esquema de GK", "EsquemaReporte", "Login")</li>
+</ul>

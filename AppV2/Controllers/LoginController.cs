@@ -70,7 +70,12 @@ namespace AppV2.Controllers
         
         
         public ActionResult EsquemaReporte() {
+            Session["PestanaConfActiva"] = 3;
             return View();
+        }
+         
+        public ActionResult BannerConfiguracion() {
+            return PartialView();
         }
 
         public ActionResult BuscarSedes() {
@@ -93,6 +98,31 @@ namespace AppV2.Controllers
            List<Clasificacion> rpta = logic.getEsquemaGastoCapital(idSede, idPresupuesto);
             return PartialView(rpta);
         }
+        public ActionResult EliminarLista(int idLista) {
+            LogicPresupuesto logic = new LogicPresupuesto();
+            int rpta = logic.EliminarLista(idLista);
+            return PartialView(rpta);
+        }
+
+        public ActionResult AgregarItemLista(int idSede,int idPresupuesto, string itemLista) {
+            LogicPresupuesto logic = new LogicPresupuesto();
+            int rpta = logic.AgregarItemLista(idSede,idPresupuesto, itemLista);
+            return PartialView(rpta);
+        }
+
+        public ActionResult AgregarItemListaHijo(int idSede, int idPresupuesto, int idPadre, string itemLista) {
+            LogicPresupuesto logic = new LogicPresupuesto();
+            int rpta = logic.AgregarItemListaHijo(idSede, idPresupuesto,idPadre, itemLista);
+            return PartialView(rpta);
+        }
+
+        public ActionResult AgregarLista() {
+            return PartialView();
+        }
+
+        public ActionResult AgregarListaHijo(int idLista) {
+            return PartialView(idLista);
+        }
 
         public ActionResult Logout()
         {
@@ -114,6 +144,7 @@ namespace AppV2.Controllers
                 List<Perfil> rpta= logic.getPerfiles();
                 if (rpta != null)
                 {
+                    Session["PestanaConfActiva"] = 1;
                     return View(rpta);
                 }else
                 {
@@ -134,7 +165,7 @@ namespace AppV2.Controllers
             {
                 LogicAcceso logic = new LogicAcceso();
                 List<Usuario> rpta = logic.getUsuariosSistema(idSede);
-               
+                Session["PestanaConfActiva"] = 2;
                     ViewBag.idSede = idSede;
                     return View(rpta);
                

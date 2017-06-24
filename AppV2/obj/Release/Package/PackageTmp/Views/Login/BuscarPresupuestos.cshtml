@@ -1,6 +1,70 @@
-﻿@using Entidades;
-@model IEnumerable<Presupuesto>
+﻿@model Entidades.Sede
+@if (Session["usuario"] != null)
+{
 
+    <div class="modal-content">
+        <div class="modal-body">
+            <h3>Presupuestos</h3>
+            <div class="row">
+                <div class="col-sm-10 col-sm-offset-1">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
 
+                                <td>
+                                    Nombre del Presupuesto
+                                </td>
+                                <td>
+                                    Periodo 
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.presupuestos)
+
+                            {
+
+                                <tr>
+                                    <td>
+                                        <a href="javascript:SeleccionarPresup(@item.idPresupuesto,'@Html.Encode(item.nombrePresupuesto)')">   @item.nombrePresupuesto</a>
+                                    </td>
+                                    <td>
+                                        @(item.fechaValIni.Month) - @(item.fechaValIni.Year)
+                                    </td>
+                                </tr>
+
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <div class="col-sm-6 contenido-derecha">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+}
+else
+{
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class="form-group">
+                <center>
+                    <h3>Su sesión ha expirado, ingrese nuevamente.</h3>
+                </center>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="col-sm-6 contenido-derecha">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+}
 
 

@@ -105,74 +105,119 @@
                                                         {
                                                             <tr style="background-color: #d4d8f1;">
                                                                 <td colspan="17">
-                                                                    <strong> 1.- MATERIALES Y SUMINISTROS</strong>
+                                                                    <strong> MATERIALES Y SUMINISTROS</strong>
                                                                 </td>
                                                             </tr>
                                                             break;
                                                         }
                                                     }
 
-                                                    foreach (DetalleVersion detVer in detPresup.detalleDeVersiones)
+                                                    if (ViewBag.clasificaciones != null)
                                                     {
-                                                        if (detVer.tipo == 1)
+
+                                                        foreach (Clasificacion item in ViewBag.clasificaciones)
                                                         {
-                                                            <tr>
-                                                                <td>
-                                                                    @detVer.NombreMaterialSoli
-                                                                </td>
-                                                                <td>
-                                                                    <center> @detVer.cantidadSoli</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center> @detVer.codCentroCosto</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center> @detVer.totalSoli</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>
-                                                                        @(detVer.contieneMesSoli((int)MesEntSoli.Meses.Enero) ? "X" : "")
-                                                                    </center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Febrero) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Marzo) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Abril) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Mayo) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Junio) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Julio) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Agosto) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Setiembre) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Octubre) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Noviembre) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Diciembre) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.sustento)</center>
+                                                            var color = "";
+                                                            switch (item.orden)
+                                                            {
+                                                                case 1:
+                                                                    color = "#6377d5";
+                                                                    break;
+                                                                case 2:
+                                                                    color = "#63d5cb";
+                                                                    break;
+                                                                case 3:
+                                                                    color = "#63d596";
+                                                                    break;
+                                                                case 4:
+                                                                    color = "#99d563";
+                                                                    break;
+                                                                case 5:
+                                                                    color = "#d5cc63";
+                                                                    break;
+                                                                case 6:
+                                                                    color = "#b163d5";
+                                                                    break;
+                                                                case 7:
+                                                                    color = "#d7e6ab";
+                                                                    break;
+
+                                                            }
+
+                                                            <tr style="background-color: @(color);">
+                                                                <td colspan="17">
+                                                                    <strong> @item.desLista </strong>
                                                                 </td>
                                                             </tr>
+                                                            foreach (DetalleVersion detVer in detPresup.detalleDeVersiones)
+                                                            {
+
+                                                                if (detVer.tipo == 1 && detVer.clasificacion.idLista == item.idLista)
+                                                                {
+
+                                                                    <tr>
+                                                                        <td>
+                                                                            @detVer.NombreMaterialSoli
+                                                                        </td>
+                                                                        <td>
+                                                                            <center> @detVer.cantidadSoli</center>
+                                                                        </td>
+                                                                        <td>
+                                                                            <center> @detVer.codCentroCosto</center>
+                                                                        </td>
+                                                                        <td>
+                                                                            <center> @detVer.totalSoli</center>
+                                                                        </td>
+                                                                        <td>
+                                                                            <center> @(detVer.contieneMesSoli((int)MesEntSoli.Meses.Enero) ? "X" : "")</center>
+                                                                        </td>
+                                                                        <td>
+                                                                            <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Febrero) ? "X" : "")</center>
+                                                                        </td>
+                                                                        <td>
+                                                                            <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Marzo) ? "X" : "")</center>
+                                                                        </td>
+                                                                        <td>
+                                                                            <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Abril) ? "X" : "")</center>
+                                                                        </td>
+                                                                        <td>
+                                                                            <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Mayo) ? "X" : "")</center>
+                                                                        </td>
+                                                                        <td>
+                                                                            <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Junio) ? "X" : "")</center>
+                                                                        </td>
+                                                                        <td>
+                                                                            <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Julio) ? "X" : "")</center>
+                                                                        </td>
+                                                                        <td>
+                                                                            <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Agosto) ? "X" : "")</center>
+                                                                        </td>
+                                                                        <td>
+                                                                            <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Setiembre) ? "X" : "")</center>
+                                                                        </td>
+                                                                        <td>
+                                                                            <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Octubre) ? "X" : "")</center>
+                                                                        </td>
+                                                                        <td>
+                                                                            <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Noviembre) ? "X" : "")</center>
+                                                                        </td>
+                                                                        <td>
+                                                                            <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Diciembre) ? "X" : "")</center>
+                                                                        </td>
+                                                                        <td>
+                                                                            <center>@(detVer.sustento)</center>
+                                                                        </td>
+                                                                    </tr>
+                                                                }
+                                                            }
+
+
+
                                                         }
+
                                                     }
+
+
                                                 }
                                                 @if (detPresup.detalleDeVersiones != null)
                                                 {
@@ -183,7 +228,7 @@
 
                                                             <tr style="background-color: #d4d8f1;">
                                                                 <td colspan="17">
-                                                                    <strong> 2.- SERVICIOS</strong>
+                                                                    <strong> SERVICIOS</strong>
                                                                 </td>
                                                             </tr>
                                                             break;
@@ -254,6 +299,7 @@
                                                     }
                                                 }
                                             </tbody>
+
                                         </table>
 
                                     </div>

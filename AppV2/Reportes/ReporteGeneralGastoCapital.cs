@@ -16,8 +16,8 @@ namespace AppV2.Reportes
         WorkbookPart wbPart = null;
         SpreadsheetDocument document = null;
         Presupuesto presup = null;
-
-        public ReporteGeneralGastoCapital(string fuente, string destino, Presupuesto presup)
+        List<Clasificacion> esquema = null;
+        public ReporteGeneralGastoCapital(string fuente, string destino, Presupuesto presup, List<Clasificacion> esquema)
         {
             try
             {
@@ -25,6 +25,7 @@ namespace AppV2.Reportes
                 document = SpreadsheetDocument.Open(destino, true);
                 wbPart = document.WorkbookPart;
                 this.presup = presup;
+                this.esquema = esquema;
             }
             catch (Exception s)
             {
@@ -271,17 +272,19 @@ namespace AppV2.Reportes
                             {
                                 UpdateValue(wsName, "B" + fila, "1.- Materiales y suministros", 0, true);
                                 fila = fila + 1;
-                                foreach (DetalleVersion detVer in detPresup.detalleDeVersiones)
-                                {
-                                    if (detVer.tipo == 1)
-                                    {
+                                fila = SetearDatos(wsName, fila, detPresup.detalleDeVersiones, esquema);
+                                //foreach (DetalleVersion detVer in detPresup.detalleDeVersiones)
+                                //{
 
-                                        UpdateValue(wsName, "B" + fila, detVer.NombreMaterialSoli, 0, true);
-                                        UpdateValue(wsName, "C" + fila, detVer.cantidadSoli.ToString(), 0, false);
-                                        UpdateValue(wsName, "D" + fila, detVer.totalSoli.ToString(), 0, false);
-                                        fila = fila + 1;
-                                    }
-                                }
+                                //    if (detVer.tipo == 1)
+                                //    {
+
+                                //        UpdateValue(wsName, "B" + fila, detVer.NombreMaterialSoli, 0, true);
+                                //        UpdateValue(wsName, "C" + fila, detVer.cantidadSoli.ToString(), 0, false);
+                                //        UpdateValue(wsName, "D" + fila, detVer.totalSoli.ToString(), 0, false);
+                                //        fila = fila + 1;
+                                //    }
+                                //}
                             }
 
                             if (detPresup.detalleDeVersiones != null)
@@ -318,6 +321,31 @@ namespace AppV2.Reportes
 
             // All done! Close and save the document.
             document.Close();
+        }
+        private int SetearDatos(string wsName, int fila, List<DetalleVersion> detver, List<Clasificacion> lista)
+        {
+            foreach (var item in lista)
+            {
+                UpdateValue(wsName, "B" + fila, item.desLista, 0, true);
+                fila = fila + 1;
+                if (item.hijos != null)
+                {
+                    fila = SetearDatos(wsName, fila, detver, item.hijos);
+                }
+
+
+                foreach (var detVer in detver)
+                {
+                    if (detVer.tipo == 1 && detVer.clasificacion.idLista == item.idLista)
+                    {
+                        UpdateValue(wsName, "B" + fila, detVer.NombreMaterialSoli, 0, true);
+                        UpdateValue(wsName, "C" + fila, detVer.cantidadSoli.ToString(), 0, false);
+                        UpdateValue(wsName, "D" + fila, detVer.totalSoli.ToString(), 0, false);
+                        fila = fila + 1;
+                    }
+                }
+            }
+            return fila;
         }
 
     }

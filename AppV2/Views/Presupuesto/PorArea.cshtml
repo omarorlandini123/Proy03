@@ -12,84 +12,111 @@
             {
                 foreach (PresupuestoArea presup in Model.presupuestosArea)
                 {
+                    @{
+                        var todosAprobados = true;
+                        var todosNoVerificados = true;
+                        var todosDesaprobados = true;
 
-                    <div href="#" class="list-group-item est-edicion">
-                        <div class="row">
-                            <div class="col-sm-12 excesodiv">
-                                <a href="/Presupuesto/PresupArea/@presup.area.codArea">
-                                    <h4 class="list-group-item-heading">
-                                        Presupuesto de <strong>@(presup.area.desArea) </strong>
-                                    </h4>
-                                </a>
+                        foreach (var aprob in presup.aprobaciones)
+                        {
+                            if (aprob.estado != Aprobacion.estados.Aprobado)
+                            {
+                                todosAprobados = false;
+                            }
+                            if (aprob.estado != Aprobacion.estados.NoVerficiado)
+                            {
+                                todosNoVerificados = false;
+                            }
+                            if (aprob.estado != Aprobacion.estados.Desaprobado)
+                            {
+                                todosDesaprobados = false;
+                            }
+                        }
+
+                        var estadoArea = "est-edicion";
+                        if (todosAprobados) { estadoArea = "est-aprobado"; }
+                        if (todosNoVerificados) { estadoArea = "est-edicion"; }
+                        if (todosDesaprobados) { estadoArea = "est-desaprobado"; }
+
+                    }
+
+                        <div href="#" class="list-group-item est-edicion">
+                            <div class="row">
+
+                                <div class="col-sm-12 excesodiv">
+                                    <a href="/Presupuesto/PresupArea/@presup.area.codArea">
+                                        <h4 class="list-group-item-heading">
+                                            Presupuesto de <strong>@(presup.area.desArea) </strong>
+                                        </h4>
+                                    </a>
+
+                                </div>
 
                             </div>
-                           
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-3">Codigo:</div>
-                            <div class="col-sm-3">@presup.area.codArea</div>
-                            <div class="col-sm-3">Monto:</div>
-                            @if (presup.monto > 0)
+                            <div class="row">
+                                <div class="col-sm-3">Codigo:</div>
+                                <div class="col-sm-3">@presup.area.codArea</div>
+                                <div class="col-sm-3">Monto:</div>
+                                @if (presup.monto > 0)
                             {
-                                <div class="col-sm-3">S/ @string.Format("{0:0.00}", presup.monto)</div>
+                                    <div class="col-sm-3">S/ @string.Format("{0:0.00}", presup.monto)</div>
+                                }
+                                else
+                                {
+
+
+                                    <div class="col-sm-3">S/ 0.00</div>
+                                }
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">Ultima Modif:</div>
+                                <div class="col-sm-3">@presup.UltModifFec.ToShortDateString()</div>
+                                <div class="col-sm-3">Desde:</div>
+                                <div class="col-sm-3">@presup.fechaValIni.ToShortDateString()</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6"><a href="javascript:AprobacionesArea(@Model.idPresupuesto,@presup.area.codArea)">Aprobaciones</a></div>
+                                <div class="col-sm-3">Hasta:</div>
+                                <div class="col-sm-3">@presup.fechaValFin.ToShortDateString()</div>
+                            </div>
+                        </div>
                             }
-                            else
-                            {
+                        }
+                        else
+                        {
+                            <div class="list-group-item">
+                                <div class="row">
+                                    <center><h3>No se encontraron áreas disponibles</h3></center>
+                                </div>
 
+                            </div>
 
-                                <div class="col-sm-3">S/ 0.00</div>
+                        }
+
+        </div>
+                        }
+                        else
+                        {
+
+                            <div class="row" style="height: 120px;"><center><h3>No se encontró datos del presupuesto </h3></center></div>
                             }
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-3">Ultima Modif:</div>
-                            <div class="col-sm-3">@presup.UltModifFec.ToShortDateString()</div>
-                            <div class="col-sm-3">Desde:</div>
-                            <div class="col-sm-3">@presup.fechaValIni.ToShortDateString()</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-3"></div>
-                            <div class="col-sm-3"></div>
-                            <div class="col-sm-3">Hasta:</div>
-                            <div class="col-sm-3">@presup.fechaValFin.ToShortDateString()</div>
-                        </div>
-                    </div>
-                }
-            }
-            else
-            {
-                <div class="list-group-item">
-                    <div class="row">
-                        <center><h3>No se encontraron áreas disponibles</h3></center>
-                    </div>
+                        }
+                        else
+                        {
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <center>
+                                            <h3>Su sesión ha expirado, ingrese nuevamente.</h3>
+                                        </center>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="col-sm-6 contenido-derecha">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                    </div>
 
-                </div>
+                                </div>
+                            </div>
 
-            }
-
-        </div>
-    }
-    else
-    {
-
-        <div class="row" style="height: 120px;"><center><h3>No se encontró datos del presupuesto </h3></center></div>
-    }
-}
-else
-{
-    <div class="modal-content">
-        <div class="modal-body">
-            <div class="form-group">
-                <center>
-                    <h3>Su sesión ha expirado, ingrese nuevamente.</h3>
-                </center>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <div class="col-sm-6 contenido-derecha">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            </div>
-
-        </div>
-    </div>
-
-}
+                        }

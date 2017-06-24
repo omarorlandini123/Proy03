@@ -50,6 +50,7 @@
     <Compile Include="Clase.cs" />
     <Compile Include="Clasificacion.cs" />
     <Compile Include="DetalleVersion.cs" />
+    <Compile Include="EnvioVersion.cs" />
     <Compile Include="GrupoCentroCosto.cs" />
     <Compile Include="Material.cs" />
     <Compile Include="MesEntSoli.cs" />

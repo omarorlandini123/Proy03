@@ -47,7 +47,7 @@
                                 }
                                 @if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.ExpandirDetalle))
                                 {
-                                    <button type="button" class="btn btn-warning btn-xs" onclick="ExpandirDetalle('@item.idDetalle')">Editar</button>
+                                    <button type="button" class="btn btn-warning btn-xs" onclick="ExpandirDetalle('@item.idDetalle',@Session["idTipoDetPresup"])">Editar</button>
                                 }
                                 @if (item.version.estadoActual != Aprobacion.estados.Aprobado)
                                 {

@@ -35,7 +35,7 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="col-sm-6">Precio Unit.</div>
-                        <div class="col-sm-6" style="display: inline-flex;">S/. <input disabled="disabled" class="form-control" type="text" name="" value="" id="precioUnit"></div>
+                        <div class="col-sm-6" style="display: inline-flex;">S/. <input class="form-control solo-numero" type="text" name="" onkeyup="$('#totalsolic').val($('#cantidad').val() * $('#precioUnit').val())" value="" id="precioUnit"></div>
                     </div>
                     <div class="col-sm-4">
                         <div class="col-sm-6">Unidad de Medida:</div>
@@ -94,6 +94,35 @@
                         <div class="col-sm-6"><input class="form-control" type="text" name="" value="" onkeypress="return NumCheck(event, this)" id="ancho"></div>
                     </div>
                 </div><br>
+                @if (ViewBag.idTipodetPresup == 1)
+                {
+                <div class="row">
+                    <div class="col-sm-8">
+                        <div class="col-sm-3">Clasificacion:</div>
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <select class="form-control" id="idClasificacion">
+                                    @foreach (Clasificacion prio in ViewBag.clasificaciones)
+                                    {
+
+                                        if (prio.hijos == null)
+                                        {
+                                            <option value="@prio.idLista">@prio.desLista</option>
+                                        }
+                                        else
+                                        {
+                                            <option disabled="disabled" value="0">@prio.desLista</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+
+                    </div>
+                </div><br>
+                }
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="col-sm-2">Sustento:</div>

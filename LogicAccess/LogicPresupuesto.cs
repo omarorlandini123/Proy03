@@ -100,10 +100,42 @@ namespace LogicAccess
             return presup;
         }
 
+        public int EliminarLista(int idLista)
+        {
+            DAOPresupuesto daopresup = new DAOPresupuesto();
+            return daopresup.EliminarLista(idLista);
+        }
+
+        public int AgregarItemLista(int idSede, int idPresupuesto, string itemLista)
+        {
+            DAOPresupuesto daopresup = new DAOPresupuesto();
+            return daopresup.AgregarItemLista(idSede,idPresupuesto,itemLista);
+        }
+
+        public int AgregarItemListaHijo(int idSede,int idPresupuesto,int idPadre, string itemLista) {
+            DAOPresupuesto daopresup = new DAOPresupuesto();
+            return daopresup.AgregarItemListaHijo(idSede,idPresupuesto,idPadre,itemLista);
+        }
+
         public List<Clasificacion> getEsquemaGastoCapital(int idSede, int idPresupuesto)
         {
             DAOPresupuesto daopresup = new DAOPresupuesto();
             return daopresup.getEsquemaGastoCapital(idSede, idPresupuesto);
+        }
+        public List<Clasificacion> getEsquemaGastoCapital(int idDetalleVersion)
+        {
+            DAOPresupuesto daopresup = new DAOPresupuesto();
+            return daopresup.getEsquemaGastoCapital(idDetalleVersion);
+        }
+
+        public List<Clasificacion> getEsquemaGastoCapitalDeVersion(int idVersion) {
+            DAOPresupuesto daopresup = new DAOPresupuesto();
+            return daopresup.getEsquemaGastoCapitalDeVersion(idVersion);
+        }
+
+        public List<Clasificacion> getEsquemaGastoCapitalCompleto(int idPresupuesto) {
+            DAOPresupuesto daopresup = new DAOPresupuesto();
+            return daopresup.getEsquemaGastoCapitalCompleto(idPresupuesto);
         }
 
         public Presupuesto getPresupuestoReporteGeneralPorArea(int codPresupuesto, int idArea,string idSede)
@@ -167,10 +199,10 @@ namespace LogicAccess
             return dao.agregarDetalleVersion(detVersion);
         }
 
-        public List<Area> getCentrosCosto(string codProducto, int idPresupTipo)
+        public List<Area> getCentrosCosto(string codProducto, int idPresupTipo,int idLista)
         {
             DAOPresupuesto dao = new DAOPresupuesto();
-            return dao.getCentrosCosto(codProducto, idPresupTipo);
+            return dao.getCentrosCosto(codProducto, idPresupTipo,idLista);
         }
 
         public int actualizarDetalleVersion(DetalleVersion detVersion)
@@ -347,6 +379,11 @@ namespace LogicAccess
         {
             DAOPresupuesto dao = new DAOPresupuesto();
             return dao.getAprobacionesPresupuesto(idPresupuesto);
+        }
+
+        public List<Aprobacion> getAprobacionesAreas(int idPresupuesto, string usuario, int idarea) {
+            DAOPresupuesto dao = new DAOPresupuesto();
+            return dao.getAprobacionesAreas( idPresupuesto,  usuario,  idarea);
         }
 
         public int AgregarAprobPresup(int id, int idOrden, string idUsuario, string usuario)

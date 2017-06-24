@@ -24,5 +24,6 @@ namespace Entidades
         public List<Version> versiones { get; set; }
         public int nroActual { get; set; }
         public List<DetalleVersion> detalleDeVersiones { get; set; }
+        public Clasificacion clasificacion { get; set; }
     }
 }
