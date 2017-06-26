@@ -270,6 +270,8 @@
     <Content Include="Views\Login\AgregarListaHijo.cshtml" />
     <Content Include="Views\Login\BannerConfiguracion.cshtml" />
     <Content Include="Views\Presupuesto\getAprobacionesAreas.cshtml" />
+    <Content Include="Views\Presupuesto\AprobarTodoShow.cshtml" />
+    <Content Include="Views\Presupuesto\AprobarTodo.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

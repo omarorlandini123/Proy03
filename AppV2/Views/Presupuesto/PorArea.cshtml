@@ -12,7 +12,7 @@
             {
                 foreach (PresupuestoArea presup in Model.presupuestosArea)
                 {
-                    @{
+                    
                         var todosAprobados = true;
                         var todosNoVerificados = true;
                         var todosDesaprobados = true;
@@ -38,7 +38,7 @@
                         if (todosNoVerificados) { estadoArea = "est-edicion"; }
                         if (todosDesaprobados) { estadoArea = "est-desaprobado"; }
 
-                    }
+                    
 
                         <div href="#" class="list-group-item est-edicion">
                             <div class="row">

@@ -60,7 +60,17 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="col-sm-6">Criticidad:</div>
-                        <div class="col-sm-6"><input class="form-control solo-numero" type="text" name="" value="1" id="desCriticidad"></div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <select class="form-control" id="prioridad">
+                                    @foreach (Prioridad prio in ViewBag.prioridades)
+                                    {
+                                        <option value="@prio.idPrioridad">@prio.nombre</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <input class="form-control solo-numero" type="hidden" name="" value="1" id="desCriticidad">
                     </div>
                     <div class="col-sm-4">
                         <div class="col-sm-6">Total:</div>
@@ -73,7 +83,7 @@
                 </div><br>
                 <div class="row">
                     <div class="col-sm-4">
-                        <div class="col-sm-6">Prioridad:</div>
+                        @*<div class="col-sm-6">Prioridad:</div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <select class="form-control" id="prioridad">
@@ -83,7 +93,7 @@
                                     }
                                 </select>
                             </div>
-                        </div>
+                        </div>*@
                     </div>
                     <div class="col-sm-4">
                         <div class="col-sm-6">Alto:</div>
@@ -140,17 +150,23 @@
                     <div class="col-sm-4">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                @for (int a = 1; a <= 12; a++)
-                                {
-                                    <div class="col-sm-4"><input type="checkbox" name="messoli" id="cbox@(a)" value="@(a)">@MesEntSoli.getMesCorto((MesEntSoli.Meses)a)</div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <input type="checkbox" name="selmesessoli" id="selmesessoli" onchange="cambioSelec()" /> Seleccionar todo
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    @for (int a = 1; a <= 12; a++)
+                                    {
+                                        <div class="col-sm-4"><input type="checkbox" name="messoli" id="cbox@(a)" value="@(a)">@MesEntSoli.getMesCorto((MesEntSoli.Meses)a)</div>
 
-                                }
-
+                                    }
+                                </div>
 
                             </div>
                         </div>
                     </div>
-                    <div class="col-sm-2">
+                    @*<div class="col-sm-2">
                         <div class="col-sm-6">Mes Entrega:</div>
                     </div>
                     <div class="col-sm-4">
@@ -163,7 +179,7 @@
                                 }
                             </div>
                         </div>
-                    </div>
+                    </div>*@
                 </div>
                 <div class="row">
                     <div class="form-group">

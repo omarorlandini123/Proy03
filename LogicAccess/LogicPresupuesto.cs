@@ -415,6 +415,16 @@ namespace LogicAccess
             DAOPresupuesto dao = new DAOPresupuesto();
             return dao.nuevaVersion(id, idArea,usuario);
         }
+
+        public RptaServer PuedeAprobarItems(int id, string usuario)
+        {
+            throw new NotImplementedException();
+        }
+
+        public RptaServer AprobarItems(int id, string usuario)
+        {
+            throw new NotImplementedException();
+        }
     }
     }
 

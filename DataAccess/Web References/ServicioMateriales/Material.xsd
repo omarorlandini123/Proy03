@@ -19,6 +19,7 @@
     <xs:sequence>
       <xs:element minOccurs="0" name="codigoMaterial" type="xs:string" />
       <xs:element minOccurs="0" name="descMaterial" type="xs:string" />
+      <xs:element minOccurs="0" name="fecha" type="xs:string" />
       <xs:element name="precioMaterial" type="xs:double" />
       <xs:element minOccurs="0" name="subclase" type="tns:subClase" />
       <xs:element minOccurs="0" name="unidad" type="xs:string" />

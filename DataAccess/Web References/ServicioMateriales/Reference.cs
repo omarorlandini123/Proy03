@@ -174,6 +174,8 @@ namespace DataAccess.ServicioMateriales {
         
         private string descMaterialField;
         
+        private string fechaField;
+        
         private double precioMaterialField;
         
         private subClase subclaseField;
@@ -199,6 +201,17 @@ namespace DataAccess.ServicioMateriales {
             }
             set {
                 this.descMaterialField = value;
+            }
+        }
+        
+        /// <comentarios/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string fecha {
+            get {
+                return this.fechaField;
+            }
+            set {
+                this.fechaField = value;
             }
         }
         

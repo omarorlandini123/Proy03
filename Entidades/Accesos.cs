@@ -53,7 +53,8 @@ namespace Entidades
         MostrarPorSede,
         MostrarVersionDetalla,
         MostrarPresupuestosPorArea,
-        DescargarReporte
+        DescargarReporte,
+        AprobarTodosItems
 
     }
 }

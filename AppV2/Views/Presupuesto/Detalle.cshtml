@@ -48,6 +48,12 @@
                     <h4 style="color:#7fd15c"><strong>Versión Aprobada</strong></h4>
 
                 }
+
+                @*@if( ((Usuario)Session["usuario"]).tieneAccesoA(Accesos.AprobarTodosItems))
+                {*@
+                    <button type="button" class="btn btn-success btn-sm" onclick="AprobarTodosLositems(@Model.idVersion)"> Aprobar Todos los Ítems </button>
+                @* } *@
+               
             </div>
             <div class="col-sm-6 " role="group" aria-label="...">
                 <div class="dropdown" style="float: right;">
@@ -186,31 +192,6 @@
 
 
             </div>
-        </div>
-
-    </div>
-</div>
-<div class="col-sm-6">
-    <div class="panel panel-default ">
-        <div class="panel-heading">
-            Leyenda
-        </div>
-        <div class="panel-body">
-
-            <div class="estado">
-                <div class="estado-ind estado-ind-verde"></div>
-                <label>Aprobado</label>
-            </div>
-            <div class="estado">
-                <div class="estado-ind estado-ind-blanco"></div>
-                <label>En Edición</label>
-            </div>
-            <div class="estado">
-                <div class="estado-ind estado-ind-rojo"></div>
-                <label>Observado</label>
-
-            </div>
-
         </div>
 
     </div>

@@ -14,8 +14,6 @@ function msgLogOut() {
 
 }
 
-
-
 function msgAprobar(idPresupuesto) {
 
     $('#idContenidoModal').html(EsperaModal());
@@ -196,6 +194,43 @@ function listarVersiones(idPresupTipo) {
       });
 }
 
+
+function AprobarTodosLositems(var_idVersion) {
+
+    $('#idContenidoModal').html(EsperaModal());
+    $('#ModalGeneral').modal('show');
+    $.get("/Presupuesto/AprobarTodoShow", { id: var_idVersion })
+      .done(function (data) {
+          $('#idContenidoModal').fadeOut(500, function () {
+              $('#idContenidoModal').html(data).fadeIn(500);
+          });
+      })
+    .fail(function (data) {
+        $('#idContenidoModal').fadeOut(500, function () {
+            $('#idContenidoModal').html(EsperaModalFAIL()).fadeIn(500);
+        });
+    });
+
+}
+
+function AprobarTodo(var_idVersion) {
+
+    $('#idContenidoModal').html(EsperaModal());
+    $('#ModalGeneral').modal('show');
+    getListaDetalle('');
+    $.get("/Presupuesto/AprobarTodo", { id: var_idVersion })
+      .done(function (data) {
+          $('#idContenidoModal').fadeOut(500, function () {
+              $('#idContenidoModal').html(data).fadeIn(500);
+          });
+      })
+    .fail(function (data) {
+        $('#idContenidoModal').fadeOut(500, function () {
+            $('#idContenidoModal').html(EsperaModalFAIL()).fadeIn(500);
+        });
+    });
+
+}
 function NuevaVersion(idPresupTipo) {
     $('#idContenidoModal').html(EsperaModal());
     $('#ModalGeneral').modal('show');
@@ -366,8 +401,8 @@ function ExpandirObservaciones(codDetalle){
         $('#DETALLE_' + codDetalle).hide();
     }
 
-    function OcultarDetalleCentro(codProducto, idPresuptipo) {
-        $('#DETALLE_' + codProducto + '_' + idPresuptipo).hide();
+    function OcultarDetalleCentro(codProducto, idPresuptipo,idLista) {
+        $('#DETALLE_' + codProducto + '_' + idPresuptipo+'_'+idLista).hide();
     }
 
     function MostrarCrearNuevoUsuario() {
@@ -1629,6 +1664,8 @@ function ExpandirObservaciones(codDetalle){
                 getMateriales();
             }
         });
+
+       
        
      
      });
@@ -1731,4 +1768,16 @@ function ExpandirObservaciones(codDetalle){
              // other key
              return false
 
+         }
+
+         function cambioSelec() {
+             if ($("#selmesessoli").is(':checked')) {
+                 //$("input[type=checkbox]").prop('checked', true); //todos los check
+                 
+
+                 $("input[name=messoli]").prop('checked', true); //solo los del objeto #diasHabilitados
+             } else {
+                 //$("input[type=checkbox]").prop('checked', false);//todos los check
+                 $("input[name=messoli]").prop('checked', false);//solo los del objeto #diasHabilitados
+             }
          }

@@ -641,7 +641,7 @@ namespace DataAccess
                             }
                             List<Area> centros= getCentrosCosto(fila["COD_MATERIAL"].ToString(), idPresupuestoTipo,det.clasificacion.idLista);
                             string centroC = "";
-                            if (centros != null & centros.Count > 0)
+                            if (centros != null && centros.Count > 0)
                             {
                                 centroC = centros[0].centrocosto;
                                 bool varios = false;

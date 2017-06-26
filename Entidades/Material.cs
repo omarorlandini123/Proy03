@@ -24,6 +24,8 @@ namespace Entidades
         /// La sub clase a la cual pertenece este material
         /// </summary>
         public SubClase subClase { get; set; }
+        public string fecha { get; set; }
+
         public Material() {
             detallesPresup = new List<DetalleVersion>();
         } 

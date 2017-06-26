@@ -1,0 +1,35 @@
+﻿@using Entidades;
+@model RptaServer
+
+
+<div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <center><h4 class="modal-title">Aprobar Todo</h4></center>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            @if (Model!=null)
+            {
+                <center>
+                    <h5>@Model.rptaText</h5>
+                </center>
+            }
+            else
+            {
+                <center>
+                    <h5>No se ha podido aprobar</h5>
+                </center>
+            }
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="col-sm-6 contenido-derecha">
+            
+            <button type="button" class="btn btn-default" data-dismiss="modal" id="btnObsAceptar">Apceptar</button>
+        </div>
+    </div>
+
+
+</div>
+

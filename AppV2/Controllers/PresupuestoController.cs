@@ -183,6 +183,7 @@ namespace AppV2.Controllers
                 List<Area> areas = logic.getCentrosCosto(codProducto, idPresupTipo,idLista);
                 ViewBag.codProducto = codProducto;
                 ViewBag.idPresupTipo = idPresupTipo;
+                ViewBag.idLista = idLista;
                 return PartialView(areas);
             }
         }
@@ -509,7 +510,7 @@ namespace AppV2.Controllers
         }
 
 
-        #endregionC:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\AppV2\Controllers\PresupuestoController.cs
+        #endregion
 
         #region "Vistas parciales"
         public ActionResult AprobacionesPresupuesto(int id)
@@ -522,6 +523,24 @@ namespace AppV2.Controllers
         {
             LogicPresupuesto logic = new LogicPresupuesto();
             int rpta = logic.AprobarDetalle(idDetalle, Aprobacion.estados.Aprobado, ((Usuario)Session["usuario"]).usuario);
+            return PartialView(rpta);
+        }
+
+        public ActionResult AprobarTodoShow(int id) {
+            LogicPresupuesto logic = new LogicPresupuesto();
+            Usuario user = (Usuario)Session["usuario"];
+            //id -> id de la versión 
+            RptaServer rpta = logic.PuedeAprobarItems(id,user.usuario);
+            ViewBag.idVersion = id;
+            return PartialView(rpta);
+        }
+
+        public ActionResult AprobarTodo(int id)
+        {
+            LogicPresupuesto logic = new LogicPresupuesto();
+            Usuario user = (Usuario)Session["usuario"];
+            //id -> id de la versión 
+            RptaServer rpta = logic.AprobarItems(id, user.usuario);
             return PartialView(rpta);
         }
 
@@ -864,4 +883,6 @@ namespace AppV2.Controllers
         }
 
     }
+
+    
 }

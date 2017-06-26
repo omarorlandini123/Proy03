@@ -60,6 +60,7 @@ namespace DataAccess
                     ma.desc = mat.descMaterial;
                     ma.precioUnit = mat.precioMaterial;
                     ma.unidad = mat.unidad;
+                    ma.fecha = mat.fecha;
                     ma.subClase = new SubClase();
                     ma.subClase.clase = new Clase();
                     ma.subClase.codSubClase = mat.subclase.codSubClase.ToString();
@@ -91,6 +92,7 @@ namespace DataAccess
                     ma.desc = mat.descMaterial;
                     ma.precioUnit = mat.precioMaterial;
                     ma.unidad = mat.unidad;
+                    ma.fecha = mat.fecha;
                     ma.subClase = new SubClase();
                     ma.subClase.clase = new Clase();
                     ma.subClase.codSubClase = mat.subclase.codSubClase.ToString();
@@ -123,6 +125,7 @@ namespace DataAccess
                     ma.desc = mat.descMaterial;
                     ma.precioUnit = mat.precioMaterial;
                     ma.unidad = mat.unidad;
+                    ma.fecha = mat.fecha;
                     ma.subClase = new SubClase();
                     ma.subClase.clase = new Clase();
                     ma.subClase.codSubClase = mat.subclase.codSubClase.ToString();
@@ -155,6 +158,7 @@ namespace DataAccess
                     ma.desc = mat.descMaterial;
                     ma.precioUnit = mat.precioMaterial;
                     ma.unidad = mat.unidad;
+                    ma.fecha = mat.fecha;
                     ma.subClase = new SubClase();
                     ma.subClase.clase = new Clase();
                     ma.subClase.codSubClase = mat.subclase.codSubClase.ToString();
