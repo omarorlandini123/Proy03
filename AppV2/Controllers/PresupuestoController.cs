@@ -435,6 +435,7 @@ namespace AppV2.Controllers
             detVersion.alto = double.Parse(Request.Form["alto"].ToString());
             detVersion.sustento = Request.Form["sustento"].ToString();
             detVersion.messoli = Request.Form["messoli"].ToString();
+            detVersion.messolicant = Request.Form["messolicant"].ToString();
             detVersion.mesent = Request.Form["mesent"].ToString();
             detVersion.precioSoli = double.Parse(Request.Form["preciosoli"].ToString());
             detVersion.uniSoli = Request.Form["uniSoli"].ToString();
@@ -493,6 +494,7 @@ namespace AppV2.Controllers
             String sust = Request.Form["sustento"].ToString();
             detVersion.sustento = sust.Length > 500 ? sust.Substring(0, 499) : sust;
             detVersion.messoli = Request.Form["messoli"].ToString();
+            detVersion.messolicant= Request.Form["messolicant"].ToString();
             detVersion.mesent = Request.Form["mesent"].ToString();
             detVersion.precioSoli = double.Parse(Request.Form["preciosoli"].ToString());
             detVersion.uniSoli = Request.Form["uniSoli"].ToString();

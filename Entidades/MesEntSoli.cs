@@ -77,6 +77,7 @@ namespace Entidades
         public DateTime fechaReg { get; set; }
         public Usuario usuarioReg { get; set; }
         public Tipos tipo { get; set; }
+        public double cantidad { get;  set; }
     }
 
     

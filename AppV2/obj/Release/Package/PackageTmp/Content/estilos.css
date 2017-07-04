@@ -31,6 +31,11 @@
     background-color:#1a0a62;
 }
 
+.barra-pie {
+    background-color:#1a0a62;
+    color:white;
+}
+
 .activo-principal {
     background-color:#1a0a45;
 }
@@ -106,4 +111,17 @@ float: right;
     margin-right: -300px;
     max-height:200px;
     overflow-y:scroll;
+}
+
+body {
+    height: 95%;
+    bottom: 0;
+    width: 100%;
+}
+
+footer {
+    position: fixed;
+    height: 5%;
+    bottom: 0;
+    width: 100%;
 }

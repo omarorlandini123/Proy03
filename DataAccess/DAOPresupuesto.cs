@@ -1496,6 +1496,7 @@ namespace DataAccess
             proc.parametros.Add(new Parametro("VAR_SUSTENTO", detVersion.sustento, OracleDbType.Varchar2, Parametro.tipoIN));
             proc.parametros.Add(new Parametro("VAR_UNID_SOLI", detVersion.uniSoli, OracleDbType.Varchar2, Parametro.tipoIN));
             proc.parametros.Add(new Parametro("VAR_USUARIO_REG", detVersion.UsuarioReg.usuario, OracleDbType.Varchar2, Parametro.tipoIN));
+            proc.parametros.Add(new Parametro("VAR_ID_MESES_SOL_CANT", detVersion.messolicant, OracleDbType.Varchar2, Parametro.tipoIN));            
             proc.parametros.Add(new Parametro("VAR_ID_MESES_SOL", detVersion.messoli, OracleDbType.Varchar2, Parametro.tipoIN));
             proc.parametros.Add(new Parametro("VAR_ID_MESES_ENT", detVersion.mesent, OracleDbType.Varchar2, Parametro.tipoIN));
             proc.parametros.Add(new Parametro("VAR_ID_PRIORIDAD", detVersion.prioridad.idPrioridad, OracleDbType.Int32, Parametro.tipoIN));
@@ -1614,6 +1615,7 @@ namespace DataAccess
             proc.parametros.Add(new Parametro("VAR_SUSTENTO", detVersion.sustento, OracleDbType.Varchar2, Parametro.tipoIN));
             proc.parametros.Add(new Parametro("VAR_UNID_SOLI", detVersion.uniSoli, OracleDbType.Varchar2, Parametro.tipoIN));
             proc.parametros.Add(new Parametro("VAR_USUARIO_REG", detVersion.UsuarioReg.usuario, OracleDbType.Varchar2, Parametro.tipoIN));
+            proc.parametros.Add(new Parametro("VAR_ID_MESES_SOL_CANT", detVersion.messolicant, OracleDbType.Varchar2, Parametro.tipoIN));
             proc.parametros.Add(new Parametro("VAR_ID_MESES_SOL", detVersion.messoli, OracleDbType.Varchar2, Parametro.tipoIN));
             proc.parametros.Add(new Parametro("VAR_ID_MESES_ENT", detVersion.mesent, OracleDbType.Varchar2, Parametro.tipoIN));
             proc.parametros.Add(new Parametro("VAR_ID_PRIORIDAD", detVersion.prioridad.idPrioridad, OracleDbType.Int32, Parametro.tipoIN));
@@ -1947,6 +1949,7 @@ namespace DataAccess
                             det.usuarioReg = daoUsuario.getUsuario(fila["MES_ENT_USR_REG"].ToString());
                             det.fechaReg = (DateTime)fila["MES_ENT_FEC_REG"];
                             det.Mes = (MesEntSoli.Meses)int.Parse(fila["MES"].ToString());
+                            det.cantidad = double.Parse(fila["CANTIDAD"].ToString());
                             det.tipo = idTipo;
 
                             RPTA.Add(det);

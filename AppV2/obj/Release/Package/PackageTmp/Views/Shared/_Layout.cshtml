@@ -81,17 +81,13 @@
                                     </center>
                                 </li>
                             }
-                        </ul>
-                       
+                        </ul>                      
 
 
 
                         <ul class="nav navbar-nav navbar-right">
 
-                            @*<li class="hidden-xs hidden-sm" style="width: 130px;margin: -20px;">
-                                <span class="glyphicon glyphicon-user" aria-hidden="true" style="font-size: 90px;color:#c7c7c7;"></span>
-
-                            </li>*@
+                            
                             <li class="hidden-xs" style="">
                                 <a href="#" style="">@(((Usuario)Session["usuario"]).Nombres)</a>
 
@@ -110,10 +106,7 @@
                 {
 
                     <div id="navbar" class="navbar-collapse collapse" style="margin-top: 30px;">
-                        @*<ul class="nav navbar-nav">
-                                <li class="active"><a onclick="mostrarPresupuestosPorSede();" href="#">Presupuesto</a></li>
-                            </ul>*@
-
+                       
                         <ul class="nav navbar-nav navbar-right">
 
                             <li style="margin-left: 10px;">
@@ -132,7 +125,7 @@
                 </div>
             </div>
         }
-        <div class="panel panel-default">
+        <div class="panel panel-default" style="margin-bottom: 50px;">
             <div class="panel-body" id="contenido-principal">
                 @RenderBody()
             </div>
@@ -140,34 +133,40 @@
     </div>
     <div class="modal fade" id="ModalGeneral" role="dialog">
         <div class="modal-dialog" id="idContenidoModal">
-            <!-- Modal content-->
-            @*<div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" onclick="$('#commentObservacion').val('')" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Observación de <strong> @Html.Encode(Model.mat.desc) </strong></h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <center>
-                                <label for="comment">Detalle:</label>
-                                <textarea class="form-control" rows="5" id="commentObservacion"></textarea>
-                            </center>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="col-sm-8">
-                            <center id="alertaObser" style="display:none; color:indianred;"><h4> <strong id="contObser">Observación no puede estar en blanco</strong></h4></center>
-                        </div>
-                        <div class="col-sm-4">
-                            <button type="button" class="btn btn-default" onclick="ObservarDetalle(@Html.Encode(Model.idDetalle))" id="btnObsGuardar">Guardar</button>
-                            <button type="button" class="btn btn-default" id="btnEspere" style="display:none;">Espere ...</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal" style="display:none;" id="btnObsAceptar">Aceptar</button>
-                        </div>
-
-                    </div>
-                </div>*@
+            
         </div>
     </div>
+    @if (Session["usuario"] != null)
+    {
+        <footer class="navbar-inverse navbar-fixed-bottom  barra-pie" style="height: 40px;">
+            <div class="container">
+                <div id="navbar" class="navbar-collapse collapse" style="margin-top: 10px;">
+
+                    <ul class="nav navbar-nav">
+
+                        <div class="estado">
+                            <div class="estado-ind estado-ind-verde"></div>
+                            <label>Aprobado</label>
+                        </div>
+                        <div class="estado">
+                            <div class="estado-ind estado-ind-blanco"></div>
+                            <label>En Edición</label>
+                        </div>
+                        <div class="estado">
+                            <div class="estado-ind estado-ind-rojo"></div>
+                            <label>Observado</label>
+
+                        </div>
+
+                    </ul>
+                </div>
+
+
+            </div>
+        </footer>
+
+    }
+    
     <script src="~/Scripts/jquery-3.2.0.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/funciones.js"></script>

@@ -49,6 +49,7 @@
                                                         <td>
                                                             <center><strong>  CANTIDAD</strong></center>
                                                         </td>
+
                                                         <td>
                                                             <center> <strong>   CENTRO C.</strong></center>
                                                         </td>
@@ -58,13 +59,13 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @if (detPresup.detalleDeVersiones != null )
+                                                    @if (detPresup.detalleDeVersiones != null)
                                                     {
                                                         foreach (DetalleVersion detVer in detPresup.detalleDeVersiones)
                                                         {
                                                             if (detVer.tipo == 1)
                                                             {
-                                                                <tr  style="background-color: #d4d8f1;">
+                                                                <tr style="background-color: #d4d8f1;">
                                                                     <td colspan="4">
                                                                         <strong> 1.- MATERIALES Y SUMINISTROS</strong>
                                                                     </td>
@@ -75,7 +76,9 @@
 
                                                         if (ViewBag.clasificaciones != null)
                                                         {
-
+                                                            var existe = false;
+                                                            var totalCantidad = 0.0;
+                                                            var totalPrecio = 0.0;
                                                             foreach (Clasificacion item in ViewBag.clasificaciones)
                                                             {
                                                                 var color = "";
@@ -110,15 +113,20 @@
                                                                         <strong> @item.desLista </strong>
                                                                     </td>
                                                                 </tr>
+
+                                                                
+
                                                                 foreach (DetalleVersion detVer in detPresup.detalleDeVersiones)
                                                                 {
 
                                                                     if (detVer.tipo == 1 && detVer.clasificacion.idLista == item.idLista)
                                                                     {
-
+                                                                        existe = true;
+                                                                        totalCantidad += detVer.cantidadSoli;
+                                                                        totalPrecio += detVer.totalSoli;
                                                                         <tr>
                                                                             <td>
-                                                                                @detVer.NombreMaterialSoli
+                                                                                @detVer.mat.codProducto -  @detVer.NombreMaterialSoli
                                                                             </td>
                                                                             <td>
                                                                                 <center> @detVer.cantidadSoli</center>
@@ -139,42 +147,58 @@
                                                                             </td>
                                                                         </tr>
                                                                     }
+
                                                                 }
-
-
-
+                                                                
+                                                            }
+                                                            if (existe)
+                                                            {
+                                                                <tr>
+                                                                    <td>
+                                                                        Total Materiales
+                                                                    </td>
+                                                                    <td>
+                                                                        <center> @string.Format("{0:0.00#}", totalCantidad) </center>
+                                                                    </td>
+                                                                    <td>
+                                                                        <center> </center>
+                                                                    </td>
+                                                                    <td>
+                                                                        <center>@string.Format("{0:0.00#}", totalPrecio) </center>
+                                                                    </td>
+                                                                </tr>
                                                             }
 
                                                         }
 
                                                         @*foreach (DetalleVersion detVer in detPresup.detalleDeVersiones)
-                                                        {
-                                                            if (detVer.tipo == 1)
-                                                            {
-                                                                <tr>
-                                                                    <td>
-                                                                        @detVer.NombreMaterialSoli
-                                                                    </td>
-                                                                    <td>
-                                                                        <center> @detVer.cantidadSoli</center>
-                                                                    </td>
-                                                                    <td>
-                                                                        <center><a href="javascript:getCentrosCosto('@(detVer.mat.codProducto)','@(detPresup.idPresupuestoTipo)')">@detVer.codCentroCosto</a></center>
-                                                                    </td>
-                                                                    <td>
-                                                                        <center> @detVer.totalSoli</center>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr style="display:none;" id="DETALLE_@(detVer.mat.codProducto)_@(detPresup.idPresupuestoTipo)">
-                                                                    <td colspan="4">
-                                                                        <div class="col-sm-12" id="DETALLEDIV_@(detVer.mat.codProducto)_@(detPresup.idPresupuestoTipo)">
+                {
+                    if (detVer.tipo == 1)
+                    {
+                        <tr>
+                            <td>
+                                @detVer.NombreMaterialSoli
+                            </td>
+                            <td>
+                                <center> @detVer.cantidadSoli</center>
+                            </td>
+                            <td>
+                                <center><a href="javascript:getCentrosCosto('@(detVer.mat.codProducto)','@(detPresup.idPresupuestoTipo)')">@detVer.codCentroCosto</a></center>
+                            </td>
+                            <td>
+                                <center> @detVer.totalSoli</center>
+                            </td>
+                        </tr>
+                        <tr style="display:none;" id="DETALLE_@(detVer.mat.codProducto)_@(detPresup.idPresupuestoTipo)">
+                            <td colspan="4">
+                                <div class="col-sm-12" id="DETALLEDIV_@(detVer.mat.codProducto)_@(detPresup.idPresupuestoTipo)">
 
-                                                                        </div>
+                                </div>
 
-                                                                    </td>
-                                                                </tr>
-                                                            }
-                                                        }*@
+                            </td>
+                        </tr>
+                    }
+                }*@
                                                     }
                                                     @if (detPresup.detalleDeVersiones != null)
                                                     {
@@ -191,29 +215,33 @@
                                                                 break;
                                                             }
                                                         }
-
+                                                        var Servicioexiste = false;
+                                                        var ServiciototalCantidad = 0.0;
+                                                        var ServiciototalPrecio = 0.0;
                                                         foreach (DetalleVersion detVer in detPresup.detalleDeVersiones)
                                                         {
                                                             if (detVer.tipo == 2)
                                                             {
-
+                                                                Servicioexiste = true;
+                                                                ServiciototalCantidad += detVer.cantidadSoli;
+                                                                ServiciototalPrecio += detVer.totalSoli;
                                                                 <tr>
                                                                     <td>
-                                                                        @detVer.NombreMaterialSoli
+                                                                        @detVer.mat.codProducto -  @detVer.NombreMaterialSoli
                                                                     </td>
                                                                     <td>
                                                                         <center> @detVer.cantidadSoli</center>
                                                                     </td>
                                                                     <td>
-                                                                        <center><a href="javascript:getCentrosCosto('@(detVer.mat.codProducto)','@(detPresup.idPresupuestoTipo)')">@detVer.codCentroCosto</a></center>
+                                                                        <center><a href="javascript:getCentrosCosto('@(detVer.mat.codProducto)','@(detPresup.idPresupuestoTipo)','0')">@detVer.codCentroCosto</a></center>
                                                                     </td>
                                                                     <td>
                                                                         <center> @detVer.totalSoli</center>
                                                                     </td>
                                                                 </tr>
-                                                                <tr style="display:none;" id="DETALLE_@(detVer.mat.codProducto)_@(detPresup.idPresupuestoTipo)">
+                                                                <tr style="display:none;" id="DETALLE_@(detVer.mat.codProducto)_@(detPresup.idPresupuestoTipo)_0">
                                                                     <td colspan="4">
-                                                                        <div class="col-sm-12" id="DETALLEDIV_@(detVer.mat.codProducto)_@(detPresup.idPresupuestoTipo)">
+                                                                        <div class="col-sm-12" id="DETALLEDIV_@(detVer.mat.codProducto)_@(detPresup.idPresupuestoTipo)_0">
 
                                                                         </div>
 
@@ -221,8 +249,26 @@
                                                                 </tr>
                                                             }
                                                         }
+                                                        if (Servicioexiste)
+                                                        {
+                                                            <tr>
+                                                                <td>
+                                                                    Total Servicios
+                                                                </td>
+                                                                <td>
+                                                                    <center> @string.Format("{0:0.00#}", ServiciototalCantidad) </center>
+                                                                </td>
+                                                                <td>
+                                                                    <center> </center>
+                                                                </td>
+                                                                <td>
+                                                                    <center>@string.Format("{0:0.00#}", ServiciototalPrecio) </center>
+                                                                </td>
+                                                            </tr>
+                                                        }
                                                     }
                                                 </tbody>
+
                                             </table>
 
                                     </div>

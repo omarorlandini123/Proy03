@@ -36,10 +36,9 @@ namespace Entidades
         public List<MesEntSoli> mesesSoli {get;set;}
         public List<MesEntSoli> mesesEnt { get; set;}
         public List<Aprobacion> aprobaciones { get; set; }
-
         public Clasificacion clasificacion { get; set; }
-
         public string messoli { get; set; }
+        public string messolicant { get; set; }
         public string mesent { get; set; }
         public Aprobacion.estados estado { get; set; }
         public string codCentroCosto { get; set; }
@@ -74,6 +73,22 @@ namespace Entidades
                 }
             }
             return false;
+        }
+
+        public double getCantidadMesSoli(int Mes)
+        {
+            if (mesesSoli != null)
+            {
+                foreach (MesEntSoli mesentsoli in mesesSoli)
+                {
+                    if (((int)mesentsoli.Mes) == Mes)
+                    {
+                        return mesentsoli.cantidad;
+                    }
+
+                }
+            }
+            return 0.0;
         }
     }
 }
