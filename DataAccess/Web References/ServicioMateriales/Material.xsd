@@ -4,6 +4,8 @@
   <xs:element name="getMaterialResponse" type="tns:getMaterialResponse" />
   <xs:element name="getServicio" type="tns:getServicio" />
   <xs:element name="getServicioResponse" type="tns:getServicioResponse" />
+  <xs:element name="getSubClase" type="tns:getSubClase" />
+  <xs:element name="getSubClaseResponse" type="tns:getSubClaseResponse" />
   <xs:complexType name="getServicio">
     <xs:sequence>
       <xs:element minOccurs="0" name="cond" type="xs:string" />
@@ -43,11 +45,23 @@
       <xs:element minOccurs="0" name="cond" type="xs:string" />
       <xs:element minOccurs="0" name="porCod" type="xs:string" />
       <xs:element minOccurs="0" name="idSede" type="xs:string" />
+      <xs:element minOccurs="0" name="clases" type="xs:string" />
+      <xs:element minOccurs="0" name="subclases" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="getMaterialResponse">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="return" type="tns:material" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getSubClase">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="cod_subclase" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="getSubClaseResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:subClase" />
     </xs:sequence>
   </xs:complexType>
 </xs:schema>

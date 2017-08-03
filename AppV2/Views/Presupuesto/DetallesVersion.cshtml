@@ -49,12 +49,13 @@
                                 {
                                     <button type="button" class="btn btn-warning btn-xs" onclick="ExpandirDetalle('@item.idDetalle',@Session["idTipoDetPresup"])">Editar</button>
                                 }
+                                @if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.ExpandirObservaciones))
+                                {
+                                    <button type="button" class="btn btn-primary btn-xs" onclick="ExpandirObservaciones('@item.idDetalle')">Obser</button>
+                                }
                                 @if (item.version.estadoActual != Aprobacion.estados.Aprobado)
                                 {
-                                    if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.ExpandirObservaciones))
-                                    {
-                                        <button type="button" class="btn btn-primary btn-xs" onclick="ExpandirObservaciones('@item.idDetalle')">Obser</button>
-                                    }
+                                    
                                     if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.MostrarEliminarDetalle))
                                     {
                                         <button type="button" class="btn btn-danger btn-xs" onclick="MostrarEliminarDetalle('@item.idDetalle')">Eliminar</button>

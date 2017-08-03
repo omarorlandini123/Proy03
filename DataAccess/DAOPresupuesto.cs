@@ -163,6 +163,44 @@ namespace DataAccess
             return -4;
         }
 
+        public int EliminarClase(int idSede, int idPresupuesto, string cod_subclase)
+        {
+            Conexion con = new Conexion();
+            Procedimiento proc = new Procedimiento() { nombre = "DEL_SUBCLASE" };
+            proc.parametros.Add(new Parametro("VAR_ID_SEDE", idSede, OracleDbType.Int32, Parametro.tipoIN));
+            proc.parametros.Add(new Parametro("VAR_ID_PRESUP", idPresupuesto, OracleDbType.Int32, Parametro.tipoIN));
+            proc.parametros.Add(new Parametro("VAR_COD_SUBCLASE", cod_subclase, OracleDbType.Varchar2, Parametro.tipoIN));
+
+            DataTable dt = con.EjecutarProcedimiento(proc);
+            if (dt != null)
+            {
+                if (dt.Rows.Count > 0)
+                {
+
+                    foreach (DataRow fila in dt.Rows)
+                    {
+
+                        if (int.Parse(fila["RPTA"].ToString()) > 0)
+                        {
+
+                            return int.Parse(fila["RPTA"].ToString());
+                        }
+                        else
+                        {
+
+                            return -2;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                return -3;
+            }
+
+            return -4;
+        }
+
         public int AgregarItemListaHijo(int idSede, int idPresupuesto,int idPadre, string itemLista)
         {
             Conexion con = new Conexion();
@@ -225,6 +263,7 @@ namespace DataAccess
                             clas.desLista = fila["DES_LISTA"].ToString();
                             clas.hijos = getEsquemaGastoCapitalHijos(clas);
                             clas.orden = int.Parse((fila["ORDEN"].ToString()));
+                            clas.secuencia = fila["SECUENCIA"].ToString();
                             clas.sede = new Sede() { codSede = int.Parse(fila["ID_SEDE"].ToString()) };
                             clas.presupuesto = new Presupuesto() { idPresupuesto = int.Parse(fila["ID_PRESUP"].ToString()) };
                             listarpta.Add(clas);
@@ -264,6 +303,7 @@ namespace DataAccess
                             clas.desLista = fila["DES_LISTA"].ToString();
                             clas.hijos = getEsquemaGastoCapitalHijos(clas);
                             clas.orden = int.Parse((fila["ORDEN"].ToString()));
+                            clas.secuencia = fila["SECUENCIA"].ToString();
                             clas.sede = new Sede() { codSede = int.Parse(fila["ID_SEDE"].ToString()) };
                             clas.presupuesto = new Presupuesto() { idPresupuesto = int.Parse(fila["ID_PRESUP"].ToString()) };
                             listarpta.Add(clas);
@@ -303,6 +343,7 @@ namespace DataAccess
                             clas.idLista = int.Parse((fila["ID_LISTA"].ToString()));
                             clas.desLista = fila["DES_LISTA"].ToString();
                             clas.orden = int.Parse((fila["ORDEN"].ToString()));
+                            clas.secuencia = fila["SECUENCIA"].ToString();
                             clas.hijos = getEsquemaGastoCapitalHijos(clas);
                             clas.sede = new Sede() { codSede = int.Parse(fila["ID_SEDE"].ToString()) };
                             clas.presupuesto = new Presupuesto() { idPresupuesto = int.Parse(fila["ID_PRESUP"].ToString()) };
@@ -318,7 +359,75 @@ namespace DataAccess
             }
             return listarpta;
         }
+        public List<SubClase> getClasesGastoCapital(int idSede, int idPresupuesto)
+        {
+          
+            Conexion con = new Conexion();
+            Procedimiento proc = new Procedimiento() { nombre = "GET_CLASES_GASTO" };
+            proc.parametros.Add(new Parametro("VAR_ID_SEDE", idSede, OracleDbType.Int32, Parametro.tipoIN));
+            proc.parametros.Add(new Parametro("VAR_ID_PRESUP", idPresupuesto, OracleDbType.Int32, Parametro.tipoIN));
+            List<SubClase> listarpta = null;
+            DataTable dt = con.EjecutarProcedimiento(proc);
 
+            if (dt != null)
+            {
+                if (dt.Rows.Count > 0)
+                {
+                    DAOMaterial daomat = new DAOMaterial();
+                    listarpta = new List<SubClase>();
+                    foreach (DataRow fila in dt.Rows)
+                    {
+                        try
+                        {
+                            SubClase clas = new SubClase();
+                           clas = daomat.getSubClase(fila["COD_SUBCLASE"].ToString());
+                           
+                            listarpta.Add(clas);
+                        }
+                        catch (Exception s)
+                        {
+                            Console.WriteLine("Error En getClasesGastoCapital ==> " + s.Message);
+                        }
+                    }
+
+                }
+            }
+            return listarpta;
+        }
+        public int AgregarSubClase(int idSede, int idPresupuesto,string cod_subclase)
+        {
+          
+            Conexion con = new Conexion();
+            Procedimiento proc = new Procedimiento() { nombre = "INS_CLASES_GASTO" };
+            proc.parametros.Add(new Parametro("VAR_ID_SEDE", idSede, OracleDbType.Int32, Parametro.tipoIN));
+            proc.parametros.Add(new Parametro("VAR_ID_PRESUP", idPresupuesto, OracleDbType.Int32, Parametro.tipoIN));
+            proc.parametros.Add(new Parametro("VAR_COD_SUBCLASE", cod_subclase, OracleDbType.Varchar2, Parametro.tipoIN));
+            int listarpta = 0;
+            DataTable dt = con.EjecutarProcedimiento(proc);
+
+            if (dt != null)
+            {
+                if (dt.Rows.Count > 0)
+                {
+
+                    foreach (DataRow fila in dt.Rows)
+                    {
+
+                        if (int.Parse(fila["RPTA"].ToString()) > 0)
+                        {
+
+                            return int.Parse(fila["RPTA"].ToString());
+                        }
+                        else
+                        {
+
+                            return -2;
+                        }
+                    }
+                }
+            }
+            return listarpta;
+        }
         public List<Clasificacion> getEsquemaGastoCapital(int idSede, int idPresupuesto)
         {
           
@@ -343,6 +452,7 @@ namespace DataAccess
                             clas.idLista = int.Parse((fila["ID_LISTA"].ToString()));
                             clas.desLista = fila["DES_LISTA"].ToString();
                             clas.orden = int.Parse((fila["ORDEN"].ToString()));
+                            clas.secuencia = fila["SECUENCIA"].ToString();
                             clas.hijos = getEsquemaGastoCapitalHijos(clas);
                             clas.sede = new Sede() { codSede = int.Parse(fila["ID_SEDE"].ToString()) };
                             clas.presupuesto = new Presupuesto() { idPresupuesto = int.Parse(fila["ID_PRESUP"].ToString()) };
@@ -383,6 +493,7 @@ namespace DataAccess
                             clas.desLista = fila["DES_LISTA"].ToString();
                             clas.hijos = getEsquemaGastoCapitalHijos(clas);
                             clas.orden = int.Parse((fila["ORDEN"].ToString()));
+                            clas.secuencia = fila["SECUENCIA"].ToString();
                             clas.sede = new Sede() { codSede = int.Parse(fila["ID_SEDE"].ToString()) };
                             clas.presupuesto = new Presupuesto() { idPresupuesto = int.Parse(fila["ID_PRESUP"].ToString()) };
                             clas.padre = clasifi;
@@ -2479,6 +2590,7 @@ namespace DataAccess
             if (dt != null)
             {
                 detalle.observaciones = new List<Observacion>();
+
                 DAOAcceso daoAcceso = new DAOAcceso();
                 foreach (DataRow fila in dt.Rows)
                 {
@@ -2486,6 +2598,7 @@ namespace DataAccess
                     try
                     {
                         detalle.idDetalle = int.Parse(fila["ID_DET"].ToString());
+                        detalle.version = getVersion(int.Parse(fila["ID_VERSION"].ToString()));
                     }
                     catch (Exception s)
                     {
@@ -2515,7 +2628,7 @@ namespace DataAccess
                     }
                     
                     obs.observacionRes = fila["OBS_RES"].ToString();
-
+                    
                     detalle.observaciones.Add(obs);
                 }
                 

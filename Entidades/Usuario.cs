@@ -40,6 +40,10 @@ namespace Entidades
         public string numeroPersonal { get; set; }
         public CentroCosto centroCosto { get; set; }
         public GrupoCentroCosto grupoCentroCosto { get; set; }
+        public string email { get; set; }
+        public Sede Sede { get; set; }
+
+        public int existeBD { get; set; }
 
         public bool tieneAccesoA(Accesos acc) {
             if (perfiles != null)

@@ -288,7 +288,7 @@ function ExpandirDetalle(codDetalle,var_idTipoDetPresup) {
                       $('#DETALLEDIV_' + codDetalle).html(data).fadeIn(500);
 
                       $('#codMaterial').keypress(function (e) {
-                          if (e.which == 13) {//Enter key pressed
+                          if (e.which == 13 || $('#codMaterial').val().length>4) {//Enter key pressed
                               if ($('#idTipo').val() == 1) {
                                   getMateriales();
                               }
@@ -406,6 +406,7 @@ function ExpandirObservaciones(codDetalle){
     }
 
     function MostrarCrearNuevoUsuario() {
+        NuevoUsuario = 1;
         $('#listaAreas').fadeOut(500, function () {
             $('#listaAreas').html(EsperaDiv()).fadeIn(500);
         });
@@ -421,6 +422,7 @@ function ExpandirObservaciones(codDetalle){
                 $('#listaAreas').html(EsperaModalFAIL()).fadeIn(500);
             });
         });
+        
 
     }
 
@@ -441,6 +443,7 @@ function ExpandirObservaciones(codDetalle){
                 $('#listaAreas').html(EsperaModalFAIL()).fadeIn(500);
             });
         });
+        NuevoUsuario = 0;
 
     }
 
@@ -552,7 +555,7 @@ function ExpandirObservaciones(codDetalle){
 
                               $('#DIV_NEW_ITEM').fadeIn(500);
                               $('#codMaterial').keypress(function (e) {
-                                  if (e.which == 13) {//Enter key pressed
+                                  if (e.which == 13 || $('#codMaterial').val().length>4) {//Enter key pressed
                                       if (varidTipo == 1) {
                                           getMateriales();
                                       }
@@ -911,8 +914,139 @@ function ExpandirObservaciones(codDetalle){
         });
 
     }
-    function GuardarAreasUsuario(var_usuario) {
-        var data = new FormData();       
+
+    var intValidarUsuario = 0;
+    var NuevoUsuario = 0;
+    function ValidarDatosUsuario() {
+
+        intValidarUsuario = 0;
+        var data = new FormData();               
+               
+        data.append('usuario', $('#nombreusuario').val());
+        $('#apepausuario').val('Validando...');
+        $('#apemausuario').val('Validando...');
+        $('#nombresusuario').val('Validando...');
+        $('#emailusuario').val('');
+
+        $('#apepausuario').removeAttr('disabled');
+        $('#apemausuario').removeAttr('disabled');
+        $('#nombresusuario').removeAttr('disabled');
+        
+        $('#apepausuario').attr('disabled', 'disabled');
+        $('#apemausuario').attr('disabled', 'disabled');
+        $('#nombresusuario').attr('disabled', 'disabled');
+
+
+        // Make Ajax request with the contentType = false, and procesDate = false 
+        var ajaxRequest = $.ajax({
+            type: 'POST',
+            url: "/Login/ValidarDatosUsuario",
+            contentType: false,
+            processData: false,
+            data: data
+        });
+        ajaxRequest.done(function (xhr, textStatus) {
+           
+
+                if (xhr == null) {
+                    NoSeencuentraUsuario();
+                } else {
+                    if (xhr.idUsuario > 0) {
+                        if (xhr.existeBD == 1) {
+
+                            $('#ModalGeneral').modal('show');
+                            $('#idContenidoModal').html(EsperaModalPERS('Usuario ya registrado'));
+                                $('#apepausuario').removeAttr('disabled');
+                                $('#apemausuario').removeAttr('disabled');
+                                $('#nombresusuario').removeAttr('disabled');
+
+                                $('#apepausuario').attr('disabled', 'disabled');
+                                $('#apemausuario').attr('disabled', 'disabled');
+                                $('#nombresusuario').attr('disabled', 'disabled');
+
+                                $('#apepausuario').val('Valide Usuario');
+                                $('#apemausuario').val('Valide Usuario');
+                                $('#nombresusuario').val('Valide Usuario');
+                                $('#emailusuario').val('');
+                                intValidarUsuario = 0;
+                            
+
+                           
+                        } else {
+                            $('#apepausuario').removeAttr('disabled');
+                            $('#apemausuario').removeAttr('disabled');
+                            $('#nombresusuario').removeAttr('disabled');
+
+                            $('#apepausuario').val(xhr.ApellidoPaterno);
+                            $('#apemausuario').val(xhr.ApellidoMaterno);
+                            $('#nombresusuario').val(xhr.Nombres);
+                            $('#emailusuario').val('');
+
+                            intValidarUsuario = 1;
+
+                        }
+                    } else {
+                        NoSeencuentraUsuario();
+                    }
+                }
+            
+
+        });
+        ajaxRequest.fail(function (xhr, textStatus) {
+            $('#idContenidoModal').fadeOut(500, function () {
+                $('#idContenidoModal').html(EsperaModalFAIL()).fadeIn(500);
+            });
+        });
+
+    }
+
+    function NoSeencuentraUsuario() {
+        $('#apepausuario').val('No se encuentra el usuario');
+        $('#apemausuario').val('No se encuentra el usuario');
+        $('#nombresusuario').val('No se encuentra el usuario');
+        $('#emailusuario').val('');
+        intValidarUsuario = 0;
+    }
+
+    function GuardarAreasUsuario() {
+
+        if (NuevoUsuario == 1) {
+            if (intValidarUsuario == 0) {
+                $('#ModalGeneral').modal('show');
+                $('#idContenidoModal').html(EsperaModalPERS('Valide el usuario o ingrese usuario correcto'));
+                return;
+            } else {
+                ingresarAreasUsuario();
+            }
+        } else {
+            ingresarAreasUsuario();
+        }
+        
+
+    }
+
+
+    function eliminarAreasUsuario(var_usuario) {
+
+        $('#idContenidoModal').html(EsperaModal());
+        $('#ModalGeneral').modal('show');
+        $.get("/Login/EliminarUsuario", { usuario: var_usuario })
+          .done(function (data) {
+              $('#idContenidoModal').fadeOut(500, function () {
+                  $('#idContenidoModal').html(data).fadeIn(500);
+              });
+          })
+        .fail(function (data) {
+            $('#idContenidoModal').fadeOut(500, function () {
+                $('#idContenidoModal').html(EsperaModalFAIL()).fadeIn(500);
+            });
+        });
+
+
+    }
+
+    function ingresarAreasUsuario() {
+        var data = new FormData();
         var areas = getChecksComoString('accArea');
 
         var selectBox = document.getElementById("comboidSede");
@@ -921,7 +1055,11 @@ function ExpandirObservaciones(codDetalle){
 
         data.append('idSede', selectedValue);
         data.append('areas', areas);
-        data.append('usuario', var_usuario);
+        data.append('usuario', $('#nombreusuario').val());
+        data.append('apepausuario', $('#apepausuario').val());
+        data.append('apemausuario', $('#apemausuario').val());
+        data.append('nombresusuario', $('#nombresusuario').val());
+        data.append('emailusuario', $('#emailusuario').val());
 
         $('#idContenidoModal').html(EsperaModal());
         $('#ModalGeneral').modal('show');
@@ -945,6 +1083,8 @@ function ExpandirObservaciones(codDetalle){
         });
 
     }
+
+
     function MostrarArchivos(varidDetalle)
     {        
         $('#idContenidoModal').html(EsperaModal());
@@ -1052,11 +1192,36 @@ function ExpandirObservaciones(codDetalle){
 
         }
     }
+    function BuscarClases() {
+        if ($('#idSede').val() != 0 && $('#idPresup').val()!=0) {
+            $('#arbolClases').html(EsperaDiv());
+           
+            $.get("/Login/BuscarClases", { idSede: $('#idSede').val(), idPresupuesto: $('#idPresup').val() })
+              .done(function (data) {
+                  $('#arbolClases').fadeOut(500, function () {
+                      $('#arbolClases').html(data).fadeIn(500);
+                  });
+              })
+            .fail(function (data) {
+                $('#arbolClases').fadeOut(500, function () {
+                    $('#arbolClases').html(EsperaModalFAIL()).fadeIn(500);
+                });
+            });
+        } else {
+            $('#arbolClases').html(EsperaModal());
+            
+            $('#arbolClases').fadeOut(500, function () {
+                $('#arbolClases').html(EsperaModalPERS('Debe seleccionar una sede y un presupuesto')).fadeIn(500);
+            });
+
+        }
+    }
+    
 
     function eliminarClas(var_idLista) {
         $('#idContenidoModal').html(EsperaModal());
         $('#ModalGeneral').modal('show');
-        $.get("/Login/EliminarLista", { idLista: var_idLista })
+        $.get("/Login/eliminarClase", { idLista: var_idLista })
           .done(function (data) {
               $('#idContenidoModal').fadeOut(500, function () {
                   $('#idContenidoModal').html(data).fadeIn(500);
@@ -1067,6 +1232,82 @@ function ExpandirObservaciones(codDetalle){
                 $('#idContenidoModal').html(EsperaModalFAIL()).fadeIn(500);
             });
         });
+    }
+
+
+    function ShowAgregarSubClase(var_idSede, var_idPresupuesto) {
+        UsuarioValido = 0;
+        $('#idContenidoModal').html(EsperaModal());
+        $('#ModalGeneral').modal('show');
+        $.get("/Login/AgregarClase", { idSede:var_idSede,idPresupuesto:var_idPresupuesto })
+          .done(function (data) {
+              $('#idContenidoModal').fadeOut(500, function () {
+                  $('#idContenidoModal').html(data).fadeIn(500);
+              });
+          })
+        .fail(function (data) {
+            $('#idContenidoModal').fadeOut(500, function () {
+                $('#idContenidoModal').html(EsperaModalFAIL()).fadeIn(500);
+            });
+        });
+    }
+    var UsuarioValido = 0;
+    function ValidarCodSubClase() {
+        UsuarioValido = 0;
+        $('#desSubClase').val('Validando...');
+        $.post("/Presupuesto/getSubClase", { cod_subclase: $('#codSubClase').val() })
+          .done(function (data) {
+              $('#desSubClase').val(data.desSubClase);
+              UsuarioValido = 1;
+          })
+        .fail(function (data) {
+            $('#desSubClase').val('Sub Clase Invalida ');
+        });
+    }
+
+    function EliminarClase(var_idSede,var_idpresupuesto,var_codsubclase) {
+        
+        $('#idContenidoModal').html(EsperaModal());
+        $('#ModalGeneral').modal('show');
+        $.get("/Login/EliminarClase", {idSede:var_idSede,idPresupuesto:var_idpresupuesto, cod_subclase: var_codsubclase})
+          .done(function (data) {
+              $('#idContenidoModal').fadeOut(500, function () {
+                  $('#idContenidoModal').html(data).fadeIn(500);
+                  BuscarClases();
+              });
+          })
+        .fail(function (data) {
+            $('#idContenidoModal').fadeOut(500, function () {
+                $('#idContenidoModal').html(EsperaModalFAIL()).fadeIn(500);
+            });
+        });
+    }
+
+    function AgregarSubClase(var_idSede, var_idPresupuesto) {
+
+        if (UsuarioValido == 0) {
+            $('#idContenidoModal').html( EsperaModalPERS('Debe ingresar una subclase valida'));
+            $('#ModalGeneral').modal('show');
+
+        } else {
+
+            var cod_subclaseIN = $('#codSubClase').val();
+
+            $('#idContenidoModal').html(EsperaModal());
+            $('#ModalGeneral').modal('show');
+            $.get("/Login/InsertClase", { idSede: var_idSede, idPresupuesto: var_idPresupuesto, cod_subclase: cod_subclaseIN })
+              .done(function (data) {
+                  $('#idContenidoModal').fadeOut(500, function () {
+                      $('#idContenidoModal').html(data).fadeIn(500);
+                      BuscarClases();
+                  });
+              })
+            .fail(function (data) {
+                $('#idContenidoModal').fadeOut(500, function () {
+                    $('#idContenidoModal').html(EsperaModalFAIL()).fadeIn(500);
+                });
+            });
+        }
     }
 
     function AgregarLista() {
@@ -1677,7 +1918,11 @@ function ExpandirObservaciones(codDetalle){
         $('#codMaterial').keypress(function (e) {
              if (e.which == 13) {//Enter key pressed
                 getMateriales();
-            }
+             }
+             if ($('#codMaterial').val().length > 4) {
+                 getMateriales();
+             }
+
         });
 
        

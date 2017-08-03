@@ -12,9 +12,11 @@
                     <div class="row">
                         @if (Model != null)
                         {
+                            int or = 1;
                             foreach (var item in Model)
                             {
-                                @Html.Raw(item.getStringHTML(1));
+                                @Html.Raw(item.getStringHTML(1,or.ToString()));
+                                or = or + 1;
                             }
                         }
                         else

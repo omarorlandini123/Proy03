@@ -122,10 +122,26 @@ namespace LogicAccess
             DAOPresupuesto daopresup = new DAOPresupuesto();
             return daopresup.getEsquemaGastoCapital(idSede, idPresupuesto);
         }
+        public List<SubClase> getClasesGastoCapital(int idSede, int idPresupuesto)
+        {
+            DAOPresupuesto daopresup = new DAOPresupuesto();
+            return daopresup.getClasesGastoCapital(idSede, idPresupuesto);
+        }
+        public int AgregarSubClase(int idSede, int idPresupuesto,string cod_subclase)
+        {
+            DAOPresupuesto daopresup = new DAOPresupuesto();
+            return daopresup.AgregarSubClase(idSede, idPresupuesto,cod_subclase);
+        }
         public List<Clasificacion> getEsquemaGastoCapital(int idDetalleVersion)
         {
             DAOPresupuesto daopresup = new DAOPresupuesto();
             return daopresup.getEsquemaGastoCapital(idDetalleVersion);
+        }
+
+        public int EliminarClase(int idSede, int idPresupuesto,string cod_subclase)
+        {
+            DAOPresupuesto daopresup = new DAOPresupuesto();
+            return daopresup.EliminarClase(idSede,idPresupuesto,cod_subclase);
         }
 
         public List<Clasificacion> getEsquemaGastoCapitalDeVersion(int idVersion) {

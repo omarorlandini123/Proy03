@@ -9,6 +9,19 @@ namespace LogicAccess
 {
     public class LogicAcceso
     {
+
+        public int eliminarUsuario(string usuario)
+        {
+            DAOAcceso dao = new DAOAcceso();
+            return dao.eliminarUsuario(usuario);
+
+        }
+        public Usuario ValidarAcceso(string usuario)
+        {
+            DAOAcceso dao = new DAOAcceso();
+            return dao.ValidarAcceso(usuario);
+
+        }
         public Usuario Login(string usuario,string password)
         {
             DAOAcceso dao = new DAOAcceso();
@@ -54,15 +67,21 @@ namespace LogicAccess
             DAOAcceso dao = new DAOAcceso();
             return dao.getUsuariosSistema(idSede);
         }
+
+        public Usuario getUsuarioSistema(string usuario)
+        {
+            DAOAcceso dao = new DAOAcceso();
+            return dao.getUsuarioSistema(usuario);
+        } 
         public List<Area> getAreasUsuariosSistema(int idSede , string codusuario)
         {
             DAOAcceso dao = new DAOAcceso();
             return dao.getAreasUsuariosSistema(idSede,codusuario);
         }
-        public int insAreasUsuario(int idSede,string areas, string usuario)
+        public int insAreasUsuario(int idSede,string areas, string usuario, string apepausuario, string apemausuario, string nombresusuario, string emailusuario)
         {
             DAOAcceso dao = new DAOAcceso();
-            return dao.insAreasUsuario(idSede,areas, usuario);
+            return dao.insAreasUsuario(idSede,areas, usuario,apepausuario,apemausuario,nombresusuario,emailusuario);
         }
 
         public int getSedeUsuario(string usuario)

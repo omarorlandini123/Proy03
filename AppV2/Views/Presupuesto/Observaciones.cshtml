@@ -35,11 +35,16 @@
 
 
                                         {
+
                                             if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.ResolverObservacion))
                                             {
-                                                <button type="button" onclick="MostrarResolverObservacion(@obs.idObservacion);" class="btn btn-success btn-xs">
-                                                    Resolver
-                                                </button>
+                                                if (Model.version.estadoActual != Aprobacion.estados.Aprobado)
+                                                {
+                                                    <button type="button" onclick="MostrarResolverObservacion(@obs.idObservacion);" class="btn btn-success btn-xs">
+                                                        Resolver
+                                                    </button>
+                                                }
+
                                             }
                                         }
                                     </td>
@@ -67,7 +72,10 @@
     </div>
 
     <div class="col-sm-12" style="text-align: right;">
-        <button type="button" class="btn btn-info btn-xs" onclick="MostrarObservarDetalle(@Model.idDetalle)">Observar</button>
+        @if (Model.version.estadoActual != Aprobacion.estados.Aprobado)
+        {
+            <button type="button" class="btn btn-info btn-xs" onclick="MostrarObservarDetalle(@Model.idDetalle)">Observar</button>
+        }
         <button type="button" value="Cancelar" onclick="OcultarDetalle('@Model.idDetalle')" class="btn btn-danger btn-xs">Cancelar</button>
     </div>
 

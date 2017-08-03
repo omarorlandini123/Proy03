@@ -45,12 +45,12 @@ namespace DataAccess
             return materiales;
         }
 
-        public List<Material> getMateriales(string cond,string idSede) {
+        public List<Material> getMateriales(string cond,string idSede,string clases,string subclases) {
             List<Material> listaRpta = new List<Material>();
             try
             {
                 ServicioMateriales.Material cli = new ServicioMateriales.Material();
-                ServicioMateriales.material[] materiales = cli.getMaterial(cond, "0",idSede);
+                ServicioMateriales.material[] materiales = cli.getMaterial(cond, "0",idSede, clases,subclases);
                 
                 foreach (ServicioMateriales.material mat in materiales)
                 {
@@ -82,7 +82,7 @@ namespace DataAccess
             try
             {
                 ServicioMateriales.Material cli = new ServicioMateriales.Material();
-                ServicioMateriales.material[] materiales = cli.getMaterial(codMaterial, "1",idSede);
+                ServicioMateriales.material[] materiales = cli.getMaterial(codMaterial, "1",idSede,"","");
                 List<Material> listaRpta = new List<Material>();
                 foreach (ServicioMateriales.material mat in materiales)
                 {
@@ -108,6 +108,32 @@ namespace DataAccess
             return null;
 
             }
+        public SubClase getSubClase(string cod_subclase)
+        {
+            try
+            {
+                ServicioMateriales.Material MAT = new ServicioMateriales.Material();
+                ServicioMateriales.subClase cli = MAT.getSubClase(cod_subclase);
+                
+                SubClase subclas = new SubClase();
+
+                subclas.codSubClase = cli.codSubClase.ToString();
+                subclas.desSubClase = cli.desSubClase.ToString();
+                Clase clase = new Clase();
+
+                clase.codClase = cli.clase.codClase.ToString();
+                clase.desClase = cli.clase.desClase.ToString();
+
+                subclas.clase = clase;
+
+                return subclas;
+            }
+            catch (Exception s) {
+            }
+
+            return null;
+
+        }
 
         public List<Material> getServicios(string cond)
         {

@@ -272,6 +272,12 @@
     <Content Include="Views\Presupuesto\getAprobacionesAreas.cshtml" />
     <Content Include="Views\Presupuesto\AprobarTodoShow.cshtml" />
     <Content Include="Views\Presupuesto\AprobarTodo.cshtml" />
+    <Content Include="Views\Login\EliminarUsuario.cshtml" />
+    <Content Include="Views\Login\ClasesGK.cshtml" />
+    <Content Include="Views\Login\BuscarClases.cshtml" />
+    <Content Include="Views\Login\AgregarClase.cshtml" />
+    <Content Include="Views\Login\InsertClase.cshtml" />
+    <Content Include="Views\Login\EliminarClase.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

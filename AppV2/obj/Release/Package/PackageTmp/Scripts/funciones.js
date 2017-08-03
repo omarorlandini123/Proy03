@@ -747,7 +747,7 @@ function ExpandirObservaciones(codDetalle){
             var sustento = $('#desSustento').val();
             var preciosoli = $('#precioUnit').val();
             var uniSoli = $('#unidMedida').val();
-
+            var messolicant = getTextComoString('messoli', 'messoli_text');
             var mesSoli = getChecksComoString('messoli');
             var mesEnt = getChecksComoString('mesent');
             var idVersion = $('#idVersion').val();
@@ -768,6 +768,7 @@ function ExpandirObservaciones(codDetalle){
             data.append('alto', alto);
             data.append('sustento', sustento);
             data.append('messoli', mesSoli);
+            data.append('messolicant', messolicant);
             data.append('mesent', mesEnt);
             data.append('idVersion', idVersion);
             data.append('idTipo', idTipo);
@@ -793,6 +794,19 @@ function ExpandirObservaciones(codDetalle){
                 });
             });
     
+        }
+
+        function getTextComoString(checkNombre, textNombre) {
+
+            var porGuion = '';
+            if ($('input[name="' + checkNombre + '"]:checked').length > 0) {
+                for (var a = 0; a < $('input[name="' + checkNombre + '"]:checked').length; a++) {
+                    var mesll = $('input[name="' + checkNombre + '"]:checked')[a].value;
+                    porGuion = porGuion + $('#stext_'+mesll).val().trim() + "-";
+                } porGuion;
+                porGuion = porGuion.substr(0, porGuion.length - 1);
+            }
+            return porGuion;
         }
     
         function getChecksComoString(checkNombre) {
@@ -822,7 +836,7 @@ function ExpandirObservaciones(codDetalle){
         var sustento = $('#desSustento').val();
         var preciosoli = $('#precioUnit').val();
         var uniSoli = $('#unidMedida').val();
-
+        var messolicant = getTextComoString('messoli', 'messoli_text');
         var mesSoli = getChecksComoString('messoli');
         var mesEnt = getChecksComoString('mesent');
         var idVersion = $('#idVersion').val();
@@ -840,6 +854,7 @@ function ExpandirObservaciones(codDetalle){
         data.append('alto', alto);
         data.append('sustento', sustento);
         data.append('messoli', mesSoli);
+        data.append('messolicant', messolicant);
         data.append('mesent', mesEnt);
         data.append('idVersion', idVersion);
         data.append('idTipo', idTipo);

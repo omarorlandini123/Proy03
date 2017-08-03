@@ -23,6 +23,15 @@ namespace AppV2.Controllers
                     ViewBag.mensaje = "No se han podido validar sus credenciales";
                 }
             }
+
+            if (Session["UsuarioNoEnSistema"] != null)
+            {
+                if ((bool)Session["UsuarioNoEnSistema"])
+                {
+                    ViewBag.mensaje = "El usuario no se encuentra en el sistema";
+                }
+            }
+
             return View();
         }
 
@@ -44,6 +53,14 @@ namespace AppV2.Controllers
                     }
                     else
                     {
+                        Usuario userin = logic.getUsuarioSistema(cuenta.usuario);
+                        if (userin == null) {
+                            Session["UsuarioNoEnSistema"] = true;
+                            return RedirectToAction("Index", "Login");
+                        }
+
+                        
+
                         if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.MostrarSoloArea))
                         {
                             return RedirectToAction("PresupArea", "Presupuesto", new { id = 0 });
@@ -73,7 +90,13 @@ namespace AppV2.Controllers
             Session["PestanaConfActiva"] = 3;
             return View();
         }
-         
+
+        public ActionResult ClasesGK()
+        {
+            Session["PestanaConfActiva"] = 4;
+            return View();
+        }
+
         public ActionResult BannerConfiguracion() {
             return PartialView();
         }
@@ -98,6 +121,35 @@ namespace AppV2.Controllers
            List<Clasificacion> rpta = logic.getEsquemaGastoCapital(idSede, idPresupuesto);
             return PartialView(rpta);
         }
+
+        public ActionResult BuscarClases(int idSede, int idPresupuesto)
+        {
+            LogicPresupuesto logic = new LogicPresupuesto();
+            List<SubClase> rpta = logic.getClasesGastoCapital(idSede, idPresupuesto);
+            ViewBag.idSede = idSede;
+            ViewBag.idPresupuesto = idPresupuesto;
+            return PartialView(rpta);
+        }
+        public ActionResult AgregarClase(int idSede, int idPresupuesto) {
+            ViewBag.idSede = idSede;
+            ViewBag.idPresupuesto = idPresupuesto;
+            return PartialView();
+        }
+
+        public ActionResult InsertClase(int idSede, int idPresupuesto, string cod_subclase) {
+            LogicPresupuesto logic = new LogicPresupuesto();
+            int rpta = logic.AgregarSubClase(idSede, idPresupuesto, cod_subclase);
+            return PartialView(rpta);
+
+        }
+
+        public ActionResult EliminarClase(int idSede, int idPresupuesto, string cod_subclase) {
+            LogicPresupuesto logic = new LogicPresupuesto();
+            int rpta = logic.EliminarClase(idSede, idPresupuesto, cod_subclase);
+            return PartialView(rpta);
+
+        }
+
         public ActionResult EliminarLista(int idLista) {
             LogicPresupuesto logic = new LogicPresupuesto();
             int rpta = logic.EliminarLista(idLista);
@@ -178,6 +230,24 @@ namespace AppV2.Controllers
 
         }
 
+        public ActionResult EliminarUsuario(string  usuario)
+        {
+            if (Session["usuario"] != null)
+            {
+                LogicAcceso logic = new LogicAcceso();
+                int rpta = logic.eliminarUsuario(usuario);
+                return PartialView(rpta);              
+
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
+
+        }
+
+       
+
         public ActionResult MostrarCrearNuevoUsuario() {
             if (Session["usuario"] != null)
             {
@@ -210,13 +280,44 @@ namespace AppV2.Controllers
 
         }
 
-        public ActionResult insAreasUsuario(int idSede, string areas, string usuario)
+        [HttpPost]
+        public JsonResult ValidarDatosUsuario(string usuario)
+        {
+
+            LogicAcceso logic = new LogicAcceso();
+            Usuario rpta = logic.ValidarAcceso(usuario);           
+
+            return Json(rpta, JsonRequestBehavior.DenyGet);
+
+        }
+
+
+
+        
+
+
+        public ActionResult insAreasUsuario(int idSede, string areas, string usuario,string apepausuario,string apemausuario,string nombresusuario,string emailusuario)
         {
             if (Session["usuario"] != null)
             {
+                int rpta = 0;
                 LogicAcceso logic = new LogicAcceso();
-
-                int rpta = logic.insAreasUsuario(idSede, areas, usuario);
+                Usuario user = logic.ValidarAcceso(usuario);
+                if (user != null)
+                {
+                    if (int.Parse(user.idUsuario) > 0)
+                    {
+                        rpta = logic.insAreasUsuario(idSede, areas, usuario, apepausuario, apemausuario, nombresusuario, emailusuario);
+                    }
+                    else
+                    {
+                        rpta = 100;
+                    }
+                }
+                else {
+                    rpta = 101;
+                }
+               
 
                 return PartialView(rpta);
 
@@ -239,9 +340,10 @@ namespace AppV2.Controllers
                 List<Area> rptaAreasUsuario = logic.getAreasUsuariosSistema(idSedeUsuario, usuario);
                 LogicPresupuesto logicPresup = new LogicPresupuesto();
                 ViewBag.sedes = logicPresup.getSedes();
-                ViewBag.codusuario = usuario;
+                ViewBag.usuarioSel =  logic.getUsuarioSistema(usuario); ;
                 ViewBag.idSede = idSedeUsuario;
                 ViewBag.rptaAreasUsuario = rptaAreasUsuario;
+                
                 return PartialView(rptaAreas);               
 
             }

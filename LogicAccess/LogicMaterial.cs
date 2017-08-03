@@ -9,16 +9,21 @@ namespace LogicAccess
 {
    public class LogicMaterial
     {
-        public List<Material> getMateriales(string cond,string idSede)
+        public List<Material> getMateriales(string cond,string idSede,string clases,string subclases)
         {
             DAOMaterial dao = new DAOMaterial();
-            return dao.getMateriales(cond,idSede);
+            return dao.getMateriales(cond,idSede, clases, subclases);
         }
 
         public Material getMaterial(string cond,string idSede)
         {
             DAOMaterial dao = new DAOMaterial();
             return dao.getMaterial(cond,idSede);
+        }
+
+        public SubClase getSubClase(string cod_subclase) {
+            DAOMaterial dao = new DAOMaterial();
+            return dao.getSubClase(cod_subclase);
         }
 
         public List<Material> getServicios(string cond)

@@ -4,7 +4,7 @@
 
 @if (Session["usuario"] != null)
 {
-    <div class="modal-content " style="width:150%;margin-left:-25%;">
+    <div class="modal-content " style="width:175%;margin-left:-30%;">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <center><h3 class="modal-title">@Model.nombrePresupuesto</h3></center>
@@ -56,9 +56,7 @@
                                                     <td>
                                                         <center> <strong>CC</strong></center>
                                                     </td>
-                                                    <td>
-                                                        <center> <strong>TOTAL</strong></center>
-                                                    </td>
+                                                    
                                                     <td>
                                                         <center> <strong> E</strong></center>
                                                     </td>
@@ -94,6 +92,9 @@
                                                     </td>
                                                     <td>
                                                         <center> <strong> D</strong></center>
+                                                    </td>
+                                                    <td>
+                                                        <center> <strong>TOTAL</strong></center>
                                                     </td>
                                                     <td>
                                                         <center> <strong> SUSTENTO</strong></center>
@@ -139,46 +140,18 @@
                                                                 <td>
                                                                     <center> @detVer.codCentroCosto</center>
                                                                 </td>
+                                                                
+
+                                                                @for (int y = 1; y <= 12; y++)
+                                                                {
+                                                                    <td>
+                                                                        <center>
+                                                                            @(detVer.contieneMesSoli(y) ? detVer.getCantidadMesSoli(y).ToString() : "")
+                                                                        </center>
+                                                                    </td>
+                                                                }
                                                                 <td>
                                                                     <center> @detVer.totalSoli</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>
-                                                                        @(detVer.contieneMesSoli((int)MesEntSoli.Meses.Enero) ? "X" : "")
-                                                                    </center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Febrero) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Marzo) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Abril) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Mayo) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Junio) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Julio) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Agosto) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Setiembre) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Octubre) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Noviembre) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Diciembre) ? "X" : "")</center>
                                                                 </td>
                                                                 <td>
                                                                     <center>@(detVer.sustento)</center>
@@ -259,46 +232,17 @@
                                                                 <td>
                                                                     <center> @detVer.codCentroCosto</center>
                                                                 </td>
-                                                                <td>
-                                                                    <center> @detVer.totalSoli</center>
-                                                                </td>
+                                                                
+                                                               @for (int y = 1; y <= 12; y++)
+                                                               {
                                                                 <td>
                                                                     <center>
-                                                                        @(detVer.contieneMesSoli((int)MesEntSoli.Meses.Enero) ? "X" : "")
+                                                                        @(detVer.contieneMesSoli(y) ? detVer.getCantidadMesSoli(y).ToString() : "")
                                                                     </center>
                                                                 </td>
+                                                               }
                                                                 <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Febrero) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Marzo) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Abril) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Mayo) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Junio) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Julio) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Agosto) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Setiembre) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Octubre) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Noviembre) ? "X" : "")</center>
-                                                                </td>
-                                                                <td>
-                                                                    <center>@(detVer.contieneMesSoli((int)MesEntSoli.Meses.Diciembre) ? "X" : "")</center>
+                                                                    <center> @detVer.totalSoli</center>
                                                                 </td>
                                                                 <td>
                                                                     <center>@(detVer.sustento)</center>

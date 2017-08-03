@@ -110,19 +110,19 @@
                         <div class="col-sm-9">
                             <div class="form-group">
                                 <select class="form-control" id="idClasificacion">
+                                    @{
+                                        int or = 1;
+                                    }
+
                                     @foreach (Clasificacion prio in ViewBag.clasificaciones)
                                     {
+                                        @Html.Raw(prio.getStringHTMLCombo(1, or.ToString(), Model.clasificacion.idLista));
+                                        or = or + 1;
 
-                                        if (prio.hijos == null)
-                                        {
-                                            <option @(Model.clasificacion.idLista == prio.idLista ? "selected" : "") value="@prio.idLista">@prio.desLista</option>
-                                        }
-                                        else
-                                        {
-                                            <option disabled="disabled" value="0">@prio.desLista</option>
-                                        }
+                                        
                                     }
                                 </select>
+
                             </div>
                         </div>
                     </div>                   
@@ -145,7 +145,7 @@
                     <div class="col-sm-2">
                         <div class="col-sm-6">Mes solicitud:</div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-8">
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div class="row">
@@ -156,7 +156,16 @@
                                 <div class="row">
                                     @for (int a = 1; a <= 12; a++)
                                     {
-                                        <div class="col-sm-4"><input type="checkbox" class="messoli" name="messoli" id="cbox@(a)" @(Model.contieneMesSoli(a) ? "checked=\"checked\"" : "") value="@(a)">@MesEntSoli.getMesCorto((MesEntSoli.Meses)a)</div>
+                                       
+                                        <div class="col-sm-4">
+                                            <div class="input-group">
+                                                <span class="input-group-addon" style="width: 70px;">
+                                                    <input type="checkbox" class="messoli" name="messoli" id="cbox@(a)" @(Model.contieneMesSoli(a) ? "checked=\"checked\"" : "") value="@(a)">@MesEntSoli.getMesCorto((MesEntSoli.Meses)a)
+                                                </span>
+                                                <input type="text" class="form-control" onkeypress="return NumCheck(event, this)" id="stext_@(a)" name="messoli_text" value="@Model.getCantidadMesSoli(a)">
+                                            </div>
+
+                                        </div>
 
                                     }
                                 </div>

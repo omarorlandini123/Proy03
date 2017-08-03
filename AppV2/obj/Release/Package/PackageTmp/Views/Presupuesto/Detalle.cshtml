@@ -20,8 +20,9 @@
     <input type="hidden" value="@ViewBag.idTipo" id="idTipo" />
 </form>
 @{var estadPanel = "panel-default"; }
-@if (Model.estadoActual == Aprobacion.estados.Aprobado) {
-    estadPanel= "panel-success";
+@if (Model.estadoActual == Aprobacion.estados.Aprobado)
+{
+    estadPanel = "panel-success";
 }
 <div class="panel @estadPanel">
     <div class="panel-body">
@@ -50,28 +51,33 @@
                 }
 
                 @*@if( ((Usuario)Session["usuario"]).tieneAccesoA(Accesos.AprobarTodosItems))
-                {*@
-                    <button type="button" class="btn btn-success btn-sm" onclick="AprobarTodosLositems(@Model.idVersion)"> Aprobar Todos los Ítems </button>
+                    {*@
+                <button type="button" class="btn btn-success btn-sm" onclick="AprobarTodosLositems(@Model.idVersion)"> Aprobar Todos los Ítems </button>
                 @* } *@
-               
+
             </div>
             <div class="col-sm-6 " role="group" aria-label="...">
+                @if (((int)Session["idTipoDetPresup"]) != 1)
+                {
                 <div class="dropdown" style="float: right;">
                     <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         @ViewBag.TipoDetalles
                         <span class="caret"></span>
                     </button>
-                    @if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.SeleccionMaterialesSuministro))
-                    {
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                  
+                        if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.SeleccionMaterialesSuministro))
+                        {
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 
-                            <li> @Html.ActionLink("Materiales y Suministros", "Detalle", "Presupuesto", new { id = Model.idVersion, idTipo = 1 }, null) </li>
-                            <li> @Html.ActionLink("Servicios", "Detalle", "Presupuesto", new { id = Model.idVersion, idTipo = 2 }, null) </li>
+                                <li> @Html.ActionLink("Materiales y Suministros", "Detalle", "Presupuesto", new { id = Model.idVersion, idTipo = 1 }, null) </li>
+                                <li> @Html.ActionLink("Servicios", "Detalle", "Presupuesto", new { id = Model.idVersion, idTipo = 2 }, null) </li>
 
-                        </ul>
-                    }
+                            </ul>
+                        }
+                    
+                    
                 </div>
-
+                }
                 <div style="float: right;margin-right:5px;">
                     @if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.AgregarNuevoItem) && (Model.estadoActual == Aprobacion.estados.Edicion || Model.estadoActual == Aprobacion.estados.NoVerficiado || Model.estadoActual == Aprobacion.estados.Desaprobado))
                     {
@@ -196,4 +202,3 @@
 
     </div>
 </div>
-

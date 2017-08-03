@@ -33,6 +33,8 @@ namespace DataAccess.ServicioMateriales {
         
         private System.Threading.SendOrPostCallback getServicioOperationCompleted;
         
+        private System.Threading.SendOrPostCallback getSubClaseOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -78,30 +80,37 @@ namespace DataAccess.ServicioMateriales {
         public event getServicioCompletedEventHandler getServicioCompleted;
         
         /// <remarks/>
+        public event getSubClaseCompletedEventHandler getSubClaseCompleted;
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="http://Material/", ResponseNamespace="http://Material/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public material[] getMaterial([System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string cond, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string porCod, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string idSede) {
+        public material[] getMaterial([System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string cond, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string porCod, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string idSede, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string clases, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string subclases) {
             object[] results = this.Invoke("getMaterial", new object[] {
                         cond,
                         porCod,
-                        idSede});
+                        idSede,
+                        clases,
+                        subclases});
             return ((material[])(results[0]));
         }
         
         /// <remarks/>
-        public void getMaterialAsync(string cond, string porCod, string idSede) {
-            this.getMaterialAsync(cond, porCod, idSede, null);
+        public void getMaterialAsync(string cond, string porCod, string idSede, string clases, string subclases) {
+            this.getMaterialAsync(cond, porCod, idSede, clases, subclases, null);
         }
         
         /// <remarks/>
-        public void getMaterialAsync(string cond, string porCod, string idSede, object userState) {
+        public void getMaterialAsync(string cond, string porCod, string idSede, string clases, string subclases, object userState) {
             if ((this.getMaterialOperationCompleted == null)) {
                 this.getMaterialOperationCompleted = new System.Threading.SendOrPostCallback(this.OngetMaterialOperationCompleted);
             }
             this.InvokeAsync("getMaterial", new object[] {
                         cond,
                         porCod,
-                        idSede}, this.getMaterialOperationCompleted, userState);
+                        idSede,
+                        clases,
+                        subclases}, this.getMaterialOperationCompleted, userState);
         }
         
         private void OngetMaterialOperationCompleted(object arg) {
@@ -140,6 +149,36 @@ namespace DataAccess.ServicioMateriales {
             if ((this.getServicioCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
                 this.getServicioCompleted(this, new getServicioCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="http://Material/", ResponseNamespace="http://Material/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public subClase getSubClase([System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string cod_subclase) {
+            object[] results = this.Invoke("getSubClase", new object[] {
+                        cod_subclase});
+            return ((subClase)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void getSubClaseAsync(string cod_subclase) {
+            this.getSubClaseAsync(cod_subclase, null);
+        }
+        
+        /// <remarks/>
+        public void getSubClaseAsync(string cod_subclase, object userState) {
+            if ((this.getSubClaseOperationCompleted == null)) {
+                this.getSubClaseOperationCompleted = new System.Threading.SendOrPostCallback(this.OngetSubClaseOperationCompleted);
+            }
+            this.InvokeAsync("getSubClase", new object[] {
+                        cod_subclase}, this.getSubClaseOperationCompleted, userState);
+        }
+        
+        private void OngetSubClaseOperationCompleted(object arg) {
+            if ((this.getSubClaseCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.getSubClaseCompleted(this, new getSubClaseCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -380,6 +419,32 @@ namespace DataAccess.ServicioMateriales {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((material[])(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1087.0")]
+    public delegate void getSubClaseCompletedEventHandler(object sender, getSubClaseCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1087.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class getSubClaseCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal getSubClaseCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public subClase Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((subClase)(this.results[0]));
             }
         }
     }

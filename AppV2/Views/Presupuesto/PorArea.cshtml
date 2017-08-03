@@ -4,7 +4,7 @@
 {
     if (Model != null && !string.IsNullOrEmpty(Model.nombrePresupuesto))
     {
-        <center><h3>Presupuestos por Área <a href="#" onclick="verTiposDisponibles(@Model.idPresupuesto)"> <span class="glyphicon glyphicon-resize-vertical"></span> </a></h3></center>
+        <center><h3>Presupuestos por Área <a href="#" onclick="verTiposDisponibles(@Model.idPresupuesto)" data-toggle="tooltip" title="Visualice los reportes generales del presupuesto"> <span class="glyphicon glyphicon-resize-vertical"></span> </a></h3></center>
         <center><h4><strong>@Model.nombrePresupuesto</strong></h4></center>
         <div class="list-group" style="max-height:500px;overflow-y:scroll;">
 

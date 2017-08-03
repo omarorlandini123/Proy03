@@ -71,6 +71,7 @@ namespace AppV2.Controllers
                     LogicPresupuesto logic = new LogicPresupuesto();
                     Entidades.Version version = logic.getVersionDetallada(id, idTipo, Session["idSede"].ToString());
                     Session["idTipoDetPresup"] = version.presupuestoTipo.tipoPresupuesto.idTipoPresupuesto;
+                    Session["idPresupSel"]=version.presupuestoTipo.presupuesto.idPresupuesto;
                     ViewBag.idTipo = idTipo;
                     switch (idTipo)
                     {
@@ -803,7 +804,42 @@ namespace AppV2.Controllers
         public ActionResult getMateriales(string cond)
         {
             LogicMaterial logicMaterial = new LogicMaterial();
-            return PartialView(logicMaterial.getMateriales(cond,Session["idSede"].ToString()));
+            int idTipoPresup = 0;
+            int idPresupuestoSel = 0;
+            int idSedeSel = 0;
+            String clases = "";
+            String subclase = "";
+            if (Session["idTipoDetPresup"] != null) {
+                if (Session["idSede"] != null) {
+                    if (Session["idPresupSel"] != null) {
+                        try { idTipoPresup = int.Parse(Session["idTipoDetPresup"].ToString()); } catch (Exception f){ idTipoPresup = 0;}
+                        try { idSedeSel = int.Parse(Session["idSede"].ToString()); } catch (Exception f){ idSedeSel = 0;}
+                        try { idPresupuestoSel = int.Parse(Session["idPresupSel"].ToString()); } catch (Exception f) { idPresupuestoSel = 0; }
+                        if (idTipoPresup == 1) {
+                            LogicPresupuesto logicPresup = new LogicPresupuesto();
+                            List<SubClase> subclases = logicPresup.getClasesGastoCapital(idSedeSel, idPresupuestoSel);
+                            if (subclases != null)
+                            {
+                                if (subclases.Count() > 0)
+                                {
+                                    foreach (SubClase sub in subclases)
+                                    {
+                                        subclase += "'" + string.Format("{0:00}",int.Parse(sub.clase.codClase)) +""+ string.Format("{0:00}", int.Parse(sub.codSubClase)) + "',";
+                                        if (int.Parse(sub.codSubClase) == 0) {
+                                            clases += "'" + string.Format("{0:00}", int.Parse(sub.clase.codClase)) +"',";
+                                        }
+                                    }
+                                    subclase = subclase.Substring(0, subclase.Length - 1);
+                                    clases = clases.Substring(0, clases.Length - 1);
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+            
+            return PartialView(logicMaterial.getMateriales(cond,Session["idSede"].ToString(),  clases, subclase));
 
         }
 
@@ -856,6 +892,15 @@ namespace AppV2.Controllers
             return Json(logicMaterial.getMaterial(cond, Session["idSede"].ToString()), JsonRequestBehavior.DenyGet);
 
         }
+
+        [HttpPost]
+        public JsonResult getSubClase(string cod_subclase)
+        {
+            LogicMaterial logicMaterial = new LogicMaterial();
+            return Json(logicMaterial.getSubClase(cod_subclase), JsonRequestBehavior.DenyGet);
+
+        }
+
         [HttpPost]
         public JsonResult getServicio(string cond)
         {

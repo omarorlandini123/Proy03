@@ -110,19 +110,19 @@
                         <div class="col-sm-9">
                             <div class="form-group">
                                 <select class="form-control" id="idClasificacion">
+                                    @{
+                                        int or = 1;
+                                    }
+
                                     @foreach (Clasificacion prio in ViewBag.clasificaciones)
                                     {
+                                        @Html.Raw(prio.getStringHTMLCombo(1, or.ToString(), Model.clasificacion.idLista));
+                                        or = or + 1;
 
-                                        if (prio.hijos == null)
-                                        {
-                                            <option @(Model.clasificacion.idLista == prio.idLista ? "selected" : "") value="@prio.idLista">@prio.desLista</option>
-                                        }
-                                        else
-                                        {
-                                            <option disabled="disabled" value="0">@prio.desLista</option>
-                                        }
+                                        
                                     }
                                 </select>
+
                             </div>
                         </div>
                     </div>                   

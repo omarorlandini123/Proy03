@@ -284,8 +284,8 @@ namespace AppV2.Reportes
                             }
 
                             wsName = "Gasto Funcionamiento";
-                            UpdateValue(wsName, "B6", presup.nombrePresupuesto, 0, true);
-                            UpdateValue(wsName, "B3 ", "FORMULACION PRESUPUESTAL - " + presup.fechaValIni.Date.Year, 0, true);
+                            UpdateValue(wsName, "C6", presup.nombrePresupuesto, 0, true);
+                            UpdateValue(wsName, "C3 ", "FORMULACION PRESUPUESTAL - " + presup.fechaValIni.Date.Year, 0, true);
                             int fila = 11;
 
 
@@ -293,34 +293,35 @@ namespace AppV2.Reportes
                             {
                                 if (tieneMaterial)
                                 {
-                                    UpdateValue(wsName, "B" + fila, "1.- Materiales y suministros", 0, true);
+                                    UpdateValue(wsName, "C" + fila, "1.- Materiales y suministros", 0, true);
                                     fila = fila + 1;
                                     foreach (DetalleVersion detVer in detPresup.detalleDeVersiones)
                                     {
                                         if (detVer.tipo == 1)
                                         {
 
-                                            UpdateValue(wsName, "B" + fila, detVer.mat.codProducto + " - " + detVer.NombreMaterialSoli, 0, true);
-                                            UpdateValue(wsName, "C" + fila, detVer.codCentroCosto.ToString(), 0, true);
-                                            UpdateValue(wsName, "D" + fila, detVer.cantidadSoli.ToString(), 0, false);
+                                            UpdateValue(wsName, "B" + fila, detVer.mat.codProducto , 0, true);
+                                            UpdateValue(wsName, "C" + fila,detVer.NombreMaterialSoli, 0, true);
+                                            UpdateValue(wsName, "D" + fila, detVer.codCentroCosto.ToString(), 0, true);
+                                            UpdateValue(wsName, "E" + fila, detVer.cantidadSoli.ToString(), 0, false);
                                             try
                                             {
                                                 int.Parse(detVer.codCentroCosto);
-                                                UpdateValue(wsName, "E" + fila, detVer.precioSoli.ToString(), 0, false);
+                                                UpdateValue(wsName, "F" + fila, detVer.precioSoli.ToString(), 0, false);
                                             }
                                             catch (Exception s)
                                             {
-                                                UpdateValue(wsName, "E" + fila, "Varios", 0, false);
+                                                UpdateValue(wsName, "F" + fila, "Varios", 0, false);
                                             }
-                                            UpdateValue(wsName, "F" + fila, detVer.totalSoli.ToString(), 0, false);
+                                            UpdateValue(wsName, "G" + fila, detVer.totalSoli.ToString(), 0, false);
                                             cantidadTotalMaterial += detVer.cantidadSoli;
                                             precioTotalMaterial += detVer.totalSoli;
                                             fila = fila + 1;
                                         }
                                     }
-                                    UpdateValue(wsName, "B" + fila, "Total Materiales", 0, true);
-                                    UpdateValue(wsName, "D" + fila, string.Format("{0:0.00#}", cantidadTotalMaterial), 0, true);
-                                    UpdateValue(wsName, "F" + fila, string.Format("{0:0.00#}", precioTotalMaterial), 0, true);
+                                    UpdateValue(wsName, "C" + fila, "Total Materiales", 0, true);
+                                    UpdateValue(wsName, "E" + fila, string.Format("{0:0.00#}", cantidadTotalMaterial), 0, true);
+                                    UpdateValue(wsName, "G" + fila, string.Format("{0:0.00#}", precioTotalMaterial), 0, true);
                                     fila = fila + 1;
                                 }
                             }
@@ -329,34 +330,35 @@ namespace AppV2.Reportes
                             {
                                 if (tieneServicios)
                                 {
-                                    UpdateValue(wsName, "B" + fila, "2.- Servicios", 0, true);
+                                    UpdateValue(wsName, "C" + fila, "2.- Servicios", 0, true);
                                     fila = fila + 1;
                                     foreach (DetalleVersion detVer in detPresup.detalleDeVersiones)
                                     {
                                         if (detVer.tipo == 2)
                                         {
 
-                                            UpdateValue(wsName, "B" + fila, detVer.mat.codProducto + " - " + detVer.NombreMaterialSoli, 0, true);
-                                            UpdateValue(wsName, "C" + fila, detVer.codCentroCosto.ToString(), 0, true);
-                                            UpdateValue(wsName, "D" + fila, detVer.cantidadSoli.ToString(), 0, false);
+                                            UpdateValue(wsName, "B" + fila, detVer.mat.codProducto , 0, true);
+                                            UpdateValue(wsName, "C" + fila, detVer.NombreMaterialSoli, 0, true);
+                                            UpdateValue(wsName, "D" + fila, detVer.codCentroCosto.ToString(), 0, true);
+                                            UpdateValue(wsName, "E" + fila, detVer.cantidadSoli.ToString(), 0, false);
                                             try
                                             {
                                                 int.Parse(detVer.codCentroCosto);
-                                                UpdateValue(wsName, "E" + fila, detVer.precioSoli.ToString(), 0, false);
+                                                UpdateValue(wsName, "F" + fila, detVer.precioSoli.ToString(), 0, false);
                                             }
                                             catch (Exception s)
                                             {
-                                                UpdateValue(wsName, "E" + fila, "Varios", 0, false);
+                                                UpdateValue(wsName, "F" + fila, "Varios", 0, false);
                                             }
-                                            UpdateValue(wsName, "F" + fila, detVer.totalSoli.ToString(), 0, false);
+                                            UpdateValue(wsName, "G" + fila, detVer.totalSoli.ToString(), 0, false);
                                             cantidadTotalServicio += detVer.cantidadSoli;
                                             precioTotalServicio += detVer.totalSoli;
                                             fila = fila + 1;
                                         }
                                     }
-                                    UpdateValue(wsName, "B" + fila, "Total Servicios", 0, true);
-                                    UpdateValue(wsName, "D" + fila, string.Format("{0:0.00#}", cantidadTotalServicio), 0, true);
-                                    UpdateValue(wsName, "F" + fila, string.Format("{0:0.00#}", precioTotalServicio), 0, true);
+                                    UpdateValue(wsName, "C" + fila, "Total Servicios", 0, true);
+                                    UpdateValue(wsName, "E" + fila, string.Format("{0:0.00#}", cantidadTotalServicio), 0, true);
+                                    UpdateValue(wsName, "G" + fila, string.Format("{0:0.00#}", precioTotalServicio), 0, true);
                                     fila = fila + 1;
                                 }
                             }

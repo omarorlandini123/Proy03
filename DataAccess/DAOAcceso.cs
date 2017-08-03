@@ -13,6 +13,71 @@ namespace DataAccess
     public class DAOAcceso
     {
 
+        public Usuario ValidarAcceso(string usuario) {
+            Usuario userRpta = null;
+
+            try
+            {
+                AutenticarService.Autenticar aut = new AutenticarService.Autenticar();
+
+                AutenticarService.RespuestaBE rpta = aut.LogOn(usuario, "", false);
+                if (rpta.IdUsuario > 0)
+                {
+                    DataTable st = aut.GetOptionsByProfile(1, rpta.IdUsuario);
+                }
+                else
+                {
+                    rpta = aut.LogOn(usuario, "", false);
+
+                }
+                if (rpta != null)
+                {
+                    DataTable rptaperfil = rpta.MiPerfil;
+
+                    userRpta = new Usuario();
+                    userRpta.perfiles = new List<Perfil>();
+                    foreach (DataRow fila in rptaperfil.Rows)
+                    {
+                        userRpta.idUsuario = fila["IdUsuario"].ToString();
+                        userRpta.usuario = fila["Login"].ToString().ToLower();
+                        userRpta.Nombres = fila["ApellidosyNombres"].ToString();
+                        userRpta.numeroPersonal = fila["NroPersonal"].ToString();
+                        userRpta.area = new Area();
+                        userRpta.area.codArea = fila["idArea"].ToString();
+                        userRpta.area.desArea = fila["NombreArea"].ToString();
+                        userRpta.area.sede = new Sede();
+                        userRpta.area.sede.codSede = int.Parse(fila["idCentroOperativo"].ToString());
+                        userRpta.area.sede.desSede = fila["NombreCentroOperativo"].ToString();
+                        userRpta.centroCosto = new CentroCosto();
+                        userRpta.centroCosto.idCentro = int.Parse(fila["idCentroCosto"].ToString());
+                        userRpta.centroCosto.nroCentro = fila["NroCentroCosto"].ToString();
+                        userRpta.centroCosto.nombre = fila["NombreCentroCosto"].ToString();
+                        userRpta.grupoCentroCosto = new GrupoCentroCosto();
+                        userRpta.grupoCentroCosto.idGrupoCentro = int.Parse(fila["idGrupoCentroCosto"].ToString());
+                        userRpta.grupoCentroCosto.nombre = fila["NombreGrupoCentroCosto"].ToString();
+                        Perfil perfil = new Perfil();
+                        perfil.idPerfil = int.Parse(fila["IdPerfil"].ToString());
+                        perfil.nombre = fila["Perfil"].ToString();
+                        perfil.accesos = getAccesos(perfil.idPerfil);
+                        userRpta.perfiles.Add(perfil);
+                        userRpta.existeBD = (getUsuarioSistema(userRpta.usuario) != null) ? 1 : 0;
+
+                    }
+                }
+            }
+            catch (Exception s)
+            {
+
+            }
+            //userRpta.nivelesAprobacion;
+
+            //*************************************
+
+            return userRpta;
+        }
+
+       
+
         public Usuario Login(string usuario, string password)
         {
             Usuario userRpta = null;
@@ -75,6 +140,32 @@ namespace DataAccess
             return userRpta;
         }
 
+        public int eliminarUsuario(string usuario)
+        {
+            Conexion con = new Conexion();
+            Procedimiento proc = new Procedimiento() { nombre = "DEL_USUARIO" };
+            proc.parametros.Add(new Parametro("VAR_USUARIO", usuario, OracleDbType.Varchar2, Parametro.tipoIN));
+
+            DataTable dt = con.EjecutarProcedimiento(proc);
+            int rpta = 0;
+
+            if (dt != null)
+            {
+                if (dt.Rows.Count > 0)
+                {
+                    
+                    foreach (DataRow fila in dt.Rows)
+                    {
+
+                        return int.Parse(fila["RPTA"].ToString());
+                    }
+                }
+            }
+
+
+            return rpta;
+        }
+
         public int getSedeUsuario(string usuario)
         {
             Conexion con = new Conexion();
@@ -128,6 +219,38 @@ namespace DataAccess
 
             return rpta;
         }
+        public Usuario getUsuarioSistema(string usuario)
+        {
+            Conexion con = new Conexion();
+            Procedimiento proc = new Procedimiento() { nombre = "GET_USUARIO_SIST" };
+            proc.parametros.Add(new Parametro("VAR_USUARIO", usuario, OracleDbType.Varchar2, Parametro.tipoIN));
+
+            DataTable dt = con.EjecutarProcedimiento(proc);
+            Usuario rpta  = null;
+
+            if (dt != null)
+            {
+                if (dt.Rows.Count > 0)
+                {
+                    rpta = new  Usuario();
+                    foreach (DataRow fila in dt.Rows)
+                    {
+
+                        Usuario user = new Usuario();
+                        user.usuario = fila["USUARIO"].ToString();
+                        user.ApellidoPaterno = fila["APELLIDOPA"].ToString();
+                        user.ApellidoMaterno = fila["APELLIDOMA"].ToString();
+                        user.Nombres = fila["NOMBRE"].ToString();
+                        user.email = fila["EMAIL"].ToString();
+                        user.Sede = new Sede() { codSede= int.Parse(  fila["ID_SEDE"].ToString()) };
+                        rpta = user;
+                    }
+                }
+            }
+
+
+            return rpta;
+        }
 
         public List<Area> getAreasUsuariosSistema(int idSede, string codusuario)
         {
@@ -159,13 +282,18 @@ namespace DataAccess
             return rpta;
         }
 
-        public int insAreasUsuario(int idSede,string areas,string usuario)
+        public int insAreasUsuario(int idSede,string areas,string usuario, string apepausuario, string apemausuario, string nombresusuario, string emailusuario)
         {
             Conexion con = new Conexion();
             Procedimiento proc = new Procedimiento() { nombre = "INS_USUARIOS_SIST_AREAS" };
             proc.parametros.Add(new Parametro("VAR_USER", usuario, OracleDbType.Varchar2, Parametro.tipoIN));
             proc.parametros.Add(new Parametro("VAR_AREAS", areas, OracleDbType.Varchar2, Parametro.tipoIN));
             proc.parametros.Add(new Parametro("VAR_ID_SEDE", idSede, OracleDbType.Int32, Parametro.tipoIN));
+            proc.parametros.Add(new Parametro("VAR_APEPA", apepausuario, OracleDbType.Varchar2, Parametro.tipoIN));
+            proc.parametros.Add(new Parametro("VAR_APEMA", apemausuario, OracleDbType.Varchar2, Parametro.tipoIN));
+            proc.parametros.Add(new Parametro("VAR_NOMS", nombresusuario, OracleDbType.Varchar2, Parametro.tipoIN));
+            proc.parametros.Add(new Parametro("VAR_MAIL", emailusuario, OracleDbType.Varchar2, Parametro.tipoIN));
+
             DataTable dt = con.EjecutarProcedimiento(proc);
 
             if (dt != null)

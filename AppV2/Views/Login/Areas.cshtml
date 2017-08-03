@@ -22,7 +22,7 @@
                         <div class="list-group-item">
                             <div class="row">
                                 <a class="col-sm-6" href="javascript:getAreasUsuario(@ViewBag.idSede,'@item.usuario')">@item.usuario</a>
-                                <button type="button" class="col-sm-1 col-sm-offset-4 btn btn-danger btn-xs" onclick="eliminarAreasUsuario(@item.usuario)">X</button>
+                                <button type="button" class="col-sm-1 col-sm-offset-4 btn btn-danger btn-xs" onclick="eliminarAreasUsuario('@(item.usuario)')">X</button>
                             </div>
                         </div>
                     }

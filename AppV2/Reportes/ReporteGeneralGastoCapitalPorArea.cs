@@ -287,8 +287,8 @@ namespace AppV2.Reportes
                             }
 
                             wsName = "Gasto Capital";
-                            UpdateValue(wsName, "B6", presup.nombrePresupuesto, 0, true);
-                            UpdateValue(wsName, "B3 ", "FORMULACION PRESUPUESTAL - " + presup.fechaValIni.Date.Year, 0, true);
+                            UpdateValue(wsName, "C6", presup.nombrePresupuesto, 0, true);
+                            UpdateValue(wsName, "C3 ", "FORMULACION PRESUPUESTAL - " + presup.fechaValIni.Date.Year, 0, true);
                             int fila = 11;
 
 
@@ -297,56 +297,22 @@ namespace AppV2.Reportes
                                 if (tieneMaterial)
                                 {
 
-                                    UpdateValue(wsName, "B" + fila, "Materiales y suministros", 0, true);
-                                    fila = fila + 1;
-                                    fila = SetearDatos(wsName, fila, detPresup.detalleDeVersiones, esquema);
-                                    UpdateValue(wsName, "B" + fila, "Total Materiales", 0, true);
-                                    UpdateValue(wsName, "D" + fila, string.Format("{0:0.00#}", cantidadTotalMaterial), 0, true);
-                                    UpdateValue(wsName, "R" + fila, string.Format("{0:0.00#}", precioTotalMaterial), 0, true);
-                                    fila = fila + 1;
-                                }
-                            }
-
-                            if (detPresup.detalleDeVersiones != null)
-                            {
-                                if (tieneServicios)
-                                {
-                                    UpdateValue(wsName, "B" + fila, "Servicios", 0, true);
-                                    fila = fila + 1;
-                                    foreach (DetalleVersion detVer in detPresup.detalleDeVersiones)
-                                    {
-                                        if (detVer.tipo == 2)
-                                        {
-
-                                            UpdateValue(wsName, "B" + fila, detVer.mat.codProducto + " - " +  detVer.NombreMaterialSoli, 0, true);
-                                            UpdateValue(wsName, "C" + fila, detVer.codCentroCosto, 0, true);
-                                            UpdateValue(wsName, "D" + fila, detVer.cantidadSoli.ToString(), 0, false);
-                                            UpdateValue(wsName, "E" + fila, detVer.precioSoli.ToString(), 0, false);                                            
-                                            UpdateValue(wsName, "F" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Enero) ? "X" : "", 0, true);
-                                            UpdateValue(wsName, "G" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Febrero) ? "X" : "", 0, true);
-                                            UpdateValue(wsName, "H" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Marzo) ? "X" : "", 0, true);
-                                            UpdateValue(wsName, "I" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Abril) ? "X" : "", 0, true);
-                                            UpdateValue(wsName, "J" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Mayo) ? "X" : "", 0, true);
-                                            UpdateValue(wsName, "K" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Junio) ? "X" : "", 0, true);
-                                            UpdateValue(wsName, "L" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Julio) ? "X" : "", 0, true);
-                                            UpdateValue(wsName, "M" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Agosto) ? "X" : "", 0, true);
-                                            UpdateValue(wsName, "N" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Setiembre) ? "X" : "", 0, true);
-                                            UpdateValue(wsName, "O" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Octubre) ? "X" : "", 0, true);
-                                            UpdateValue(wsName, "P" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Noviembre) ? "X" : "", 0, true);
-                                            UpdateValue(wsName, "Q" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Diciembre) ? "X" : "", 0, true);
-                                            UpdateValue(wsName, "R" + fila, detVer.totalSoli.ToString(), 0, false);
-                                            UpdateValue(wsName, "S" + fila, detVer.sustento, 0, true);
-                                            cantidadTotalServicio += detVer.cantidadSoli;
-                                            precioTotalServicio += detVer.totalSoli;
-                                            fila = fila + 1;
-                                        }
+                                   
+                                    int or = 1;
+                                   
+                                    foreach (var item in esquema) {
+                                        fila = SetearDatos(wsName, fila, detPresup.detalleDeVersiones, item, or.ToString());
+                                        or = or + 1;
                                     }
-                                    UpdateValue(wsName, "B" + fila, "Total Servicios", 0, true);
-                                    UpdateValue(wsName, "D" + fila, string.Format("{0:0.00#}", cantidadTotalServicio), 0, true);
-                                    UpdateValue(wsName, "R" + fila, string.Format("{0:0.00#}", precioTotalServicio), 0, true);
+                                    
+                                    UpdateValue(wsName, "C" + fila, "Total Materiales", 0, true);
+                                    UpdateValue(wsName, "E" + fila, string.Format("{0:0.00#}", cantidadTotalMaterial), 0, false);
+                                    UpdateValue(wsName, "S" + fila, string.Format("{0:0.00#}", precioTotalMaterial), 0, false);
                                     fila = fila + 1;
                                 }
                             }
+
+                            
 
                         }
                     }
@@ -357,45 +323,49 @@ namespace AppV2.Reportes
             document.Close();
         }
 
-        private int SetearDatos(string wsName,int fila, List<DetalleVersion> detver,List<Clasificacion> lista) {
-            foreach (var item in lista)
+       
+        private int SetearDatos(string wsName,int fila, List<DetalleVersion> detver,Clasificacion item, string secue) {
+            UpdateValue(wsName, "A" + fila, secue, 0, true);
+            UpdateValue(wsName, "C" + fila, item.desLista, 0, true);
+            fila = fila + 1;
+            if (item.hijos != null)
             {
-                UpdateValue(wsName, "B" + fila, item.desLista, 0, true);
-                fila = fila + 1;
-                if (item.hijos != null)
+                secue += ".";
+                foreach (var itemhijo in item.hijos)
                 {
-                    fila=SetearDatos(wsName,fila,detver, item.hijos);
-                }
-                
+                   fila = SetearDatos(wsName, fila, detver, itemhijo, secue + itemhijo.secuencia);
 
-                foreach (var detVer in detver) {
-                    if (detVer.tipo == 1 && detVer.clasificacion.idLista==item.idLista) {
-                        UpdateValue(wsName, "B" + fila, detVer.mat.codProducto + " - " + detVer.NombreMaterialSoli, 0, true);
-                        UpdateValue(wsName, "C" + fila, detVer.codCentroCosto, 0, true);
-                        UpdateValue(wsName, "D" + fila, detVer.cantidadSoli.ToString(), 0, false);
-                        UpdateValue(wsName, "E" + fila, detVer.precioSoli.ToString(), 0, false);
+                }
+            }           
+            foreach (var detVer in detver) {
+                if (detVer.tipo == 1 && detVer.clasificacion.idLista==item.idLista) {
+                    UpdateValue(wsName, "B" + fila, detVer.mat.codProducto , 0, true);
+                    UpdateValue(wsName, "C" + fila, detVer.NombreMaterialSoli, 0, true);
+                    UpdateValue(wsName, "D" + fila, detVer.codCentroCosto, 0, true);
+                    UpdateValue(wsName, "E" + fila, detVer.cantidadSoli.ToString(), 0, false);
+                    UpdateValue(wsName, "F" + fila, detVer.precioSoli.ToString(), 0, false);
                        
 
-                        UpdateValue(wsName, "F" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Enero) ? "X" : "", 0, true);
-                        UpdateValue(wsName, "G" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Febrero) ? "X" : "", 0, true);
-                        UpdateValue(wsName, "H" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Marzo) ? "X" : "", 0, true);
-                        UpdateValue(wsName, "I" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Abril) ? "X" : "", 0, true);
-                        UpdateValue(wsName, "J" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Mayo) ? "X" : "", 0, true);
-                        UpdateValue(wsName, "K" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Junio) ? "X" : "", 0, true);
-                        UpdateValue(wsName, "L" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Julio) ? "X" : "", 0, true);
-                        UpdateValue(wsName, "M" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Agosto) ? "X" : "", 0, true);
-                        UpdateValue(wsName, "N" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Setiembre) ? "X" : "", 0, true);
-                        UpdateValue(wsName, "O" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Octubre) ? "X" : "", 0, true);
-                        UpdateValue(wsName, "P" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Noviembre) ? "X" : "", 0, true);
-                        UpdateValue(wsName, "Q" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Diciembre) ? "X" : "", 0, true);
-                        UpdateValue(wsName, "R" + fila, detVer.totalSoli.ToString(), 0, false);
-                        UpdateValue(wsName, "S" + fila, detVer.sustento, 0, true);
-                        cantidadTotalMaterial += detVer.cantidadSoli;
-                        precioTotalMaterial += detVer.totalSoli;
-                        fila = fila + 1;
-                    }
+                    UpdateValue(wsName, "G" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Enero) ? detVer.getCantidadMesSoli((int)MesEntSoli.Meses.Enero).ToString() : "", 0, false);
+                    UpdateValue(wsName, "H" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Febrero) ? detVer.getCantidadMesSoli((int)MesEntSoli.Meses.Febrero).ToString() : "", 0, false);
+                    UpdateValue(wsName, "I" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Marzo) ? detVer.getCantidadMesSoli((int)MesEntSoli.Meses.Marzo).ToString() : "", 0, false);
+                    UpdateValue(wsName, "J" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Abril) ? detVer.getCantidadMesSoli((int)MesEntSoli.Meses.Abril).ToString() : "", 0, false);
+                    UpdateValue(wsName, "K" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Mayo) ? detVer.getCantidadMesSoli((int)MesEntSoli.Meses.Mayo).ToString() : "", 0, false);
+                    UpdateValue(wsName, "L" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Junio) ? detVer.getCantidadMesSoli((int)MesEntSoli.Meses.Junio).ToString() : "", 0, false);
+                    UpdateValue(wsName, "M" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Julio) ? detVer.getCantidadMesSoli((int)MesEntSoli.Meses.Julio).ToString() : "", 0, false);
+                    UpdateValue(wsName, "N" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Agosto) ? detVer.getCantidadMesSoli((int)MesEntSoli.Meses.Agosto).ToString() : "", 0, false);
+                    UpdateValue(wsName, "O" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Setiembre) ? detVer.getCantidadMesSoli((int)MesEntSoli.Meses.Setiembre).ToString() : "", 0, false);
+                    UpdateValue(wsName, "P" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Octubre) ? detVer.getCantidadMesSoli((int)MesEntSoli.Meses.Octubre).ToString() : "", 0, false);
+                    UpdateValue(wsName, "Q" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Noviembre) ? detVer.getCantidadMesSoli((int)MesEntSoli.Meses.Noviembre).ToString() : "", 0, false);
+                    UpdateValue(wsName, "R" + fila, detVer.contieneMesSoli((int)MesEntSoli.Meses.Diciembre) ? detVer.getCantidadMesSoli((int)MesEntSoli.Meses.Diciembre).ToString() : "", 0, false);
+                    UpdateValue(wsName, "S" + fila, detVer.totalSoli.ToString(), 0, false);
+                    UpdateValue(wsName, "T" + fila, detVer.sustento, 0, true);
+                    cantidadTotalMaterial += detVer.cantidadSoli;
+                    precioTotalMaterial += detVer.totalSoli;
+                    fila = fila + 1;
                 }
             }
+            
             return fila;
         }
 

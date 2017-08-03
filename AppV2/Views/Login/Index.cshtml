@@ -39,6 +39,18 @@
                 }
 
             }
+
+            @if (Session["UsuarioNoEnSistema"] != null)
+            {
+                if ((bool)Session["UsuarioNoEnSistema"])
+                {
+                    <div class="alert alert-danger fade in alert-dismissable">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+                        <strong>Atención</strong> @ViewBag.mensaje
+                    </div>
+                }
+
+            }
             
 
             <div class="form-group">
