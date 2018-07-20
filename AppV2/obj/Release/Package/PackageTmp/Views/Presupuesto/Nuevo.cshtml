@@ -83,17 +83,20 @@
                 </div><br>
                 <div class="row">
                     <div class="col-sm-4">
-                        @*<div class="col-sm-6">Prioridad:</div>
+                        @if (ViewBag.idTipoDetPresup == 2)
+                        {
+                            <div class="col-sm-6">Rubro:</div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <select class="form-control" id="prioridad">
-                                        @foreach (Prioridad prio in ViewBag.prioridades)
+                                    <select class="form-control" id="rubro">
+                                        @foreach (Rubro rub in ViewBag.rubros)
                                         {
-                                            <option value="@prio.idPrioridad">@prio.nombre</option>
+                                            <option value="@rub.idRubro">@rub.nombre</option>
                                         }
                                     </select>
                                 </div>
-                            </div>*@
+                            </div>
+                        }
                     </div>
                     <div class="col-sm-4">
                         <div class="col-sm-6">Alto:</div>
@@ -163,7 +166,8 @@
                                                 <span class="input-group-addon" style="width: 70px;">
                                                     <input type="checkbox" name="messoli" id="cbox@(a)" value="@(a)">@MesEntSoli.getMesCorto((MesEntSoli.Meses)a)
                                                 </span>
-                                                <input type="text" class="form-control" onkeypress="return NumCheck(event, this)" id="stext_@(a)" name="messoli_text">
+                                                
+                                                <input type="text" class="form-control monto" onkeypress="return NumCheck(event, this)" onkeyup="sumar(this);" id="stext_@(a)" name="messoli_text">
                                             </div>
                                             
                                         </div>

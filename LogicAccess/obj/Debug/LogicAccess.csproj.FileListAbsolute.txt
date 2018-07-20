@@ -82,3 +82,15 @@ C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1
 C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\LogicAccess\obj\Debug\LogicAccess.csprojResolveAssemblyReference.cache
 C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\LogicAccess\obj\Debug\LogicAccess.dll
 C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\LogicAccess\obj\Debug\LogicAccess.pdb
+D:\Proy03\LogicAccess\bin\Debug\LogicAccess.dll
+D:\Proy03\LogicAccess\bin\Debug\LogicAccess.pdb
+D:\Proy03\LogicAccess\bin\Debug\DataAccess.dll
+D:\Proy03\LogicAccess\bin\Debug\Entidades.dll
+D:\Proy03\LogicAccess\bin\Debug\Data.dll
+D:\Proy03\LogicAccess\bin\Debug\Oracle.DataAccess.dll
+D:\Proy03\LogicAccess\bin\Debug\DataAccess.pdb
+D:\Proy03\LogicAccess\bin\Debug\Entidades.pdb
+D:\Proy03\LogicAccess\bin\Debug\Data.pdb
+D:\Proy03\LogicAccess\obj\Debug\LogicAccess.csprojResolveAssemblyReference.cache
+D:\Proy03\LogicAccess\obj\Debug\LogicAccess.dll
+D:\Proy03\LogicAccess\obj\Debug\LogicAccess.pdb

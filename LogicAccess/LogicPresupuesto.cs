@@ -12,10 +12,10 @@ namespace LogicAccess
     {
        
 
-        public Entidades.Version getVersionDetallada(int id,int idTipo,string idSede)
+        public Entidades.Version getVersionDetallada(string cond ,int id,int idTipo,string idSede)
         {
             DAOPresupuesto dao = new DAOPresupuesto();
-            return dao.getVersionDetallada(id,idTipo,idSede);
+            return dao.getVersionDetallada(cond,id,idTipo,idSede);
         }
 
         public DetalleVersion getArchivosDetalle(int idDetalle) {
@@ -46,6 +46,17 @@ namespace LogicAccess
             Presupuesto pre=dao.getPresupuestosPorArea(idPresupuesto,usuario, codSede);          
            
             return pre;
+        }
+
+        public List<ParametroApp> getParametrosApp() {
+            DAOPresupuesto dao = new DAOPresupuesto();
+            return dao.getParametrosApp();
+        }
+
+        public ParametroApp getParametroApp(int idParam)
+        {
+            DAOPresupuesto dao = new DAOPresupuesto();
+            return dao.getParametroApp(idParam);
         }
 
         public int EliminarArchivo(int idArchivo)
@@ -98,6 +109,12 @@ namespace LogicAccess
             }
 
             return presup;
+        }
+
+        public object GuardarParam(int idParam, string contParam)
+        {
+            DAOPresupuesto daopresup = new DAOPresupuesto();
+            return daopresup.GuardarParam(idParam,contParam);
         }
 
         public int EliminarLista(int idLista)
@@ -324,10 +341,10 @@ namespace LogicAccess
             return dao.getObservacion(idObservacion);
         }
 
-        public int EliminarDetalle(int idDetalle)
+        public int EliminarDetalle(int idDetalle,string usuario)
         {
             DAOPresupuesto dao = new DAOPresupuesto();
-            return dao.EliminarDetalle(idDetalle);
+            return dao.EliminarDetalle(idDetalle,usuario);
         }
 
         public int CrearPresup(string nombre, int idSede, string usuario, int mesDesde, int anioDesde, int mesHasta, int anioHasta)
@@ -367,7 +384,7 @@ namespace LogicAccess
             return dao.AprobarVersion(id, usuario);
         }
 
-        public int RechazarVersion(int id, string usuario)
+        public RptaServer RechazarVersion(int id, string usuario)
         {
             DAOPresupuesto dao = new DAOPresupuesto();
             return dao.RechazarVersion(id, usuario);
@@ -379,10 +396,10 @@ namespace LogicAccess
             return dao.getAprobacionesDetalleVersion(idDetalleVersion);
         }
 
-        public Entidades.Version getAprobacionesVersion(int idVersion)
+        public Entidades.Version getAprobacionesVersion(int idVersion,int idDetalle)
         {
             DAOPresupuesto dao = new DAOPresupuesto();
-            return dao.getAprobacionesVersion(idVersion);
+            return dao.getAprobacionesVersion(idVersion,idDetalle);
         }
 
         public DetallePresupuesto getAprobacionesDetallePresupuesto(int idDetallePresupuesto)
@@ -432,14 +449,47 @@ namespace LogicAccess
             return dao.nuevaVersion(id, idArea,usuario);
         }
 
-        public RptaServer PuedeAprobarItems(int id, string usuario)
+        
+        public RptaServer AprobarItems(int idVersion, string usuario)
         {
-            throw new NotImplementedException();
+            DAOPresupuesto dao = new DAOPresupuesto();
+            return dao.AprobarItems(idVersion,  usuario);
         }
 
-        public RptaServer AprobarItems(int id, string usuario)
+        public void EnviarCorreo(string usuario, string asunto,string contenido,List<Aprobacion> aprobaciones)
         {
-            throw new NotImplementedException();
+            DAOPresupuesto dao = new DAOPresupuesto();
+            dao.EnviarCorreo(usuario,asunto ,contenido, aprobaciones);
+        }
+
+        public Entidades.Version getVersionDeDetalle(int idDetalle)
+        {
+            DAOPresupuesto dao = new DAOPresupuesto();
+           return  dao.getVersionDeDetalle(idDetalle);
+        }
+
+        public Presupuesto getPresupuestoDeVersion(int idVersion)
+        {
+            DAOPresupuesto dao = new DAOPresupuesto();
+            return dao.getPresupuestoDeVersion(idVersion);
+        }
+
+        public DetalleVersion getDetalleVersion(int idDetalle)
+        {
+            DAOPresupuesto dao = new DAOPresupuesto();
+            return dao.getDetalleVersion(idDetalle);
+        }
+
+        public Entidades.Version getVersion(int id)
+        {
+            DAOPresupuesto dao = new DAOPresupuesto();
+            return dao.getVersion(id);
+        }
+
+        public List<Rubro> getRubros(int idTipo)
+        {
+            DAOPresupuesto dao = new DAOPresupuesto();
+            return dao.getRubros(idTipo);
         }
     }
     }

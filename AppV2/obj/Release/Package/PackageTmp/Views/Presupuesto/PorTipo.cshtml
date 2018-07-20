@@ -4,7 +4,7 @@
 {
     if (Model != null && !string.IsNullOrEmpty(Model.nombrePresupuesto))
     {
-        <center><h3>Presupuestos por Tipo <a href="#" onclick="verAreasDisponibles(@Model.idPresupuesto)"> <span class="glyphicon glyphicon-resize-vertical"></span> </a></h3></center>
+        <center><h3>Presupuestos por Tipo <a href="#" onclick="verAreasDisponibles(@Model.idPresupuesto)" data-toggle="tooltip" title="Visualice las áreas"> <span class="glyphicon glyphicon-resize-vertical"></span> </a></h3></center>
         <center><h4><strong>@Model.nombrePresupuesto</strong></h4></center>
         <div class="list-group">
             @if (Model.TiposPresupuestos != null)
@@ -45,24 +45,24 @@
                             <div class="col-sm-3 col-sm-offset-6">Monto:</div>
                             @if (preArea.monto > 0)
                             {
-                                <div class="col-sm-3">S/ @string.Format("{0:0.00}", preArea.monto)</div>
+                                <div class="col-sm-3" data-toggle="tooltip" title="Monto total presupuestado para este tipo de presupuesto de ésta área">S/ @string.Format("{0:0.00}", preArea.monto)</div>
                             }
                             else
                             {
-                                <div class="col-sm-3">S/ 0.00</div>
+                                <div class="col-sm-3"  data-toggle="tooltip" title="Monto total presupuestado para este tipo de presupuesto de ésta área">S/ 0.00</div>
                             }
                         </div>
                         <div class="row">
                             <div class="col-sm-3">Ultima Modif:</div>
-                            <div class="col-sm-3">@preArea.UltModifReg.ToShortDateString()</div>
+                            <div class="col-sm-3"  data-toggle="tooltip" title="Fecha en que se modificó por última vez este tipo de presupuesto" >@preArea.UltModifReg.ToShortDateString()</div>
                             <div class="col-sm-3">Desde:</div>
-                            <div class="col-sm-3">@preArea.fechaValIni.ToShortDateString()</div>
+                            <div class="col-sm-3"  data-toggle="tooltip" title="Fecha de inicio de validéz de este tipo de presupuesto">@preArea.fechaValIni.ToShortDateString()</div>
                         </div>
                         <div class="row">
                             <div class="col-sm-3"></div>
                             <div class="col-sm-3"></div>
                             <div class="col-sm-3">Hasta:</div>
-                            <div class="col-sm-3">@preArea.fechaValFin.ToShortDateString()</div>
+                            <div class="col-sm-3"  data-toggle="tooltip" title="Fecha de fin de validéz de este tipo de presupuesto">@preArea.fechaValFin.ToShortDateString()</div>
                         </div>
                     </div>
 

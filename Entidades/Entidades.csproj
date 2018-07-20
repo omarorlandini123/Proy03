@@ -56,12 +56,14 @@
     <Compile Include="MesEntSoli.cs" />
     <Compile Include="NivelAprobacion.cs" />
     <Compile Include="Observacion.cs" />
+    <Compile Include="Parametro.cs" />
     <Compile Include="Perfil.cs" />
     <Compile Include="Presupuesto.cs" />
     <Compile Include="PresupuestoTipo.cs" />
     <Compile Include="Prioridad.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RptaServer.cs" />
+    <Compile Include="Rubro.cs" />
     <Compile Include="Sede.cs" />
     <Compile Include="SubClase.cs" />
     <Compile Include="TipoPresupuesto.cs" />

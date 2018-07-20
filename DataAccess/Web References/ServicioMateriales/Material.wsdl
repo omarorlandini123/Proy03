@@ -2,7 +2,7 @@
 <definitions xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:tns="http://Material/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" name="Material" targetNamespace="http://Material/" xmlns="http://schemas.xmlsoap.org/wsdl/">
   <types>
     <xsd:schema>
-      <xsd:import schemaLocation="http://10.10.108.56:8080/ServiceMateriales/Material?xsd=1" namespace="http://Material/" />
+      <xsd:import schemaLocation="http://localhost:8080/ServiceMateriales/Material?xsd=1" namespace="http://Material/" />
     </xsd:schema>
   </types>
   <message name="getMaterial">
@@ -69,7 +69,7 @@
   </binding>
   <service name="Material">
     <port name="MaterialPort" binding="tns:MaterialPortBinding">
-      <soap:address location="http://10.10.108.56:8080/ServiceMateriales/Material" />
+      <soap:address location="http://localhost:8080/ServiceMateriales/Material" />
     </port>
   </service>
 </definitions>

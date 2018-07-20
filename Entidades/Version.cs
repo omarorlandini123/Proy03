@@ -24,6 +24,7 @@ namespace Entidades
         public List<Aprobacion> aprobaciones { get; set; }
         public List<DetalleVersion> detalles { get; set; }
         public List<EnvioVersion> envios { get; set; }
+        public int ordenActual { get; set; }
 
     }
 }

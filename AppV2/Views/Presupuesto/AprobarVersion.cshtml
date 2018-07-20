@@ -14,16 +14,19 @@
                         <h3>Se aprobó correctamente esta Versión.</h3>
                         break;
                     case 2:
-                        <h3>La versión  no se ha enviado a aprobar</h3>
+                        <h3>La versión subió al siguiente nivel de aprobación</h3>
                         break;
                     case 3:
-                        <h3>Existen observaciones no resueltas, no se puede aprobar.</h3>
+                        <h3>Existen detalles sin aprobar</h3>
                         break;
                     case 4:
-                        <h3>Ud. no tiene permiso para aprobar esta versión.</h3>
+                        <h3>Ud. ya no puede aprobar esta versión porque fue enviada a un nivel superior.</h3>
                         break;
                     case 5:
-                        <h3>Debe registrarse como aprobador de esta versión.</h3>
+                        <h3>La versión debe enviarse a aprobar</h3>
+                        break;
+                    case 6:
+                        <h3>La versión debe enviarse a aprobar</h3>
                         break;
                 }
 
@@ -32,7 +35,7 @@
     </div>
     <div class="modal-footer">
         <div class="col-sm-6 contenido-derecha">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Aceptar</button>
+            <button type="button" class="btn btn-default" onclick="window.opener.document.location.reload();" data-dismiss="modal">Aceptar</button>
         </div>
 
     </div>

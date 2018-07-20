@@ -1,0 +1,44 @@
+﻿@using Entidades;
+@model IEnumerable<ParametroApp>
+<div class="row">
+    <div class="col-sm-12">
+        @Html.Action("BannerConfiguracion", "Login")
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <h3>Parámetros para la aplicación</h3>
+        <div class="panel panel-primary">
+
+            <div class="panel-heading">
+                Parámetros
+            </div>
+            <div class="panel-body">
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        <div class="row">
+                            
+                            <div class="col-sm-2">
+                                <a href="#" data-toggle="tooltip" title="@item.descParam">@item.nombreParam </a>
+                            </div>
+                            <div class="col-sm-6">
+                                <input class="form-control " id="contParam_@(item.codigo)" value="@item.contParam" type="text" name="contParam">
+                            </div>
+                            <button type="button" class="col-sm-1 col-sm-offset-1 btn btn-default " onclick="GuardarParam('@(item.codigo)')">Guardar</button>
+                        </div>
+                        <br />
+                    }
+                }
+                else
+                {
+                    <div class="row">
+                        <center><h3>No se han registrado variables de sistema</h3></center>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>

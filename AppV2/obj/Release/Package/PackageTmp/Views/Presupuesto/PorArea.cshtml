@@ -4,7 +4,7 @@
 {
     if (Model != null && !string.IsNullOrEmpty(Model.nombrePresupuesto))
     {
-        <center><h3>Presupuestos por Área <a href="#" onclick="verTiposDisponibles(@Model.idPresupuesto)"> <span class="glyphicon glyphicon-resize-vertical"></span> </a></h3></center>
+        <center><h3>Presupuestos por Área <a href="#" onclick="verTiposDisponibles(@Model.idPresupuesto)" data-toggle="tooltip" title="Visualice los reportes generales del presupuesto"> <span class="glyphicon glyphicon-resize-vertical"></span> </a></h3></center>
         <center><h4><strong>@Model.nombrePresupuesto</strong></h4></center>
         <div class="list-group" style="max-height:500px;overflow-y:scroll;">
 
@@ -54,30 +54,30 @@
 
                             </div>
                             <div class="row">
-                                <div class="col-sm-3">Codigo:</div>
-                                <div class="col-sm-3">@presup.area.codArea</div>
+                                <div class="col-sm-3">C. Costo:</div>
+                                <div class="col-sm-3"data-toggle="tooltip" title="El centro costo del área">@presup.area.centrocosto</div>
                                 <div class="col-sm-3">Monto:</div>
                                 @if (presup.monto > 0)
                             {
-                                    <div class="col-sm-3">S/ @string.Format("{0:0.00}", presup.monto)</div>
+                                    <div class="col-sm-3" data-toggle="tooltip" title="Monto total presupuestado de ésta área">S/ @string.Format("{0:0.00}", presup.monto)</div>
                                 }
                                 else
                                 {
 
 
-                                    <div class="col-sm-3">S/ 0.00</div>
+                                    <div class="col-sm-3" data-toggle="tooltip" title="Monto total presupuestado de ésta área" >S/ 0.00</div>
                                 }
                             </div>
                             <div class="row">
                                 <div class="col-sm-3">Ultima Modif:</div>
-                                <div class="col-sm-3">@presup.UltModifFec.ToShortDateString()</div>
+                                <div class="col-sm-3" data-toggle="tooltip" title="Fecha en que se modificó por última vez el presupuesto" >@presup.UltModifFec.ToShortDateString()</div>
                                 <div class="col-sm-3">Desde:</div>
-                                <div class="col-sm-3">@presup.fechaValIni.ToShortDateString()</div>
+                                <div class="col-sm-3"  data-toggle="tooltip" title="Fecha de inicio de validéz del presupuesto del área" >@presup.fechaValIni.ToShortDateString()</div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-6"><a href="javascript:AprobacionesArea(@Model.idPresupuesto,@presup.area.codArea)">Aprobaciones</a></div>
                                 <div class="col-sm-3">Hasta:</div>
-                                <div class="col-sm-3">@presup.fechaValFin.ToShortDateString()</div>
+                                <div class="col-sm-3"  data-toggle="tooltip" title="Fecha de fin de validéz del presupuesto del área" >@presup.fechaValFin.ToShortDateString()</div>
                             </div>
                         </div>
                             }

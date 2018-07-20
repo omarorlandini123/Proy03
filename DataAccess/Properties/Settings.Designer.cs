@@ -26,7 +26,7 @@ namespace DataAccess.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://10.10.108.56:8080/ServiceMateriales/Material")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:8080/ServiceMateriales/Material")]
         public string DataAccess_ServicioMateriales_Material {
             get {
                 return ((string)(this["DataAccess_ServicioMateriales_Material"]));

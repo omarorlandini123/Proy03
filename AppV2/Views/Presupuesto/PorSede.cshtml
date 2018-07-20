@@ -34,31 +34,31 @@
                     </div>
                     <div class="row">
                         <div class="col-sm-3"> Registro: </div>
-                        <div class="col-sm-3"> @item.fechaReg.ToShortDateString() </div>
+                        <div class="col-sm-3" data-toggle="tooltip" title="Fecha en que se registró el presupuesto"> @item.fechaReg.ToShortDateString() </div>
                         <div class="col-sm-2"> Monto: </div>
                         @if (item.monto > 0)
                         {
-                            <div class="col-sm-3">S/ @string.Format("{0:0.00}", item.monto) </div>
+                            <div class="col-sm-3" data-toggle="tooltip" title="Sumatoria total de todas las áreas">S/ @string.Format("{0:0.00}", item.monto) </div>
                         }
                         else
                         {
-                            <div class="col-sm-3">S/ 0.00</div>
+                            <div class="col-sm-3" data-toggle="tooltip" title="Sumatoria total de todas las áreas">S/ 0.00</div>
                         }
                     </div>
                     <div class="row">
                         <div class="col-sm-3">Ultima Modif:</div>
-                        <div class="col-sm-3">@item.UltModifFec.ToShortDateString()</div>
+                        <div class="col-sm-3" data-toggle="tooltip" title="Fecha de la última modificación realizada dentro de los diferentes presupuestos" >@item.UltModifFec.ToShortDateString()</div>
                         <div class="col-sm-2">Desde:</div>
-                        <div class="col-sm-4">@item.fechaValIni.ToShortDateString()</div>
+                        <div class="col-sm-4" data-toggle="tooltip" title="Fecha de inicio de validéz del presupuesto">@item.fechaValIni.ToShortDateString()</div>
                     </div>
                     <div class="row">
                         <div class="col-sm-3">Aprobado por:</div>
                         @if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.VerAprobacionesPresupuesto))
                         {
-                            <div class="col-sm-3"><a href="javascript:MostrarAprobacionesPresupuesto(@item.idPresupuesto)">Ver</a></div>
+                            <div class="col-sm-3" data-toggle="tooltip" title="Usuarios que pueden aprobar el presupuesto final" ><a href="javascript:MostrarAprobacionesPresupuesto(@item.idPresupuesto)">Ver</a></div>
                         }
                         <div class="col-sm-2">Hasta:</div>
-                        <div class="col-sm-4">@item.fechaValFin.ToShortDateString()</div>
+                        <div class="col-sm-4" data-toggle="tooltip" title="Fecha de fin de validéz del presupuesto" >@item.fechaValFin.ToShortDateString()</div>
                     </div>
                 </div>
             }

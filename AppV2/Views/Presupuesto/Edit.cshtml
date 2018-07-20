@@ -33,7 +33,7 @@
                     </div>
                     <div class="col-sm-4">
                         <div class="col-sm-6">Precio Unit.</div>
-                        <div class="col-sm-6" style="display: inline-flex;">S/. <input  class="form-control solo-numero" type="text" name="" onkeyup="$('#totalsolic').val($('#cantidad').val() * $('#precioUnit').val())" value="@Model.mat.precioUnit" id="precioUnit"></div>
+                        <div class="col-sm-6" style="display: inline-flex;">S/. <input class="form-control solo-numero" type="text" name="" onkeyup="$('#totalsolic').val($('#cantidad').val() * $('#precioUnit').val())" value="@Model.mat.precioUnit" id="precioUnit"></div>
                     </div>
                     <div class="col-sm-4">
                         <div class="col-sm-6">Unidad de Medida:</div>
@@ -81,17 +81,21 @@
                 </div><br>
                 <div class="row">
                     <div class="col-sm-4">
-                        @*<div class="col-sm-6">Prioridad:</div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <select class="form-control" id="prioridad">
-                                    @foreach (Prioridad prio in ViewBag.prioridades)
-                                    {
-                                        <option @(Model.prioridad.idPrioridad == prio.idPrioridad ? "selected" : "") value="@prio.idPrioridad">@prio.nombre</option>
-                                    }
-                                </select>
+                        @if (ViewBag.idTipoDetPresup == 2)
+                        {
+                            <div class="col-sm-6">Rubro:</div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <select class="form-control" id="rubro">
+                                        @foreach (Rubro rub in ViewBag.rubros)
+                                        {
+                                            <option @(Model.Rubro.idRubro == rub.idRubro ? "selected" : "") value="@rub.idRubro">@rub.nombre</option>
+                                        }
+                                    </select>
+                                </div>
                             </div>
-                        </div>*@
+                        }
+
                     </div>
                     <div class="col-sm-4">
                         <div class="col-sm-6">Alto:</div>
@@ -104,33 +108,33 @@
                 </div><br>
                 @if (ViewBag.idTipoDetPresup == 1)
                 {
-                <div class="row">
-                    <div class="col-sm-8">
-                        <div class="col-sm-3">Clasificacion:</div>
-                        <div class="col-sm-9">
-                            <div class="form-group">
-                                <select class="form-control" id="idClasificacion">
-                                    @{
-                                        int or = 1;
-                                    }
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="col-sm-3">Clasificacion:</div>
+                            <div class="col-sm-9">
+                                <div class="form-group">
+                                    <select class="form-control" id="idClasificacion">
+                                        @{
+                                            int or = 1;
+                                        }
 
-                                    @foreach (Clasificacion prio in ViewBag.clasificaciones)
-                                    {
-                                        @Html.Raw(prio.getStringHTMLCombo(1, or.ToString(), Model.clasificacion.idLista));
-                                        or = or + 1;
+                                        @foreach (Clasificacion prio in ViewBag.clasificaciones)
+                                        {
+                                            @Html.Raw(prio.getStringHTMLCombo(1, or.ToString(), Model.clasificacion.idLista));
+                                            or = or + 1;
 
-                                        
-                                    }
-                                </select>
 
+                                        }
+                                    </select>
+
+                                </div>
                             </div>
                         </div>
-                    </div>                   
-                    <div class="col-sm-4">
-                        
-                    </div>
-                </div><br>
-                }
+                        <div class="col-sm-4">
+
+                        </div>
+                    </div><br>
+                                            }
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="col-sm-2">Sustento:</div>
@@ -156,20 +160,20 @@
                                 <div class="row">
                                     @for (int a = 1; a <= 12; a++)
                                     {
-                                       
+
                                         <div class="col-sm-4">
                                             <div class="input-group">
                                                 <span class="input-group-addon" style="width: 70px;">
                                                     <input type="checkbox" class="messoli" name="messoli" id="cbox@(a)" @(Model.contieneMesSoli(a) ? "checked=\"checked\"" : "") value="@(a)">@MesEntSoli.getMesCorto((MesEntSoli.Meses)a)
                                                 </span>
-                                                <input type="text" class="form-control" onkeypress="return NumCheck(event, this)" id="stext_@(a)" name="messoli_text" value="@Model.getCantidadMesSoli(a)">
+                                                <input type="text" class="form-control monto" onkeypress="return NumCheck(event, this)" onkeyup="sumar(this);" id="stext_@(a)" name="messoli_text" value="@Model.getCantidadMesSoli(a)">
                                             </div>
 
                                         </div>
 
                                     }
                                 </div>
-                               
+
 
                             </div>
                         </div>
@@ -177,19 +181,19 @@
 
                     </div>
                     @*<div class="col-sm-2">
-                        <div class="col-sm-6">Mes Entrega:</div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="panel panel-default">
-                            <div class="panel-body" disabled="disabled">
-                                @for (int a = 1; a <= 12; a++)
-                                {
-                                    <div class="col-sm-4"><input type="checkbox" name="mesent" id="cbox@(a)" @(Model.contieneMesEnt(a) ? "checked=\"checked\"" : "") value="@(a)">@MesEntSoli.getMesCorto((MesEntSoli.Meses)a)</div>
-
-                                }
-                            </div>
+                            <div class="col-sm-6">Mes Entrega:</div>
                         </div>
-                    </div>*@
+                        <div class="col-sm-4">
+                            <div class="panel panel-default">
+                                <div class="panel-body" disabled="disabled">
+                                    @for (int a = 1; a <= 12; a++)
+                                    {
+                                        <div class="col-sm-4"><input type="checkbox" name="mesent" id="cbox@(a)" @(Model.contieneMesEnt(a) ? "checked=\"checked\"" : "") value="@(a)">@MesEntSoli.getMesCorto((MesEntSoli.Meses)a)</div>
+
+                                    }
+                                </div>
+                            </div>
+                        </div>*@
                 </div>
 
             </div>
@@ -201,42 +205,39 @@
                 <div class="col-md-offset-2 col-md-10" style="text-align: right;">
                     @if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.ActualizarDetalle))
                     {
-                        if (Model.version.estadoActual ==Aprobacion.estados.Desaprobado || Model.version.estadoActual == Aprobacion.estados.NoVerficiado)
-                        {
-                            <input type="button" value="Guardar" class="btn btn-default" onclick="ActualizarDetalle(@(Model.idDetalle))" />
-                        }
+                        <input type="button" value="Guardar" class="btn btn-default" onclick="ActualizarDetalle(@(Model.idDetalle))" />
                     }
                     <input type="button" value="Cancelar" onclick="OcultarDetalle('@(Model.idDetalle)')" class="btn btn-danger" />
 
                 </div>
             </div>
         </div>
-    }
-    else
-    {
+                                            }
+                                            else
+                                            {
 
-        <div class="row">
-            <center><h4>El material no se encuentra en la Base de Datos </h4></center>
-        </div>
+                                                <div class="row">
+                                                    <center><h4>El material no se encuentra en la Base de Datos </h4></center>
+                                                </div>
 
-    }
-}
-else
-{
-    <div class="modal-content">
-        <div class="modal-body">
-            <div class="form-group">
-                <center>
-                    <h3>Su sesión ha expirado, ingrese nuevamente.</h3>
-                </center>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <div class="col-sm-6 contenido-derecha">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-            </div>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <div class="form-group">
+                                                            <center>
+                                                                <h3>Su sesión ha expirado, ingrese nuevamente.</h3>
+                                                            </center>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <div class="col-sm-6 contenido-derecha">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                                                        </div>
 
-        </div>
-    </div>
+                                                    </div>
+                                                </div>
 
-}
+                                            }

@@ -85,3 +85,16 @@ C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1
 C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\DataAccess\obj\Debug\DataAccess.csprojResolveAssemblyReference.cache
 C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\DataAccess\obj\Debug\DataAccess.dll
 C:\Users\consultor3\Downloads\Proy01-c54c7e5c88db157032a388f1b4bbe60fb68954a2 (1)\Proy03\DataAccess\obj\Debug\DataAccess.pdb
+D:\Proy03\DataAccess\bin\Debug\DataAccess.dll.config
+D:\Proy03\DataAccess\bin\Debug\DataAccess.dll
+D:\Proy03\DataAccess\bin\Debug\DataAccess.pdb
+D:\Proy03\DataAccess\bin\Debug\Data.dll
+D:\Proy03\DataAccess\bin\Debug\Entidades.dll
+D:\Proy03\DataAccess\bin\Debug\Oracle.ManagedDataAccess.dll
+D:\Proy03\DataAccess\bin\Debug\Data.pdb
+D:\Proy03\DataAccess\bin\Debug\Entidades.pdb
+D:\Proy03\DataAccess\obj\Debug\DataAccess.csprojResolveAssemblyReference.cache
+D:\Proy03\DataAccess\obj\Debug\DataAccess.dll
+D:\Proy03\DataAccess\obj\Debug\DataAccess.pdb
+D:\Proy03\DataAccess\bin\Debug\Oracle.Web.dll
+D:\Proy03\DataAccess\bin\Debug\Oracle.DataAccess.dll

@@ -97,6 +97,23 @@ namespace AppV2.Controllers
             return View();
         }
 
+        public ActionResult Parametros()
+        {
+            Session["PestanaConfActiva"] = 5;
+            LogicPresupuesto logic = new LogicPresupuesto();
+
+            return View(logic.getParametrosApp());
+        }
+
+        public ActionResult GuardarParam(int idParam,string contParam)
+        {
+            LogicPresupuesto logic = new LogicPresupuesto();
+
+            return PartialView(logic.GuardarParam(idParam,contParam));
+
+        }
+
+
         public ActionResult BannerConfiguracion() {
             return PartialView();
         }
@@ -303,20 +320,20 @@ namespace AppV2.Controllers
                 int rpta = 0;
                 LogicAcceso logic = new LogicAcceso();
                 Usuario user = logic.ValidarAcceso(usuario);
-                if (user != null)
-                {
-                    if (int.Parse(user.idUsuario) > 0)
-                    {
+                //if (user != null)
+                //{
+                //    if (int.Parse(user.idUsuario) > 0)
+                //    {
                         rpta = logic.insAreasUsuario(idSede, areas, usuario, apepausuario, apemausuario, nombresusuario, emailusuario);
-                    }
-                    else
-                    {
-                        rpta = 100;
-                    }
-                }
-                else {
-                    rpta = 101;
-                }
+                    //}
+                    //else
+                    //{
+                    //    rpta = 100;
+                    //}
+                //}
+                //else {
+                //    rpta = 101;
+                //}
                
 
                 return PartialView(rpta);

@@ -31,6 +31,25 @@ function msgAprobar(idPresupuesto) {
 
 }
 
+function GuardarParam(varidParam) {
+
+    var var_idParam = varidParam;
+    var var_contParam = $('#contParam_' + varidParam).val();
+    $('#idContenidoModal').html(EsperaModal());
+    $('#ModalGeneral').modal('show');
+    $.get("/Login/GuardarParam", { idParam: var_idParam, contParam: var_contParam })
+      .done(function (data) {
+          $('#idContenidoModal').fadeOut(500, function () {
+              $('#idContenidoModal').html(data).fadeIn(500);
+          });
+      })
+    .fail(function (data) {
+        $('#idContenidoModal').fadeOut(500, function () {
+            $('#idContenidoModal').html(EsperaModalFAIL()).fadeIn(500);
+        });
+    });
+}
+
 function verAreasDisponibles(idPresup) {
 
     $('#PresupPorArea').html(getImgEspera());
@@ -755,6 +774,7 @@ function ExpandirObservaciones(codDetalle){
             var mesEnt = getChecksComoString('mesent');
             var idVersion = $('#idVersion').val();
             var idTipo = $('#idTipo').val();
+            var idRubro = $('#rubro').val();
             // Add the uploaded image content to the form data collection 
             if (files.length > 0) { 
                 data.append('UploadedImage', files[0]); 
@@ -777,6 +797,7 @@ function ExpandirObservaciones(codDetalle){
             data.append('idTipo', idTipo);
             data.append('preciosoli', preciosoli);
             data.append('uniSoli', uniSoli);
+            data.append('idrubro', idRubro);
 
             // Make Ajax request with the contentType = false, and procesDate = false 
             var ajaxRequest = $.ajax({ 
@@ -844,6 +865,7 @@ function ExpandirObservaciones(codDetalle){
         var mesEnt = getChecksComoString('mesent');
         var idVersion = $('#idVersion').val();
         var idTipo = $('#idTipo').val();
+        var rubro = $('#rubro').val();
 
         data.append('idDetalle', idDetalle);
         data.append('codMaterial', codMaterial);
@@ -863,6 +885,7 @@ function ExpandirObservaciones(codDetalle){
         data.append('idTipo', idTipo);
         data.append('preciosoli', preciosoli);
         data.append('uniSoli', uniSoli);
+        data.append('idrubro', rubro);
 
         $('#idContenidoModal').html(EsperaModal());
         $('#ModalGeneral').modal('show');
@@ -2009,6 +2032,8 @@ function ExpandirObservaciones(codDetalle){
              window.open(var_url, "_blank");
          }
 
+         var suma = 0;
+
          function NumCheck(e, field) {
              key = e.keyCode ? e.keyCode : e.which
              // backspace
@@ -2017,6 +2042,7 @@ function ExpandirObservaciones(codDetalle){
              if (key > 47 && key < 58) {
                  if (field.value == "") return true
                  regexp = /.[0-9]{8}$/
+
                  return !(regexp.test(field.value))
              }
              // .
@@ -2030,6 +2056,33 @@ function ExpandirObservaciones(codDetalle){
 
          }
 
+         function sumar(cajaText) {
+
+             var total = 0;
+
+             $(".monto").each(function () {
+
+                 if (isNaN(parseFloat($(this).val()))) {
+
+                     total += 0;
+
+                 } else {
+
+                     total += parseFloat($(this).val());
+                     
+                 }
+
+             });
+
+             if (total > $('#totalsolic').val()) {
+                 $(cajaText).val(0);
+                 $('#idContenidoModal').html(EsperaModalPERS('La cantidad distribuida por meses no puede exceder el total solicitado'));
+                 $('#ModalGeneral').modal('show');
+             }
+             //alert(total);
+
+         }
+
          function cambioSelec() {
              if ($("#selmesessoli").is(':checked')) {
                  //$("input[type=checkbox]").prop('checked', true); //todos los check
@@ -2039,5 +2092,16 @@ function ExpandirObservaciones(codDetalle){
              } else {
                  //$("input[type=checkbox]").prop('checked', false);//todos los check
                  $("input[name=messoli]").prop('checked', false);//solo los del objeto #diasHabilitados
+             }
+         }
+         function cambioarea() {
+             if ($("#selareasoli").is(':checked')) {
+                 //$("input[type=checkbox]").prop('checked', true); //todos los check
+                 
+
+                 $("input[name=accArea]").prop('checked', true); //solo los del objeto #diasHabilitados
+             } else {
+                 //$("input[type=checkbox]").prop('checked', false);//todos los check
+                 $("input[name=accArea]").prop('checked', false);//solo los del objeto #diasHabilitados
              }
          }

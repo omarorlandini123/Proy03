@@ -8,6 +8,6 @@
     <li class="@(pagActive == 2 ? "active" : "")">@Html.ActionLink("Areas de Usuario", "Areas", "Login", new { idSede = int.Parse(Session["idSede"].ToString()) }, null)</li>
     <li class="@(pagActive == 3 ? "active" : "")">@Html.ActionLink("Esquema de GK", "EsquemaReporte", "Login")</li>
     <li class="@(pagActive == 4 ? "active" : "")">@Html.ActionLink("Clases de GK", "ClasesGK", "Login")</li>
-    
+    <li class="@(pagActive == 5 ? "active" : "")">@Html.ActionLink("Parametros Aplicación", "Parametros", "Login")</li>
 
 </ul>

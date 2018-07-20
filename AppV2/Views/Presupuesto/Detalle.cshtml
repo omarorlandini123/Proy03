@@ -1,206 +1,503 @@
 ﻿@using Entidades;
-@model  Entidades.Version
+@model Entidades.Version
 
 
-<h3>
-    @(Model.presupuestoTipo.presupuesto.nombrePresupuesto) - @(Model.presupuestoTipo.tipoPresupuesto.nombrePresupuesto)
-    @if (Model.numeroVersion != 0)
+@if (Model != null)
+{
+
+
+    if (Model.aprobaciones == null)
     {
-        <strong> - Versión #@Model.numeroVersion</strong>
+
+        <center>
+            <h3>No se han registrado aprobadores ni formuladores para este presupuesto</h3>
+        </center>
+
     }
-</h3>
-@if (Model.area != null)
-{
-    <h4>Vista del Área:  @Model.area.desArea</h4>
-}
+    else
+    {
+        Boolean mostrarActualizar = false;
+        Boolean mostrarBuscar = false;
+        Boolean mostrarListaDetalles = false;
+        Boolean mostrarPanel = false;
+        Boolean mostrarAprobarVersion = false;
+        Boolean mostrarRechazarTodo = false;
+        Boolean mostrarEnviarAprobacion = false;
+        Boolean mostrarVersionAprobada = false;
+        Boolean mostrarAprobarTodosLositems = false;
+        Boolean MostrarSelectorMaterialesServicios = false;
+        Boolean MostrarbotonNuevo = false;
 
-<br />
-<form>
-    <input type="hidden" value="@Model.idVersion" id="idVersion" />
-    <input type="hidden" value="@ViewBag.idTipo" id="idTipo" />
-</form>
-@{var estadPanel = "panel-default"; }
-@if (Model.estadoActual == Aprobacion.estados.Aprobado)
-{
-    estadPanel = "panel-success";
-}
-<div class="panel @estadPanel">
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-sm-6">
-                @if (Model.estadoActual == Aprobacion.estados.Enviado)
+        Boolean mostrarAprobarItem = false;
+        Boolean mostrarEditarItem = false;
+        Boolean MostrarObservarItem = false;
+        Boolean MostrarEliminarItem = false;
+
+        Boolean errores = false;
+        Boolean usuarioFinalizoProceso = false;
+
+        Boolean enviado = false;
+        Boolean AprobacionInicial = true;
+        Boolean existeAprobadorInicial = false;
+        Boolean existeMayorOrden = false;
+
+        //Representa los datos del usuario aprobador actual
+        //--------------
+        Boolean soyAprobador = false;
+        int ordenAprobacionUsuarioActual = 0;
+        Aprobacion.estados estadoAprobacionUsuarioActual = Aprobacion.estados.NoVerficiado;
+        //--------------
+
+        List<Aprobacion> aprobacionesOrdenActual = new List<Aprobacion>();
+
+        foreach (Aprobacion apro in Model.aprobaciones)
+        {
+            //Todas las aprobaciones del orden actual
+            if (Model.ordenActual == apro.orden)
+            {
+                aprobacionesOrdenActual.Add(apro);
+            }
+
+
+
+            //Comprueba si el usuario actual está dentro de los aprobadores
+            if (apro.usuarioApro.usuario == ((Usuario)Session["usuario"]).usuario)
+            {
+                soyAprobador = true;
+                ordenAprobacionUsuarioActual = apro.orden;
+                estadoAprobacionUsuarioActual = apro.estado;
+            }
+
+            //Comprueba que de todas las aprobaciones de nivel 1 al menos una esté en enviado
+            if (apro.orden == 1 && apro.estado == Aprobacion.estados.Enviado)
+            {
+                enviado = true;
+            }
+
+            //Comprueba que de todas las aprobaciones de nivel 2 TODAS estén Aprobadas
+            if (apro.orden == 2 && (apro.estado == Aprobacion.estados.Desaprobado || apro.estado == Aprobacion.estados.Edicion || apro.estado == Aprobacion.estados.NoVerficiado))
+            {
+                AprobacionInicial = false;
+            }
+
+            // coloca en true si existe al menos un aprobador inicial
+            if (apro.orden == 2)
+            {
+                existeAprobadorInicial = true;
+            }
+            // coloca en true si existen aprobadores de ordenes más altos al inicial
+            if (apro.orden > 2)
+            {
+                existeMayorOrden = true;
+            }
+
+        }
+        // Si no existe al menos un aprobador inicial, la aprobación inicial es falsa;
+        if (!existeAprobadorInicial)
+        {
+            AprobacionInicial = false;
+        }
+
+
+
+        if (soyAprobador)
+        {
+
+            if (Model.ordenActual == 1)//Si la version recién se ha creado y está en orden 1 por default
+            {
+                if (!enviado) //Si la versión todavía no se ha enviado a aprobar
                 {
-                    if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.AprobarVersion))
+                    if (ordenAprobacionUsuarioActual == 1)// Si soy usuario aprobador de nivel 1
                     {
-                        <button type="button" class="btn btn-success btn-sm" onclick="AprobarVersion(@Model.idVersion)"> Aprobar </button>
-                    }
-                    if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.RechazarVersion))
-                    {
-                        <button type="button" class="btn btn-danger btn-sm" onclick="RechazarVersion(@Model.idVersion)"> Rechazar Todo </button>
-                    }
-                }
-
-                @if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.EnviarAprobacion) && (Model.estadoActual == Aprobacion.estados.Desaprobado || Model.estadoActual == Aprobacion.estados.NoVerficiado))
-                {
-                    <button type="button" class="btn btn-info btn-sm" onclick="EnviarAprobacion(@Model.idVersion)"> Enviar Aprobación </button>
-                }
-                else if (Model.estadoActual == Aprobacion.estados.Aprobado)
-                {
-                    <h4 style="color:#7fd15c"><strong>Versión Aprobada</strong></h4>
-
-                }
-
-                @*@if( ((Usuario)Session["usuario"]).tieneAccesoA(Accesos.AprobarTodosItems))
-                    {*@
-                <button type="button" class="btn btn-success btn-sm" onclick="AprobarTodosLositems(@Model.idVersion)"> Aprobar Todos los Ítems </button>
-                @* } *@
-
-            </div>
-            <div class="col-sm-6 " role="group" aria-label="...">
-                @if (((int)Session["idTipoDetPresup"]) != 1)
-                {
-                <div class="dropdown" style="float: right;">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        @ViewBag.TipoDetalles
-                        <span class="caret"></span>
-                    </button>
-                  
-                        @if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.SeleccionMaterialesSuministro))
+                        if (estadoAprobacionUsuarioActual != Aprobacion.estados.Enviado)//Si todavía no he mandado a aprobar
                         {
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-
-                                <li> @Html.ActionLink("Materiales y Suministros", "Detalle", "Presupuesto", new { id = Model.idVersion, idTipo = 1 }, null) </li>
-                                <li> @Html.ActionLink("Servicios", "Detalle", "Presupuesto", new { id = Model.idVersion, idTipo = 2 }, null) </li>
-
-                            </ul>
-                        }
-                    
-                    
-                </div>
-                }
-                <div style="float: right;margin-right:5px;">
-                    @if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.AgregarNuevoItem) && (Model.estadoActual == Aprobacion.estados.Edicion || Model.estadoActual == Aprobacion.estados.NoVerficiado || Model.estadoActual == Aprobacion.estados.Desaprobado))
-                    {
-                        <button type="button" class="btn btn-warning btn-sm" onclick="MostrarPanelNuevo(@ViewBag.idTipo,@Model.idVersion,@Model.presupuestoTipo.tipoPresupuesto.idTipoPresupuesto)"> Agregar Ítem </button>
-                    }
-                </div>
-            </div>
-
-        </div><br />
-        <div class="row">
-            <div class="col-sm-6">
-
-                <div class="estado">
-                    <label>Actualizar</label>
-
-                    <span onclick="getListaDetalle('')" class="glyphicon glyphicon-refresh"></span>
-                </div>
-
-            </div>
-            <div class="col-sm-4 col-sm-offset-2">
-                @if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.BuscarItem))
-                {
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Buscar ... " id="cond_buscar">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button" onclick="getListaDetalle($('#cond_buscar').val())">Buscar</button>
-                        </span>
-                    </div>
-                }
-            </div>
-        </div><br />
-        <div class="row" id="DIV_NEW_ITEM">
-
-        </div>
-
-        <div class="row" id="ListaDetalle">
-            <div class="col-sm-12">
-                @if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.VerListarDetalleVersion))
-                {
-                    <table class="table table-hover">
-                        <tr>
-                            <td><b>#</b></td>
-                            <td><b>Código</b></td>
-                            <td><b>Descripción</b></td>
-                            <td><b>Unid.</b></td>
-                            <td><b>Precio Unit.</b></td>
-                            <td><b>Cantidad</b></td>
-                            <td><b>Precio</b></td>
-                            <td></td>
-                        </tr>
-                        @if (Model.detalles != null)
-                        {
-                            foreach (var item in Model.detalles)
-                            {
-                                var claseFila = "";
-                                if (item.estado == Aprobacion.estados.Aprobado)
-                                {
-                                    claseFila = "success";
-                                }
-                                else if (item.estado == Aprobacion.estados.Desaprobado)
-                                {
-                                    claseFila = "danger";
-                                }
-                                <tr class="@claseFila">
-                                    <td>@item.idDetalle</td>
-                                    <td>@Html.DisplayFor(modelItem => item.mat.codProducto)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.mat.desc)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.uniSoli)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.precioSoli)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.cantidadSoli)</td>
-                                    <td>@Html.DisplayFor(modelItem => item.totalSoli)</td>
-                                    <td>
-
-                                        @if (Model.estadoActual != Aprobacion.estados.Aprobado)
-                                        {
-                                            if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.AprobarDetalle))
-                                            {
-                                                <button type="button" class="btn btn-success btn-xs" onclick="AprobarDetalle(@item.idDetalle)">Aprobar</button>
-                                            }
-                                        }
-                                        @if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.ExpandirDetalle))
-                                        {
-                                            <button type="button" class="btn btn-warning btn-xs" onclick="ExpandirDetalle('@item.idDetalle',@Model.presupuestoTipo.tipoPresupuesto.idTipoPresupuesto)">Editar</button>
-                                        }
-                                        
-                                        @if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.ExpandirObservaciones))
-                                        {
-                                            <button type="button" class="btn btn-primary btn-xs" onclick="ExpandirObservaciones('@item.idDetalle')">Obser</button>
-                                        }
-
-                                        @if (Model.estadoActual != Aprobacion.estados.Aprobado)
-                                        {
-                                            if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.MostrarEliminarDetalle))
-                                            {
-                                            <button type="button" class="btn btn-danger btn-xs" onclick="MostrarEliminarDetalle('@item.idDetalle')">Eliminar</button>
-                                            }
-                                        }
-                                    </td>
-                                </tr>
-                                <tr style="display:none;" id="DETALLE_@item.idDetalle">
-                                    <td colspan="8">
-                                        <div class="col-sm-12" id="DETALLEDIV_@item.idDetalle">
-
-                                        </div>
-
-                                    </td>
-                                </tr>
-                            }
+                            mostrarPanel = true;
+                            mostrarEnviarAprobacion = true;
+                            MostrarSelectorMaterialesServicios = true;
+                            MostrarbotonNuevo = true;
+                            mostrarActualizar = true;
+                            mostrarBuscar = true;
+                            mostrarListaDetalles = true;
+                            mostrarEditarItem = true;
+                            MostrarObservarItem = true;
+                            MostrarEliminarItem = true;
                         }
                         else
                         {
-                            <tr>
-                                <td colspan="8"> <center>No Existen ítems registrados </center></td>
-                            </tr>
+                            errores = true;
+                            <center><h3 style="color:red;">Ya enviaste esta versión para aprobar, pero no se ha marcado la versión como orden superior (2)</h3></center>
+                        }
+                    }
+                    else if (ordenAprobacionUsuarioActual > 1)// Si soy usuario aprobador de nivel superior a 1
+                    {
+                        usuarioFinalizoProceso = true;
+                        <center><h3 style="color: black;">La version todavía no se ha mandado a primera aprobación</h3></center>
+                    }
+                    else
+                    {
+                        errores = true;
+                        <center><h3 style="color:red;">El orden de aprobación de este su usuario no es el adecuado</h3></center>
+                    }
+                }
+                else
+                {
+                    errores = true;
+                    <center><h3 style="color:red;">Uno de los usuarios ha enviado la versión, pero no se ha marcado la versión como orden superior (2)</h3></center>
+
+                }
+            }
+            else if (Model.ordenActual == 2) //Si la versión ya fue enviada y está en espera de la aprobación de todos los de nivel 2
+            {
+                if (enviado)
+                {
+                    if (ordenAprobacionUsuarioActual == 1)// Si soy usuario aprobador de nivel 1
+                    {
+                        if (estadoAprobacionUsuarioActual == Aprobacion.estados.Enviado)//Si todavía no he mandado a aprobar
+                        {
+                            usuarioFinalizoProceso = true;
+                            <center><h3 style="color: black;">Ya enviaste esta versión para aprobar</h3></center>
+                        }
+                        else
+                        {
+                            usuarioFinalizoProceso = true;
+                            <center><h3 style="color: black;">Otro formulador ha enviado a aprobar esta versión</h3></center>
+                        }
+                    }
+                    else if (ordenAprobacionUsuarioActual == 2)// Si soy usuario aprobador de nivel 2
+                    {
+                        if (estadoAprobacionUsuarioActual == Aprobacion.estados.NoVerficiado)
+                        {
+                            mostrarPanel = true;
+                            mostrarAprobarVersion = true;
+                            mostrarRechazarTodo = true;
+                            mostrarAprobarTodosLositems = true;
+                            MostrarSelectorMaterialesServicios = true;
+                            mostrarActualizar = true;
+                            mostrarBuscar = true;
+                            mostrarListaDetalles = true;
+                            mostrarAprobarItem = true;
+                            mostrarEditarItem = true;
+                            MostrarObservarItem = true;
+
+
+                        }
+                        else if (estadoAprobacionUsuarioActual == Aprobacion.estados.Enviado)
+                        {
+                            errores = true;
+                            <center><h3 style="color:red;">La versión no puede estar en orden 2 si la has enviado</h3></center>
+                        }
+                        else if (estadoAprobacionUsuarioActual == Aprobacion.estados.Desaprobado)
+                        {
+                            errores = true;
+                            <center><h3 style="color:red;">La versión no puede estar en orden 2 si la has desaprobado</h3></center>
+
+                        }
+                        else if (estadoAprobacionUsuarioActual == Aprobacion.estados.Aprobado)
+                        {
+                            usuarioFinalizoProceso = true;
+                            <center><h3 style="color: black;"> Ya has aprobado esta versión </h3></center>
+                        }
+                    }
+                    else if (ordenAprobacionUsuarioActual > 2)
+                    {
+                        usuarioFinalizoProceso = true;
+                        <center><h3 style="color: black;">Esta versión está en proceso de primera aprobación </h3></center>
+                    }
+                }
+                else
+                {
+
+                    usuarioFinalizoProceso = true;
+                    <center><h3 style="color: black;">Esta versión está en proceso aprobación </h3></center>
+                }
+            }
+            else if (Model.ordenActual > 2) //Si la versión ya fue enviada desde nivel 2 y está a la espera aprobaciones posteriores
+            {
+
+                if (ordenAprobacionUsuarioActual == Model.ordenActual)
+                {
+                    if (estadoAprobacionUsuarioActual == Aprobacion.estados.Aprobado)
+                    {
+                        usuarioFinalizoProceso = true;
+                        <center><h3 style="color: black;">Ud. ya aprobó esta versión.</h3></center>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                Aún deben aprobar :
+                            </div>
+                            @foreach (Aprobacion aprobact in aprobacionesOrdenActual)
+                            {
+                                if (aprobact.estado == Aprobacion.estados.NoVerficiado || aprobact.estado != Aprobacion.estados.Aprobado)
+                                {
+                                    <div class="col-sm-offset-2 col-sm-4">
+                                        <strong>@aprobact.usuarioApro.usuario </strong>
+                                    </div>
+                                    <div class="col-sm-offset-2 col-sm-6">
+                                        @aprobact.usuarioApro.ApellidoPaterno @aprobact.usuarioApro.ApellidoMaterno @aprobact.usuarioApro.Nombres
+                                    </div>
+                                }
+                            }
+
+
+                        </div>
+
+                    }
+                    else if (estadoAprobacionUsuarioActual == Aprobacion.estados.NoVerficiado)
+                    {
+                        mostrarPanel = true;
+                        mostrarAprobarVersion = true;
+                        mostrarRechazarTodo = true;
+                        MostrarSelectorMaterialesServicios = true;
+                        mostrarActualizar = true;
+                        mostrarBuscar = true;
+                        mostrarListaDetalles = true;
+                        mostrarEditarItem = true;
+                        MostrarObservarItem = true;
+
+                    }
+                }
+                else if (ordenAprobacionUsuarioActual > Model.ordenActual)
+                {
+                    usuarioFinalizoProceso = true;
+                    <center><h3 style="color: black;">Esta versión está en el nivel @Model.ordenActual de aprobación y Ud. está en el nivel @ordenAprobacionUsuarioActual de aprobación</h3></center>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            Aún deben aprobar:
+                        </div>
+                        @foreach (Aprobacion aprobact in Model.aprobaciones)
+                        {
+                            if (aprobact.orden < ordenAprobacionUsuarioActual)
+                            {
+                                <div class="col-sm-offset-1 col-sm-3">
+                                    <strong>@aprobact.usuarioApro.usuario </strong>
+                                </div>
+                                <div class="col-sm-offset-2 col-sm-5">
+                                    @aprobact.usuarioApro.ApellidoPaterno @aprobact.usuarioApro.ApellidoMaterno @aprobact.usuarioApro.Nombres
+                                </div>
+                                <div class="col-sm-offset-2 col-sm-3">
+                                    @aprobact.estado.ToString()
+                                </div>
+                            }
                         }
 
-
-                    </table>
+                    </div>
+                }
+                else if (ordenAprobacionUsuarioActual < Model.ordenActual)
+                {
+                    usuarioFinalizoProceso = true;
+                    <center><h3 style="color: black;">Esta versión se está verificando en niveles superiores</h3></center>
+                    
                 }
 
+            }
 
-            </div>
-        </div>
 
-    </div>
-</div>
+        }
+        else
+        {
+            <center><h3>Ud. no puede acceder a esta Versión porque no está autorizado</h3></center>
+        }
+
+        if (int.Parse(Session["idTipoDetPresup"].ToString()) == 1) {
+            MostrarSelectorMaterialesServicios = false;
+        }
+
+        if (!errores && !usuarioFinalizoProceso)
+        {
+            <h3>
+                @(Model.presupuestoTipo.presupuesto.nombrePresupuesto) - @(Model.presupuestoTipo.tipoPresupuesto.nombrePresupuesto)
+                @if (Model.numeroVersion != 0)
+                {<strong> - Versión #@Model.numeroVersion</strong>}
+            </h3>
+
+            if (Model.area != null)
+            {
+                <h4>Vista del Área:  @Model.area.desArea</h4>
+            }
+            <br />
+
+            <form>
+                <input type="hidden" value="@Model.idVersion" id="idVersion" />
+                <input type="hidden" value="@ViewBag.idTipo" id="idTipo" />
+            </form>
+
+            if (mostrarPanel)
+            {
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                @if (mostrarAprobarVersion)
+                                {
+                                    <button type="button" class="btn btn-success btn-sm" onclick="AprobarVersion(@Model.idVersion)"> Aprobar </button>
+                                }
+                                @if (mostrarRechazarTodo)
+                                {
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="RechazarVersion(@Model.idVersion)"> Rechazar Todo </button>
+                                }
+                                @if (mostrarEnviarAprobacion)
+                                {
+                                    <button type="button" class="btn btn-info btn-sm" onclick="EnviarAprobacion(@Model.idVersion)"> Enviar Aprobación </button>
+                                }
+                                @if (mostrarVersionAprobada)
+                                {
+                                    <h4 style="color:#7fd15c"><strong>Versión Aprobada</strong></h4>
+                                }
+                                @if (mostrarAprobarTodosLositems)
+                                {
+                                    <button type="button" class="btn btn-success btn-sm" onclick="AprobarTodosLositems(@Model.idVersion)"> Aprobar Todos los Ítems </button>
+                                }
+
+                            </div>
+                            <div class="col-sm-6 " role="group" aria-label="...">
+                                @if (MostrarSelectorMaterialesServicios)
+                                {
+                                    <div class="dropdown" style="float: right;">
+                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            @ViewBag.TipoDetalles
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+
+                                            <li> @Html.ActionLink("Materiales y Suministros", "Detalle", "Presupuesto", new { id = Model.idVersion, idTipo = 1 }, null) </li>
+                                            <li> @Html.ActionLink("Servicios", "Detalle", "Presupuesto", new { id = Model.idVersion, idTipo = 2 }, null) </li>
+
+                                        </ul>
+
+                                    </div>
+                                }
+
+                                @if (MostrarbotonNuevo)
+                                {
+                                    <div style="float: right;margin-right:5px;">
+                                        <button type="button" class="btn btn-warning btn-sm" onclick="MostrarPanelNuevo(@ViewBag.idTipo,@Model.idVersion,@Model.presupuestoTipo.tipoPresupuesto.idTipoPresupuesto)"> Agregar Ítem </button>
+                                    </div>
+                                }
+                            </div>
+                        </div><br />
+                        <div class="row">
+                            <div class="col-sm-6">
+                                @if (mostrarActualizar)
+                                {
+                                    <div class="estado">
+                                        <label>Actualizar</label>
+                                        <span onclick="getListaDetalle('')" class="glyphicon glyphicon-refresh"></span>
+                                    </div>
+                                }
+
+                            </div>
+                            <div class="col-sm-4 col-sm-offset-2">
+                                @if (mostrarBuscar)
+                                {
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Buscar ... " id="cond_buscar">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" onclick="getListaDetalle($('#cond_buscar').val())">Buscar</button>
+                                        </span>
+                                    </div>
+                                }
+                            </div>
+                        </div><br />
+                        <div class="row" id="DIV_NEW_ITEM">
+
+                        </div>
+                        @if (mostrarListaDetalles)
+                        {
+                            <div class="row" id="ListaDetalle">
+                                <div class="col-sm-12">
+
+                                    <table class="table table-hover">
+                                        <tr>
+                                            <td><b>#</b></td>
+                                            <td><b>Código</b></td>
+                                            <td><b>Descripción</b></td>
+                                            <td><b>Unid.</b></td>
+                                            <td><b>Precio Unit.</b></td>
+                                            <td><b>Cantidad</b></td>
+                                            <td><b>Precio</b></td>
+                                            <td></td>
+                                        </tr>
+                                        @if (Model.detalles != null)
+                                        {
+                                            foreach (var item in Model.detalles)
+                                            {
+                                                var claseFila = "";
+                                                if (item.estado == Aprobacion.estados.Aprobado)
+                                                {
+                                                    claseFila = "success";
+                                                }
+                                                else if (item.estado == Aprobacion.estados.Desaprobado)
+                                                {
+                                                    claseFila = "danger";
+                                                }
+                                                <tr class="@claseFila">
+                                                    <td>@item.idDetalle</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.mat.codProducto)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.mat.desc)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.uniSoli)</td>
+                                                    <td style="text-align: right;">@Html.DisplayFor(modelItem => item.precioSoli)</td>
+                                                    <td style="text-align: right;">@Html.DisplayFor(modelItem => item.cantidadSoli)</td>
+                                                    <td style="text-align: right;">@Html.DisplayFor(modelItem => item.totalSoli)</td>
+                                                    <td>
+
+                                                        @if (mostrarAprobarItem)
+                                                        {
+                                                            <button type="button" class="btn btn-success btn-xs" onclick="AprobarDetalle(@item.idDetalle)">Aprobar</button>
+                                                        }
+                                                        @if (mostrarEditarItem)
+                                                        {
+                                                            <button type="button" class="btn btn-warning btn-xs" onclick="ExpandirDetalle('@item.idDetalle',@Model.presupuestoTipo.tipoPresupuesto.idTipoPresupuesto)">Editar</button>
+                                                        }
+                                                        @if (MostrarObservarItem)
+                                                        {
+                                                            <button type="button" class="btn btn-primary btn-xs" onclick="ExpandirObservaciones('@item.idDetalle')">Obser</button>
+                                                        }
+                                                        @if (MostrarEliminarItem)
+                                                        {
+                                                            <button type="button" class="btn btn-danger btn-xs" onclick="MostrarEliminarDetalle('@item.idDetalle')">Eliminar</button>
+                                                        }
+
+                                                    </td>
+                                                </tr>
+                                                <tr style="display:none;" id="DETALLE_@item.idDetalle">
+                                                    <td colspan="8">
+                                                        <div class="col-sm-12" id="DETALLEDIV_@item.idDetalle">
+
+                                                        </div>
+
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <tr>
+                                                <td colspan="8"> <center>No Existen ítems registrados </center></td>
+                                            </tr>
+                                        }
+
+
+                                    </table>
+
+
+
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <center><h3>Ud. no puede ver el panel principal</h3></center>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    }
+
+}
+

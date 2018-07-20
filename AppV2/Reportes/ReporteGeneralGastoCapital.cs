@@ -368,9 +368,9 @@ namespace AppV2.Reportes
                     }
                     catch (Exception s)
                     {
-                        UpdateValue(wsName, "G" + fila, "Varios", 0, false);
+                        UpdateValue(wsName, "F" + fila, "Varios", 0, false);
                     }
-                    UpdateValue(wsName, "H" + fila, detVer.totalSoli.ToString(), 0, false);
+                    UpdateValue(wsName, "G" + fila, detVer.totalSoli.ToString(), 0, false);
                     cantidadTotalMaterial += detVer.cantidadSoli;
                     precioTotalMaterial += detVer.totalSoli;
                     fila = fila + 1;

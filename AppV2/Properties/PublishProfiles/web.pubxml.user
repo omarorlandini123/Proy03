@@ -16,22 +16,22 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>05/29/2017 14:25:46</publishTime>
     </File>
     <File Include="bin/AppV2.dll">
-      <publishTime>07/24/2017 12:42:17</publishTime>
+      <publishTime>08/28/2017 03:11:24</publishTime>
     </File>
     <File Include="bin/Data.dll">
       <publishTime>06/06/2017 16:01:37</publishTime>
     </File>
     <File Include="bin/DataAccess.dll">
-      <publishTime>07/24/2017 12:42:12</publishTime>
+      <publishTime>08/28/2017 02:39:59</publishTime>
     </File>
     <File Include="bin/DataAccess.XmlSerializers.dll">
-      <publishTime>07/24/2017 12:42:13</publishTime>
+      <publishTime>08/28/2017 02:40:00</publishTime>
     </File>
     <File Include="bin/DocumentFormat.OpenXml.dll">
       <publishTime>05/16/2017 14:31:48</publishTime>
     </File>
     <File Include="bin/Entidades.dll">
-      <publishTime>07/24/2017 12:42:11</publishTime>
+      <publishTime>08/28/2017 02:39:58</publishTime>
     </File>
     <File Include="bin/es/System.Web.Helpers.resources.dll">
       <publishTime>05/29/2017 14:25:46</publishTime>
@@ -52,7 +52,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>05/29/2017 14:25:46</publishTime>
     </File>
     <File Include="bin/LogicAccess.dll">
-      <publishTime>07/24/2017 12:42:13</publishTime>
+      <publishTime>08/28/2017 02:40:00</publishTime>
     </File>
     <File Include="bin/Microsoft.AI.Agent.Intercept.dll">
       <publishTime>05/29/2017 14:25:46</publishTime>
@@ -172,7 +172,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>05/29/2017 14:25:46</publishTime>
     </File>
     <File Include="Content/estilos.css">
-      <publishTime>06/23/2017 23:34:40</publishTime>
+      <publishTime>08/13/2017 11:38:06</publishTime>
     </File>
     <File Include="Content/Site.css">
       <publishTime>05/29/2017 14:25:46</publishTime>
@@ -208,7 +208,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>05/29/2017 14:25:46</publishTime>
     </File>
     <File Include="Scripts/funciones.js">
-      <publishTime>07/04/2017 12:08:44</publishTime>
+      <publishTime>08/29/2017 12:39:50</publishTime>
     </File>
     <File Include="Scripts/jquery-1.10.2.js">
       <publishTime>05/29/2017 14:25:46</publishTime>
@@ -240,6 +240,9 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
     <File Include="Scripts/npm.js">
       <publishTime>05/29/2017 14:25:46</publishTime>
     </File>
+    <File Include="Views/Login/AgregarClase.cshtml">
+      <publishTime>08/02/2017 16:13:13</publishTime>
+    </File>
     <File Include="Views/Login/AgregarItemLista.cshtml">
       <publishTime>06/12/2017 22:53:41</publishTime>
     </File>
@@ -253,13 +256,16 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>06/12/2017 22:32:50</publishTime>
     </File>
     <File Include="Views/Login/Areas.cshtml">
-      <publishTime>06/14/2017 12:52:11</publishTime>
+      <publishTime>08/01/2017 23:32:06</publishTime>
     </File>
     <File Include="Views/Login/BannerConfiguracion.cshtml">
-      <publishTime>06/14/2017 13:06:56</publishTime>
+      <publishTime>08/13/2017 21:43:55</publishTime>
     </File>
     <File Include="Views/Login/BuscarAreas.cshtml">
       <publishTime>06/11/2017 23:56:54</publishTime>
+    </File>
+    <File Include="Views/Login/BuscarClases.cshtml">
+      <publishTime>08/02/2017 18:41:57</publishTime>
     </File>
     <File Include="Views/Login/BuscarEsquema.cshtml">
       <publishTime>07/19/2017 23:08:07</publishTime>
@@ -270,11 +276,17 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
     <File Include="Views/Login/BuscarSedes.cshtml">
       <publishTime>06/12/2017 09:54:20</publishTime>
     </File>
+    <File Include="Views/Login/ClasesGK.cshtml">
+      <publishTime>08/02/2017 15:27:09</publishTime>
+    </File>
     <File Include="Views/Login/Configuracion.cshtml">
-      <publishTime>06/14/2017 12:47:59</publishTime>
+      <publishTime>07/26/2017 13:00:13</publishTime>
     </File>
     <File Include="Views/Login/CrearPerfil.cshtml">
       <publishTime>05/29/2017 14:25:46</publishTime>
+    </File>
+    <File Include="Views/Login/EliminarClase.cshtml">
+      <publishTime>08/02/2017 17:46:48</publishTime>
     </File>
     <File Include="Views/Login/EliminarLista.cshtml">
       <publishTime>06/12/2017 22:40:19</publishTime>
@@ -282,35 +294,47 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
     <File Include="Views/Login/EliminarPerfil.cshtml">
       <publishTime>05/29/2017 14:25:46</publishTime>
     </File>
+    <File Include="Views/Login/EliminarUsuario.cshtml">
+      <publishTime>08/01/2017 23:46:37</publishTime>
+    </File>
     <File Include="Views/Login/EsquemaReporte.cshtml">
-      <publishTime>06/14/2017 12:37:39</publishTime>
+      <publishTime>08/02/2017 00:08:34</publishTime>
     </File>
     <File Include="Views/Login/getAccesosDePerfil.cshtml">
       <publishTime>05/29/2017 23:14:48</publishTime>
     </File>
     <File Include="Views/Login/getAreasUsuario.cshtml">
-      <publishTime>06/06/2017 12:53:59</publishTime>
+      <publishTime>08/29/2017 12:39:50</publishTime>
     </File>
     <File Include="Views/Login/GuardarAccesos.cshtml">
       <publishTime>05/29/2017 14:25:46</publishTime>
     </File>
+    <File Include="Views/Login/GuardarParam.cshtml">
+      <publishTime>08/13/2017 23:36:37</publishTime>
+    </File>
     <File Include="Views/Login/Index.cshtml">
-      <publishTime>05/29/2017 14:25:46</publishTime>
+      <publishTime>08/01/2017 23:58:23</publishTime>
     </File>
     <File Include="Views/Login/insAreasUsuario.cshtml">
-      <publishTime>06/06/2017 10:41:25</publishTime>
+      <publishTime>08/01/2017 22:39:37</publishTime>
+    </File>
+    <File Include="Views/Login/InsertClase.cshtml">
+      <publishTime>08/02/2017 22:21:21</publishTime>
     </File>
     <File Include="Views/Login/Logout.cshtml">
       <publishTime>05/29/2017 14:25:46</publishTime>
     </File>
     <File Include="Views/Login/MostrarAreasSinSelec.cshtml">
-      <publishTime>06/06/2017 11:20:39</publishTime>
+      <publishTime>08/01/2017 18:10:30</publishTime>
     </File>
     <File Include="Views/Login/MostrarCrearNuevoUsuario.cshtml">
-      <publishTime>06/06/2017 10:41:25</publishTime>
+      <publishTime>08/01/2017 19:33:26</publishTime>
     </File>
     <File Include="Views/Login/MostrarCrearPerfil.cshtml">
       <publishTime>05/29/2017 14:25:46</publishTime>
+    </File>
+    <File Include="Views/Login/Parametros.cshtml">
+      <publishTime>08/13/2017 23:35:21</publishTime>
     </File>
     <File Include="Views/Presupuesto/ActualizarDetalle.cshtml">
       <publishTime>05/29/2017 22:33:56</publishTime>
@@ -343,10 +367,10 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>06/25/2017 21:10:21</publishTime>
     </File>
     <File Include="Views/Presupuesto/AprobarTodoShow.cshtml">
-      <publishTime>06/25/2017 21:10:21</publishTime>
+      <publishTime>08/04/2017 01:54:02</publishTime>
     </File>
     <File Include="Views/Presupuesto/AprobarVersion.cshtml">
-      <publishTime>05/29/2017 14:25:46</publishTime>
+      <publishTime>08/04/2017 21:18:17</publishTime>
     </File>
     <File Include="Views/Presupuesto/CrearPresup.cshtml">
       <publishTime>05/29/2017 22:37:13</publishTime>
@@ -355,16 +379,16 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>05/29/2017 22:37:18</publishTime>
     </File>
     <File Include="Views/Presupuesto/Detalle.cshtml">
-      <publishTime>07/19/2017 21:13:41</publishTime>
+      <publishTime>08/28/2017 03:08:41</publishTime>
     </File>
     <File Include="Views/Presupuesto/DetalleAprobacion.cshtml">
       <publishTime>05/29/2017 23:18:07</publishTime>
     </File>
     <File Include="Views/Presupuesto/DetallesVersion.cshtml">
-      <publishTime>06/14/2017 00:15:55</publishTime>
+      <publishTime>08/28/2017 03:08:41</publishTime>
     </File>
     <File Include="Views/Presupuesto/Edit.cshtml">
-      <publishTime>07/20/2017 19:18:15</publishTime>
+      <publishTime>08/28/2017 18:26:51</publishTime>
     </File>
     <File Include="Views/Presupuesto/EliminarArchivo.cshtml">
       <publishTime>05/29/2017 23:01:55</publishTime>
@@ -421,7 +445,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>05/29/2017 14:25:46</publishTime>
     </File>
     <File Include="Views/Presupuesto/Nuevo.cshtml">
-      <publishTime>07/20/2017 19:41:59</publishTime>
+      <publishTime>08/27/2017 23:20:26</publishTime>
     </File>
     <File Include="Views/Presupuesto/NuevoAprobadorPresup.cshtml">
       <publishTime>05/29/2017 14:25:46</publishTime>
@@ -430,37 +454,37 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>05/29/2017 14:25:46</publishTime>
     </File>
     <File Include="Views/Presupuesto/NuevoDetalle.cshtml">
-      <publishTime>05/29/2017 23:44:48</publishTime>
+      <publishTime>08/28/2017 00:21:28</publishTime>
     </File>
     <File Include="Views/Presupuesto/Observaciones.cshtml">
-      <publishTime>05/30/2017 11:35:01</publishTime>
+      <publishTime>08/04/2017 02:02:29</publishTime>
     </File>
     <File Include="Views/Presupuesto/PorArea.cshtml">
-      <publishTime>06/23/2017 23:23:14</publishTime>
+      <publishTime>08/21/2017 10:33:49</publishTime>
     </File>
     <File Include="Views/Presupuesto/PorSede.cshtml">
-      <publishTime>05/29/2017 23:09:51</publishTime>
+      <publishTime>08/21/2017 10:30:55</publishTime>
     </File>
     <File Include="Views/Presupuesto/PorTipo.cshtml">
-      <publishTime>06/04/2017 21:30:23</publishTime>
+      <publishTime>08/21/2017 10:42:23</publishTime>
     </File>
     <File Include="Views/Presupuesto/PresupArea.cshtml">
-      <publishTime>05/30/2017 13:38:52</publishTime>
+      <publishTime>08/21/2017 10:45:17</publishTime>
     </File>
     <File Include="Views/Presupuesto/RechazarVersion.cshtml">
-      <publishTime>05/29/2017 14:25:46</publishTime>
+      <publishTime>08/04/2017 21:13:31</publishTime>
     </File>
     <File Include="Views/Presupuesto/SubirArchivo.cshtml">
       <publishTime>05/29/2017 23:11:11</publishTime>
     </File>
     <File Include="Views/Presupuesto/TiposPresupuesto.cshtml">
-      <publishTime>06/04/2017 22:33:51</publishTime>
+      <publishTime>08/21/2017 10:47:49</publishTime>
     </File>
     <File Include="Views/Presupuesto/VerArchivos.cshtml">
       <publishTime>05/29/2017 23:12:55</publishTime>
     </File>
     <File Include="Views/Presupuesto/Versiones.cshtml">
-      <publishTime>05/30/2017 01:35:14</publishTime>
+      <publishTime>08/21/2017 10:51:34</publishTime>
     </File>
     <File Include="Views/Sede/Create.cshtml">
       <publishTime>05/29/2017 14:25:46</publishTime>
@@ -469,7 +493,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>05/29/2017 14:25:46</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>06/23/2017 23:54:17</publishTime>
+      <publishTime>08/13/2017 11:28:59</publishTime>
     </File>
     <File Include="Views/web.config">
       <publishTime>05/29/2017 14:25:46</publishTime>

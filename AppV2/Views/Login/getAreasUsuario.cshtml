@@ -40,6 +40,12 @@
                     <center>Lista de Áreas Registradas</center>
                 </div>
                 <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <input type="checkbox" name="selareasoli" id="selareasoli" onchange="cambioarea()" /> Seleccionar todas las áreas
+                        </div>
+                    </div>
+                    <br />
                     @if (Model != null)
                     {
                         foreach (var item in Model)
@@ -59,7 +65,7 @@
                             }
                             <div class="row">
                                 <div class="col-sm-2">
-                                    <input type="checkbox" name="accArea" id="cbox@(item.codArea)" @(check ? "checked=\"checked\"" : "") value="@(item.codArea)">
+                                    <input type="checkbox" class="chkArea" name="accArea" id="cbox@(item.codArea)" @(check ? "checked=\"checked\"" : "") value="@(item.codArea)">
                                 </div>
                                 <div class="col-sm-10">
                                     @item.desArea

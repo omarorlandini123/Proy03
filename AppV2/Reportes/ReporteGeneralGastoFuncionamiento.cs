@@ -320,8 +320,8 @@ namespace AppV2.Reportes
                                         }
                                     }
                                     UpdateValue(wsName, "C" + fila, "Total Materiales", 0, true);
-                                    UpdateValue(wsName, "E" + fila, string.Format("{0:0.00#}", cantidadTotalMaterial), 0, true);
-                                    UpdateValue(wsName, "G" + fila, string.Format("{0:0.00#}", precioTotalMaterial), 0, true);
+                                    UpdateValue(wsName, "E" + fila, string.Format("{0:0.00#}", cantidadTotalMaterial), 0, false);
+                                    UpdateValue(wsName, "G" + fila, string.Format("{0:0.00#}", precioTotalMaterial), 0, false);
                                     fila = fila + 1;
                                 }
                             }
@@ -357,8 +357,8 @@ namespace AppV2.Reportes
                                         }
                                     }
                                     UpdateValue(wsName, "C" + fila, "Total Servicios", 0, true);
-                                    UpdateValue(wsName, "E" + fila, string.Format("{0:0.00#}", cantidadTotalServicio), 0, true);
-                                    UpdateValue(wsName, "G" + fila, string.Format("{0:0.00#}", precioTotalServicio), 0, true);
+                                    UpdateValue(wsName, "E" + fila, string.Format("{0:0.00#}", cantidadTotalServicio), 0, false);
+                                    UpdateValue(wsName, "G" + fila, string.Format("{0:0.00#}", precioTotalServicio), 0, false);
                                     fila = fila + 1;
                                 }
                             }

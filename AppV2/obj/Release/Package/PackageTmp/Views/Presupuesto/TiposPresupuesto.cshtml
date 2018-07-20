@@ -50,30 +50,30 @@
 
                     </div>
                     <div class="row">
-                        <div class="col-sm-6">Version Actual: #@preArea.nroActual</div>
+                        <div class="col-sm-6" data-toggle="tooltip" title="El nro de Versión actual del presupuesto" >Version Actual: #@preArea.nroActual</div>
                         <div class="col-sm-3">Monto:</div>
                         @if (preArea.monto > 0)
                         {
-                            <div class="col-sm-3">S/ @string.Format("{0:0.00}", preArea.monto)</div>
+                            <div class="col-sm-3"  data-toggle="tooltip" title="Monto total del tipo de  presupuesto para esta área" >S/ @string.Format("{0:0.00}", preArea.monto)</div>
                         }
                         else
                         {
-                            <div class="col-sm-3">S/ 0.00</div>
+                            <div class="col-sm-3"  data-toggle="tooltip" title="Monto total del tipo de  presupuesto para esta área" >S/ 0.00</div>
                         }
                     </div>
                     <div class="row">
                         @if (((Usuario)Session["usuario"]).tieneAccesoA(Accesos.NuevaVersion))
                         {
-                            <div class="col-sm-6"><center><a href="javascript:NuevaVersion(@preArea.idPresupuestoTipo)">Nueva Version</a></center></div>
+                            <div class="col-sm-6"  data-toggle="tooltip" title="Crea una nueva versión desde cero" ><center><a href="javascript:NuevaVersion(@preArea.idPresupuestoTipo)">Nueva Version</a></center></div>
                         }
                         <div class="col-sm-3">Desde:</div>
-                        <div class="col-sm-3">@preArea.fechaValIni.ToShortDateString()</div>
+                        <div class="col-sm-3" data-toggle="tooltip" title="Fecha de inicio de validéz del presupuesto del área"  >@preArea.fechaValIni.ToShortDateString()</div>
                     </div>
                     <div class="row">
                         <div class="col-sm-3"></div>
                         <div class="col-sm-3"></div>
                         <div class="col-sm-3">Hasta:</div>
-                        <div class="col-sm-3">@preArea.fechaValFin.ToShortDateString()</div>
+                        <div class="col-sm-3" data-toggle="tooltip" title="Fecha de fin de validéz del presupuesto del área" >@preArea.fechaValFin.ToShortDateString()</div>
                     </div>
                 </div>
 

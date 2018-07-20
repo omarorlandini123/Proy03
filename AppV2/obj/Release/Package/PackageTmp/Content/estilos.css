@@ -20,6 +20,10 @@
     background: white;    
     border: 1px solid black;
 }
+.estado-ind-celeste {
+    background: #5eb2f5;    
+    border: 1px solid black;
+}
 
 .estado {   
     margin:2px;
@@ -48,20 +52,20 @@
 
 
 .est-edicion{
-	background-color: #fbef86;
+	background-color: white;
 	    
 }
 .est-edicion:hover{
-	background-color: #fbe315 !important;
+	background-color: #bfbfbc !important;
 	    
 }
 
 
 .est-aprobado{
-	background-color: #9fda5a;
+	background-color: rgba(206, 255, 180, 0.55);
 }
 .est-aprobado:hover{
-	background-color: #98d056 !important;
+	background-color: rgb(195, 255, 164) !important;
 }
 
 
@@ -73,12 +77,12 @@
 }
 
 .est-enviado{
-	background-color: #b8dfe0;
-     color: white !important;
+	background-color: #dcf8f8;
+     color: black !important;
 }
 .est-enviado:hover{
-	background-color: #66d1d6 !important;
-    color: white !important;
+	background-color: #c5edef !important;
+    color: black !important;
 }
 
 .est-desaprobado{

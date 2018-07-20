@@ -76,7 +76,7 @@ namespace DataAccess
             return userRpta;
         }
 
-       
+
 
         public Usuario Login(string usuario, string password)
         {
@@ -84,53 +84,77 @@ namespace DataAccess
 
             try
             {
-                AutenticarService.Autenticar aut = new AutenticarService.Autenticar();
+                //AutenticarService.Autenticar aut = new AutenticarService.Autenticar();
 
-                AutenticarService.RespuestaBE rpta = aut.LogOn(usuario, password, true);
-                if (rpta.IdUsuario > 0)
-                {
-                    DataTable st = aut.GetOptionsByProfile(1, rpta.IdUsuario);
-                }
-                else {
-                   rpta = aut.LogOn(usuario, password, true);
+                AutenticarService.RespuestaBE rpta = null; // = aut.LogOn(usuario, password, false);
+                //if (rpta.IdUsuario > 0)
+                //{
+                //    DataTable st = aut.GetOptionsByProfile(1, rpta.IdUsuario);
+                //}
+                //else {
+                //   rpta = aut.LogOn(usuario, password, false);
 
-                }
-                if (rpta != null)
+                //}
+                if (rpta == null)
                 {
-                    DataTable rptaperfil = rpta.MiPerfil;
+                    //DataTable rptaperfil = rpta.MiPerfil;
 
                     userRpta = new Usuario();
                     userRpta.perfiles = new List<Perfil>();
-                    foreach (DataRow fila in rptaperfil.Rows)
-                    {
-                        userRpta.idUsuario = fila["IdUsuario"].ToString();
-                        userRpta.usuario = fila["Login"].ToString().ToLower();
-                        userRpta.Nombres = fila["ApellidosyNombres"].ToString();
-                        userRpta.numeroPersonal = fila["NroPersonal"].ToString();
-                        userRpta.area = new Area();
-                        userRpta.area.codArea = fila["idArea"].ToString();
-                        userRpta.area.desArea = fila["NombreArea"].ToString();
-                        userRpta.area.sede = new Sede();
-                        userRpta.area.sede.codSede = int.Parse(fila["idCentroOperativo"].ToString());
-                        userRpta.area.sede.desSede = fila["NombreCentroOperativo"].ToString();
-                        userRpta.centroCosto = new CentroCosto();
-                        userRpta.centroCosto.idCentro = int.Parse(fila["idCentroCosto"].ToString());
-                        userRpta.centroCosto.nroCentro = fila["NroCentroCosto"].ToString();
-                        userRpta.centroCosto.nombre = fila["NombreCentroCosto"].ToString();
-                        userRpta.grupoCentroCosto = new GrupoCentroCosto();
-                        userRpta.grupoCentroCosto.idGrupoCentro = int.Parse(fila["idGrupoCentroCosto"].ToString());
-                        userRpta.grupoCentroCosto.nombre = fila["NombreGrupoCentroCosto"].ToString();
-                        Perfil perfil = new Perfil();
-                        perfil.idPerfil = int.Parse(fila["IdPerfil"].ToString());
-                        perfil.nombre = fila["Perfil"].ToString();
-                        perfil.accesos = getAccesos(perfil.idPerfil);
-                        userRpta.perfiles.Add(perfil);
+                    //foreach (DataRow fila in rptaperfil.Rows)
+                    //{
+                    userRpta.idUsuario = "490";
+                    userRpta.usuario = "consultor3";
+                    userRpta.Nombres = "BOGGIO RODRIGUEZ LUIS GUILLERMO";
+                    userRpta.numeroPersonal = "5883";
+                    userRpta.area = new Area();
+                    userRpta.area.codArea = "2124";
+                    userRpta.area.desArea = "DIVISION DE DESARROLLO";
+                    userRpta.area.sede = new Sede();
+                    userRpta.area.sede.codSede = 1;
+                    userRpta.area.sede.desSede = "PERU";
+                    userRpta.centroCosto = new CentroCosto();
+                    userRpta.centroCosto.idCentro = 2286;
+                    userRpta.centroCosto.nroCentro = "400716";
+                    userRpta.centroCosto.nombre = "DIVISION DE DESARROLLO";
+                    userRpta.grupoCentroCosto = new GrupoCentroCosto();
+                    userRpta.grupoCentroCosto.idGrupoCentro = 678;
+                    userRpta.grupoCentroCosto.nombre = "OFICINA TECNOLOGIAS INFORMACION Y COMUNICACIONES";
+                    Perfil perfil = new Perfil();
+                    perfil.idPerfil = 103;
+                    perfil.nombre = "z";
+                    perfil.accesos = getAccesos(perfil.idPerfil);
+                    userRpta.perfiles.Add(perfil);
+
+                    //userRpta.idUsuario = fila["IdUsuario"].ToString();
+                    //userRpta.usuario = fila["Login"].ToString().ToLower();
+                    //userRpta.Nombres = fila["ApellidosyNombres"].ToString();
+                    //userRpta.numeroPersonal = fila["NroPersonal"].ToString();
+                    //userRpta.area = new Area();
+                    //userRpta.area.codArea = fila["idArea"].ToString();
+                    //userRpta.area.desArea = fila["NombreArea"].ToString();
+                    //userRpta.area.sede = new Sede();
+                    //userRpta.area.sede.codSede = int.Parse(fila["idCentroOperativo"].ToString());
+                    //userRpta.area.sede.desSede = fila["NombreCentroOperativo"].ToString();
+                    //userRpta.centroCosto = new CentroCosto();
+                    //userRpta.centroCosto.idCentro = int.Parse(fila["idCentroCosto"].ToString());
+                    //userRpta.centroCosto.nroCentro = fila["NroCentroCosto"].ToString();
+                    //userRpta.centroCosto.nombre = fila["NombreCentroCosto"].ToString();
+                    //userRpta.grupoCentroCosto = new GrupoCentroCosto();
+                    //userRpta.grupoCentroCosto.idGrupoCentro = int.Parse(fila["idGrupoCentroCosto"].ToString());
+                    //userRpta.grupoCentroCosto.nombre = fila["NombreGrupoCentroCosto"].ToString();
+                    //Perfil perfil = new Perfil();
+                    //perfil.idPerfil = int.Parse(fila["IdPerfil"].ToString());
+                    //perfil.nombre = fila["Perfil"].ToString();
+                    //perfil.accesos = getAccesos(perfil.idPerfil);
+                    //userRpta.perfiles.Add(perfil);
 
 
-                    }
+                    // }
                 }
             }
-            catch (Exception s) {
+            catch (Exception s)
+            {
 
             }
             //userRpta.nivelesAprobacion;
@@ -576,26 +600,7 @@ namespace DataAccess
         public Usuario getUsuario(string usuario)
         {
             Usuario userRpta = new Usuario();
-            userRpta.usuario = usuario;
-
-            //*********** DATA DE PRUEBA **********
-
-            //userRpta = new Usuario();
-            //userRpta.idUsuario = "420";
-            //userRpta.usuario = "consultor3";
-            //userRpta.password = "1234";
-            //userRpta.area = new Area();
-            //userRpta.area.codArea = "4";
-            //userRpta.area.desArea = "Sistemas";
-            //userRpta.area.sede = new Sede();
-            //userRpta.area.sede.codSede = 1;
-            //userRpta.area.sede.desSede = "Lima";
-            //userRpta.Nombres = "Juan Miguel";
-            //userRpta.ApellidoMaterno = "Paredes";
-            //userRpta.ApellidoPaterno = "Diaz";
-            //userRpta.nivelesAprobacion;
-
-            //*************************************
+            userRpta.usuario = usuario;           
 
             return userRpta;
         }

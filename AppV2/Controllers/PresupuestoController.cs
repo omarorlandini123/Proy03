@@ -69,7 +69,7 @@ namespace AppV2.Controllers
                 if (user.tieneAccesoA(Accesos.MostrarVersionDetalla))
                 {
                     LogicPresupuesto logic = new LogicPresupuesto();
-                    Entidades.Version version = logic.getVersionDetallada(id, idTipo, Session["idSede"].ToString());
+                    Entidades.Version version = logic.getVersionDetallada("",id, idTipo, Session["idSede"].ToString());
                     Session["idTipoDetPresup"] = version.presupuestoTipo.tipoPresupuesto.idTipoPresupuesto;
                     Session["idPresupSel"]=version.presupuestoTipo.presupuesto.idPresupuesto;
                     ViewBag.idTipo = idTipo;
@@ -83,6 +83,8 @@ namespace AppV2.Controllers
                             break;
                     }
 
+
+
                     return View(version);
                 }
                 else {
@@ -90,6 +92,13 @@ namespace AppV2.Controllers
 
                 }
             }
+        }
+
+        public ActionResult DetallesVersion(string cond, int idVersion, int idTipo)
+        {
+            LogicPresupuesto logicPresup = new LogicPresupuesto();
+            Entidades.Version version = logicPresup.getVersionDetallada(cond, idVersion, idTipo, Session["idSede"].ToString());
+            return PartialView(version);
         }
 
         public ActionResult PresupArea(int  id)
@@ -431,6 +440,17 @@ namespace AppV2.Controllers
             catch(Exception s) {
                 detVersion.clasificacion = new Clasificacion() { idLista =0 };
             }
+
+            try
+            {
+                detVersion.Rubro = new Rubro();
+                detVersion.Rubro.idRubro = int.Parse(Request.Form["idrubro"].ToString());
+            }
+            catch (Exception s)
+            {
+                detVersion.Rubro = new Rubro();
+                detVersion.Rubro.idRubro = 0;
+            }
             detVersion.largo = double.Parse(Request.Form["largo"].ToString());
             detVersion.ancho = double.Parse(Request.Form["ancho"].ToString());
             detVersion.alto = double.Parse(Request.Form["alto"].ToString());
@@ -499,6 +519,18 @@ namespace AppV2.Controllers
             detVersion.mesent = Request.Form["mesent"].ToString();
             detVersion.precioSoli = double.Parse(Request.Form["preciosoli"].ToString());
             detVersion.uniSoli = Request.Form["uniSoli"].ToString();
+            try
+            {
+                detVersion.Rubro = new Rubro();
+                detVersion.Rubro.idRubro = int.Parse(Request.Form["idrubro"].ToString());
+            }
+            catch (Exception s)
+            {
+                detVersion.Rubro = new Rubro();
+                detVersion.Rubro.idRubro = 0;
+            }
+            
+
             detVersion.mat = new Material();
             detVersion.mat.codProducto = Request.Form["codMaterial"].ToString();
             String nomMat = Request.Form["nomMaterial"].ToString();
@@ -525,45 +557,173 @@ namespace AppV2.Controllers
         public ActionResult AprobarDetalle(int idDetalle)
         {
             LogicPresupuesto logic = new LogicPresupuesto();
-            int rpta = logic.AprobarDetalle(idDetalle, Aprobacion.estados.Aprobado, ((Usuario)Session["usuario"]).usuario);
+            LogicAcceso logicAcc = new LogicAcceso();
+            Usuario userAct = logicAcc.getUsuarioSistema(((Usuario)Session["usuario"]).usuario);
+
+            int rpta = logic.AprobarDetalle(idDetalle, Aprobacion.estados.Aprobado, (userAct.usuario));
+            
+
+            DetalleVersion detVer = logic.getDetalleVersion(idDetalle);
+            Entidades.Version ver = logic.getVersionDeDetalle(idDetalle);
+            Presupuesto presup = logic.getPresupuestoDeVersion(ver.idVersion);
+            ver.aprobaciones = logic.getAprobacionesVersion(0,idDetalle).aprobaciones;
+
+            if (rpta == 1) {
+                List<Aprobacion> aprobacionesEnv = new List<Aprobacion>();
+                foreach (Aprobacion ap in ver.aprobaciones)
+                {
+                    if (ap.orden == 1 || ap.orden==2)
+                    { // solo se envia a los que formulacion la versión
+                        aprobacionesEnv.Add(ap);
+                    }
+                }
+                string asunto = "Aprobacion de " + presup.nombrePresupuesto;
+                string contenido = "Se ha realizado un cambio en el Presupuesto " +
+                    presup.nombrePresupuesto + " en la versión #" + 
+                    ver.numeroVersion + "\n El ítem #" + 
+                    detVer.idDetalle + " " + detVer.NombreMaterialSoli.Trim() + 
+                    "\n ha sido aprobado por " + 
+                    userAct.ApellidoPaterno.Trim() + " " + userAct.ApellidoMaterno.Trim() + ", " + userAct.Nombres.Trim();
+                logic.EnviarCorreo(userAct.usuario, asunto, contenido, aprobacionesEnv);
+            }
             return PartialView(rpta);
         }
 
         public ActionResult AprobarTodoShow(int id) {
             LogicPresupuesto logic = new LogicPresupuesto();
             Usuario user = (Usuario)Session["usuario"];
-            //id -> id de la versión 
-            RptaServer rpta = logic.PuedeAprobarItems(id,user.usuario);
             ViewBag.idVersion = id;
-            return PartialView(rpta);
+            return PartialView();
         }
 
         public ActionResult AprobarTodo(int id)
         {
             LogicPresupuesto logic = new LogicPresupuesto();
-            Usuario user = (Usuario)Session["usuario"];
+            LogicAcceso logicAcc = new LogicAcceso();
+
+            Usuario userAct = logicAcc.getUsuarioSistema(((Usuario)Session["usuario"]).usuario);
             //id -> id de la versión 
-            RptaServer rpta = logic.AprobarItems(id, user.usuario);
+            RptaServer rpta = logic.AprobarItems(id, userAct.usuario);
+            
+            Entidades.Version ver = logic.getVersion(id);
+            Presupuesto presup = logic.getPresupuestoDeVersion(id);
+            ver.aprobaciones = logic.getAprobacionesVersion(id,0).aprobaciones;
+
+            if (rpta.rpta == 1)
+            {
+                List<Aprobacion> aprobacionesEnv = new List<Aprobacion>();
+                foreach (Aprobacion ap in ver.aprobaciones)
+                {
+                    if (ap.orden == 1 || ap.orden == 2)
+                    { // solo se envia a los que formulacion la versión
+                        aprobacionesEnv.Add(ap);
+                    }
+                }
+                string asunto = "Aprobacion de " + presup.nombrePresupuesto;
+                string contenido = "Se ha realizado un cambio en el Presupuesto " +
+                    presup.nombrePresupuesto + " en la versión #" +
+                    ver.numeroVersion + "\n Múltiples ítems han sido aprobados por " +
+                    userAct.ApellidoPaterno.Trim() + " " + userAct.ApellidoMaterno.Trim() + ", " + userAct.Nombres.Trim();
+                logic.EnviarCorreo(userAct.usuario, asunto, contenido, aprobacionesEnv);
+            }
             return PartialView(rpta);
         }
 
         public ActionResult EnviarAprobacion(int id)
         {
             LogicPresupuesto logic = new LogicPresupuesto();
-            int rpta = logic.EnviarAprobacion(id, ((Usuario)Session["usuario"]).usuario);
+            LogicAcceso logicAcc = new LogicAcceso();
+
+            Usuario userAct = logicAcc.getUsuarioSistema(((Usuario)Session["usuario"]).usuario);
+            int rpta = logic.EnviarAprobacion(id, userAct.usuario);
+
+            Entidades.Version ver = logic.getVersion(id);
+            Presupuesto presup = logic.getPresupuestoDeVersion(id);
+            ver.aprobaciones = logic.getAprobacionesVersion(id, 0).aprobaciones;
+
+            if (rpta == 1)
+            {
+                List<Aprobacion> aprobacionesEnv = new List<Aprobacion>();
+                foreach (Aprobacion ap in ver.aprobaciones)
+                {
+                    if (ap.orden == 1 || ap.orden == 2)
+                    { // solo se envia a los que formulacion la versión
+                        aprobacionesEnv.Add(ap);
+                    }
+                }
+                string asunto = "Aprobacion de " + presup.nombrePresupuesto;
+                string contenido = "Se ha realizado un cambio en el Presupuesto " +
+                    presup.nombrePresupuesto + " en la versión #" +
+                    ver.numeroVersion + "\n Se ha enviado la Versión a Aprobar por " +
+                    userAct.ApellidoPaterno.Trim() + " " + userAct.ApellidoMaterno.Trim() + ", " + userAct.Nombres.Trim();
+                logic.EnviarCorreo(userAct.usuario, asunto, contenido, aprobacionesEnv);
+            }
+
             return PartialView(rpta);
         }
 
         public ActionResult AprobarVersion(int id)
         {
             LogicPresupuesto logic = new LogicPresupuesto();
-            int rpta = logic.AprobarVersion(id, ((Usuario)Session["usuario"]).usuario);
+            LogicAcceso logicAcc = new LogicAcceso();
+            Entidades.Version verant = logic.getVersion(id);
+
+            Usuario userAct = logicAcc.getUsuarioSistema(((Usuario)Session["usuario"]).usuario);
+            int rpta = logic.AprobarVersion(id, userAct.usuario);
+
+            Entidades.Version ver = logic.getVersion(id);
+            Presupuesto presup = logic.getPresupuestoDeVersion(id);
+            ver.aprobaciones = logic.getAprobacionesVersion(id, 0).aprobaciones;
+            string motivo = "";
+
+            switch(rpta)
+            {
+                case 1:
+                    motivo = "Se aprobó correctamente esta Versión por "+
+                    userAct.ApellidoPaterno.Trim() + " " + userAct.ApellidoMaterno.Trim() + ", " + userAct.Nombres.Trim();
+                    break;
+                case 2:
+                    motivo = "Se aprobó correctamente esta Versión por " +
+                    userAct.ApellidoPaterno.Trim() + " " + userAct.ApellidoMaterno.Trim() + ", " + userAct.Nombres.Trim()+
+                    "\n La versión subió del nivel " +verant.ordenActual +"al nivel "+ver.ordenActual+ " de aprobación";
+                    break;                   
+            }
+
+            if (rpta == 1 || rpta == 2)
+            {
+               
+                
+                string asunto = "Aprobacion de " + presup.nombrePresupuesto;
+                string contenido = "Se ha realizado un cambio en el Presupuesto " +
+                    presup.nombrePresupuesto + " en la versión #" +
+                    ver.numeroVersion + "\n " + motivo;
+                logic.EnviarCorreo(userAct.usuario, asunto, contenido, ver.aprobaciones);
+            }
+
             return PartialView(rpta);
         }
         public ActionResult RechazarVersion(int id)
         {
             LogicPresupuesto logic = new LogicPresupuesto();
-            int rpta = logic.RechazarVersion(id, ((Usuario)Session["usuario"]).usuario);
+            LogicAcceso logicAcc = new LogicAcceso();
+
+            Usuario userAct = logicAcc.getUsuarioSistema(((Usuario)Session["usuario"]).usuario);
+            RptaServer rpta = logic.RechazarVersion(id, userAct.usuario);
+
+            Entidades.Version ver = logic.getVersion(id);
+            Presupuesto presup = logic.getPresupuestoDeVersion(id);
+            ver.aprobaciones = logic.getAprobacionesVersion(id, 0).aprobaciones;
+
+            if ( rpta.rpta == 2)
+            {
+                
+                string asunto = "Aprobacion de " + presup.nombrePresupuesto;
+                string contenido = "Se ha realizado un cambio en el Presupuesto " +
+                    presup.nombrePresupuesto + " en la versión #" +
+                    ver.numeroVersion + "\n La versión ha sido rechazada y se ha regresado al nivel de aprobación anterior por: " +
+                    userAct.ApellidoPaterno.Trim() + " " + userAct.ApellidoMaterno.Trim() + ", " + userAct.Nombres.Trim() ;
+                logic.EnviarCorreo(userAct.usuario, asunto, contenido, ver.aprobaciones);
+            }
             return PartialView(rpta);
         }
         public ActionResult AprobacionesDetallePresupuesto(int id)
@@ -575,7 +735,7 @@ namespace AppV2.Controllers
         public ActionResult AprobacionesVersion(int id)
         {
             LogicPresupuesto logic = new LogicPresupuesto();
-            return PartialView(logic.getAprobacionesVersion(id));
+            return PartialView(logic.getAprobacionesVersion(id,0));
         }
 
         public ActionResult AprobacionesDetalleVersion(int id)
@@ -608,8 +768,26 @@ namespace AppV2.Controllers
         public ActionResult AgregarAprobVersion(int id, int idOrden, string idUsuario)
         {
             LogicPresupuesto logic = new LogicPresupuesto();
+            LogicAcceso logicAcc = new LogicAcceso();
+
+            Usuario userAct = logicAcc.getUsuarioSistema(((Usuario)Session["usuario"]).usuario);
             ViewBag.idVersion = id;
-            int rpta = logic.AgregarAprobVersion(id, idOrden, idUsuario, ((Usuario)Session["usuario"]).usuario);
+            int rpta = logic.AgregarAprobVersion(id, idOrden, idUsuario, userAct.usuario);
+            Entidades.Version ver = logic.getVersion(id);
+            Presupuesto presup = logic.getPresupuestoDeVersion(id);
+            ver.aprobaciones = logic.getAprobacionesVersion(id, 0).aprobaciones;
+
+            if (rpta == 1)
+            {
+
+                string asunto = "Aprobacion de " + presup.nombrePresupuesto;
+                string contenido = "Se ha realizado un cambio en el Presupuesto " +
+                    presup.nombrePresupuesto + " en la versión #" +
+                    ver.numeroVersion + "\n El usuario "+ idUsuario + " ha sido agregado como nuevo encargado de nivel "+ idOrden + "por: "+
+                    userAct.ApellidoPaterno.Trim() + " " + userAct.ApellidoMaterno.Trim() + ", " + userAct.Nombres.Trim(); 
+                logic.EnviarCorreo(userAct.usuario, asunto, contenido, ver.aprobaciones);
+            }
+
             return PartialView(rpta);
         }
         public ActionResult AprobarPresupuesto(int id)
@@ -680,7 +858,7 @@ namespace AppV2.Controllers
         public ActionResult EliminarDetalle(int idDetalle) {
 
             LogicPresupuesto logicPresup = new LogicPresupuesto();
-            return PartialView(logicPresup.EliminarDetalle(idDetalle));
+            return PartialView(logicPresup.EliminarDetalle(idDetalle,((Usuario)Session["usuario"]).usuario));
         }
 
 
@@ -692,18 +870,15 @@ namespace AppV2.Controllers
 
         }
 
-        public ActionResult DetallesVersion(string cond, int idVersion, int idTipo)
-        {
-            LogicPresupuesto logicPresup = new LogicPresupuesto();
-            return PartialView(logicPresup.DetallesDeVersion(cond, idVersion, idTipo, Session["idSede"].ToString()));
-        }
+        
 
 
         public ActionResult Edit(int id,int idTipo,int idTipoDetPresup)
         {
             LogicPresupuesto logic = new LogicPresupuesto();
             ViewBag.prioridades = (List<Prioridad>)logic.getPrioridades();
-          
+            ViewBag.rubros = (List<Rubro>)logic.getRubros(idTipo);
+
             ViewBag.clasificaciones = logic.getEsquemaGastoCapital(id);
             ViewBag.idTipoDetPresup = idTipoDetPresup;
            
@@ -717,6 +892,7 @@ namespace AppV2.Controllers
         {
             LogicPresupuesto logic = new LogicPresupuesto();
             ViewBag.prioridades = (List<Prioridad>)logic.getPrioridades();
+            ViewBag.rubros = (List<Rubro>)logic.getRubros(idTipo);
             ViewBag.idTipo = idTipo;
             ViewBag.idTipoDetPresup = idTipoDetPresup;
             ViewBag.clasificaciones = logic.getEsquemaGastoCapitalDeVersion(idVersion);
@@ -874,15 +1050,86 @@ namespace AppV2.Controllers
         [HttpPost]
         public JsonResult ObservarDetalle(int idDetalle, string observacion)
         {
-            LogicPresupuesto logicPresup = new LogicPresupuesto();
-            return Json(logicPresup.ObservarDetalle(idDetalle, observacion, ((Usuario)Session["usuario"]).usuario), JsonRequestBehavior.DenyGet);
+            LogicPresupuesto logic = new LogicPresupuesto();
+            LogicAcceso logicAcc = new LogicAcceso();
+
+            bool rpta = logic.ObservarDetalle(idDetalle, observacion, ((Usuario)Session["usuario"]).usuario);
+            
+            Usuario userAct = logicAcc.getUsuarioSistema(((Usuario)Session["usuario"]).usuario);
+            
+
+            DetalleVersion detVer = logic.getDetalleVersion(idDetalle);
+            Entidades.Version ver = logic.getVersionDeDetalle(idDetalle);
+            Presupuesto presup = logic.getPresupuestoDeVersion(ver.idVersion);
+            ver.aprobaciones = logic.getAprobacionesVersion(0, idDetalle).aprobaciones;
+
+            if (rpta)
+            {
+                List<Aprobacion> aprobacionesEnv = new List<Aprobacion>();
+                foreach (Aprobacion ap in ver.aprobaciones)
+                {
+                    if (ap.orden == 1 || ap.orden <= ver.ordenActual)
+                    { // solo se envia a los que formulacion la versión y a los de orden igual o menor al actual
+                        aprobacionesEnv.Add(ap);
+                    }
+                }
+                string asunto = "Observación de " + presup.nombrePresupuesto;
+                string contenido = "Se ha realizado un cambio en el Presupuesto " +
+                    presup.nombrePresupuesto + " en la versión #" +
+                    ver.numeroVersion + "\n El ítem #" +
+                    detVer.idDetalle + " " + detVer.NombreMaterialSoli.Trim() +
+                    "\n ha sido observado por " +
+                    userAct.ApellidoPaterno.Trim() + " " + userAct.ApellidoMaterno.Trim() + ", " + userAct.Nombres.Trim()+"\n"+
+                    "===================================================== \n "+observacion+ "\n ===================================================== ";
+                logic.EnviarCorreo(userAct.usuario, asunto, contenido, aprobacionesEnv);
+            }
+
+            return Json(rpta, JsonRequestBehavior.DenyGet);
         }
 
         [HttpPost]
         public JsonResult ResolverObservacion(int idObservacion, string observacion)
         {
             LogicPresupuesto logicPresup = new LogicPresupuesto();
-            return Json(logicPresup.ResolverObservacion(idObservacion, observacion, ((Usuario)Session["usuario"]).usuario), JsonRequestBehavior.DenyGet);
+            LogicAcceso logicAcc = new LogicAcceso();
+            bool rpta = logicPresup.ResolverObservacion(idObservacion, observacion, ((Usuario)Session["usuario"]).usuario);
+            Observacion obs= logicPresup.getObservacion(idObservacion);
+            Usuario userAct = logicAcc.getUsuarioSistema(((Usuario)Session["usuario"]).usuario);
+            Usuario userObse = logicAcc.getUsuarioSistema(obs.usuarioReg.usuario);
+
+            DetalleVersion detVer = logicPresup.getDetalleVersion(obs.detalle.idDetalle);
+            Entidades.Version ver = logicPresup.getVersionDeDetalle(obs.detalle.idDetalle);
+            Presupuesto presup = logicPresup.getPresupuestoDeVersion(ver.idVersion);
+            ver.aprobaciones = logicPresup.getAprobacionesVersion(0, obs.detalle.idDetalle).aprobaciones;
+
+            if (rpta)
+            {
+                List<Aprobacion> aprobacionesEnv = new List<Aprobacion>();
+                foreach (Aprobacion ap in ver.aprobaciones)
+                {
+                    if (ap.orden == 1 || ap.orden <= ver.ordenActual)
+                    { // solo se envia a los que formulacion la versión y a los de orden igual o menor al actual
+                        aprobacionesEnv.Add(ap);
+                    }
+                }
+                string asunto = "Observación de " + presup.nombrePresupuesto;
+                string contenido = "Se ha realizado un cambio en el Presupuesto " +
+                    presup.nombrePresupuesto + " en la versión #" +
+                    ver.numeroVersion + "\n El ítem #" +
+                    detVer.idDetalle + " " + detVer.NombreMaterialSoli.Trim() +
+                    "\n Observado por " +
+                    userObse.ApellidoPaterno.Trim() + " " + userObse.ApellidoMaterno.Trim() + ", " + userObse.Nombres.Trim() + "\n" +
+                    "===================================================== \n " + obs.observacion.Trim() + "\n ===================================================== "+
+                   "\n Ha sido resuelto por " +
+                    userAct.ApellidoPaterno.Trim() + " " + userAct.ApellidoMaterno.Trim() + ", " + userAct.Nombres.Trim() + "\n" +
+                    "===================================================== \n " + observacion.Trim() + "\n ===================================================== ";
+                logicPresup.EnviarCorreo(userAct.usuario, asunto, contenido, aprobacionesEnv);
+            }
+
+
+            return Json(rpta, JsonRequestBehavior.DenyGet);
+
+
         }
 
         [HttpPost]

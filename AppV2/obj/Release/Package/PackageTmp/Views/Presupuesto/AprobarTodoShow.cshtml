@@ -1,6 +1,4 @@
-﻿@using Entidades;
-@model RptaServer
-
+﻿
 
 <div class="modal-content">
     <div class="modal-header">
@@ -9,26 +7,18 @@
     </div>
     <div class="modal-body">
         <div class="form-group">
-            @if (Model.rpta == 1)
-            {
+            
                 <center>
                     <h5>¿Desea aprobar todos los ítems de esta versión?</h5>
                 </center>
-            }
-            else
-            {
-                <center>
-                    <h5>@Model.rptaText</h5>
-                </center>
-            }
+            
         </div>      
     </div>
     <div class="modal-footer">
         <div class="col-sm-6 contenido-derecha">
-            @if (Model.rpta == 1)
-            {
+           
                 <button type="button" class="btn btn-warning" onclick="AprobarTodo(@ViewBag.idVersion)" id="btnAceptar">Sí, Aprobar Todos</button>
-            }
+           
             <button type="button" class="btn btn-default" data-dismiss="modal" id="btnObsAceptar">Cancelar</button>
         </div>
     </div>
